@@ -1033,26 +1033,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1461243836}
     m_Modifications:
-    - target: {fileID: -6305716156943036963, guid: 6d2a4b515e1c0d04f9538be33c57ef38,
-        type: 3}
-      propertyPath: gravity
-      value: -3
-      objectReference: {fileID: 0}
-    - target: {fileID: -6305716156943036963, guid: 6d2a4b515e1c0d04f9538be33c57ef38,
-        type: 3}
-      propertyPath: horizontalForce
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: -6305716156943036963, guid: 6d2a4b515e1c0d04f9538be33c57ef38,
-        type: 3}
-      propertyPath: maxSwingDistance
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: -6305716156943036963, guid: 6d2a4b515e1c0d04f9538be33c57ef38,
-        type: 3}
-      propertyPath: sidewayMoveSpeed
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 2661944453117597553, guid: 6d2a4b515e1c0d04f9538be33c57ef38,
         type: 3}
       propertyPath: m_LocalPosition.x
