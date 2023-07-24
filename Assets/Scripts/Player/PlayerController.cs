@@ -6,17 +6,17 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [Header("Player Attributes")]
-    public float sidewayMoveSpeed;
-    public bool isLanded;
-    public bool isSwinging;
-    [SerializeField] private float horizontalForce;
-    [SerializeField] private float maxSwingDistance;
-    [SerializeField] private Transform swingStartPoint;     
-    private Rigidbody playerRb;
+    public float sidewayMoveSpeed;                      // Basic movement speed 
+    public bool isLanded;                               // Booleans for preventing player swinging multiple time
+    public bool isSwinging;                             // Same as above
+    [SerializeField] private float horizontalForce;     // Horizontal force to put player swing
+    [SerializeField] private float maxSwingDistance;    // How long you can latch
+    [SerializeField] private Transform swingStartPoint; // A starting point from the player, slightly above the character
+    private Rigidbody playerRb;                         // Player rigidbody, used for movement and momentum
 
     [Header("References")]
-    [SerializeField] private Transform swingTargetPoint;    // Serialized for testing
-    [SerializeField] private float gravity;
+    public float gravity;
+    [SerializeField] private Transform swingTargetPoint; // Serialized for testing
     private SpringJoint joint;
     
     
@@ -48,6 +48,7 @@ public class PlayerController : MonoBehaviour
     private void SidewayMoving(float horizontalInput)
     {
         playerRb.velocity = new Vector3(horizontalInput * sidewayMoveSpeed, playerRb.velocity.y, 0);
+        /* Can have character flip here based on the direction of velocity. */
     }
 
     private void Swinging(float horizontalInput)

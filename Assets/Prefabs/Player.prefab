@@ -164,7 +164,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 88
   m_CollisionDetection: 0
 --- !u!114 &-6305716156943036963
 MonoBehaviour:
@@ -178,9 +178,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81c257626f9d24842820a5d3240dc91e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sidewayMoveSpeed: 0
+  sidewayMoveSpeed: 5
   isLanded: 1
   isSwinging: 0
-  horizontalForce: 0
-  maxSwingDistance: 0
+  horizontalForce: 3
+  maxSwingDistance: 10
   swingStartPoint: {fileID: 6816418978822515735}
+  gravity: -3
+  swingTargetPoint: {fileID: 0}
