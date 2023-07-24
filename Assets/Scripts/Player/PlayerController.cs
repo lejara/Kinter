@@ -11,12 +11,12 @@ public class PlayerController : MonoBehaviour
     public bool isSwinging;                             // Same as above
     [SerializeField] private float horizontalForce;     // Horizontal force to put player swing
     [SerializeField] private float maxSwingDistance;    // How long you can latch
-    [SerializeField] private Transform swingStartPoint; // A starting point from the player, slightly above the character
     private Rigidbody playerRb;                         // Player rigidbody, used for movement and momentum
 
     [Header("References")]
     public float gravity;
-    [SerializeField] private Transform swingTargetPoint; // Serialized for testing
+    [SerializeField] private GameObject swingStartPoint;  // A starting point from the player, slightly above the character
+    [SerializeField] private GameObject swingTargetPoint; // Serialized for testing
     private SpringJoint joint;
     
     
@@ -41,7 +41,13 @@ public class PlayerController : MonoBehaviour
         {
             SidewayMoving(horizontalInput);
         }
+
+        #endregion
+
+        #region Swinging
         
+        CheckForSwingingPoint();
+
         #endregion
     }
 
@@ -53,6 +59,44 @@ public class PlayerController : MonoBehaviour
 
     private void Swinging(float horizontalInput)
     {
+
+    }
+
+    // A method to check for valid grapple points, player can only shoot grapple upwards
+    private void CheckForSwingingPoint()
+    {
+        if (joint) return;
+
+        LayerMask layer = LayerMask.GetMask("Platform");
+        Vector3 hitPoint;
+
+        if (Physics.Raycast(swingStartPoint.transform.position, Vector3.up, out RaycastHit directHit, maxSwingDistance, layer))
+        {
+            hitPoint = directHit.point;
+        }
+        else
+        {
+            hitPoint = Vector3.zero;
+        }
+
+        // A valid hit point found
+        if (hitPoint != Vector3.zero)
+        {
+            swingTargetPoint.transform.position = hitPoint;
+            if(!swingTargetPoint.activeSelf)
+            {
+                swingTargetPoint.SetActive(true);
+            }
+            Debug.Log("Hit with" + directHit.point);
+        }
+        else
+        {
+            if(swingTargetPoint.activeSelf)
+            {
+                swingTargetPoint.SetActive(false);
+            }
+            Debug.Log("Missed!");
+        }
 
     }
 }
