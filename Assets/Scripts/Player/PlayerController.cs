@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("References")]
     public float gravity;
+    public LineRenderer lineRenderer;                         // A LineRenderer to draw swinging rope
     [SerializeField] private GameObject swingStartPoint;      // A starting point from the player, slightly above the character
     [SerializeField] private GameObject swingTargetIndicator; // Serialized for testing
     private Vector3 predictionPoint;                          // A Vector to store location for potantial swinging point
@@ -50,12 +51,12 @@ public class PlayerController : MonoBehaviour
         #region Swinging
 
         CheckForSwingingPoint();
-        if (Input.GetKey(KeyCode.Mouse0) && !isSwinging)
+        if (Input.GetKeyDown(KeyCode.Mouse0) && !isSwinging)
         {
             SwingingStart();
             Debug.Log("Hit with" + swingPoint + "and isSwinging is set to: " + isSwinging);
         }
-        else if (Input.GetKey(KeyCode.Mouse0) && isSwinging)
+        else if (Input.GetKeyDown(KeyCode.Mouse0) && isSwinging)
         {
             SwingingStop();
             Debug.Log("Now it releases, and isSwinging set back to: " + isSwinging);
@@ -122,6 +123,10 @@ public class PlayerController : MonoBehaviour
         isSwinging = true;
         isLanded = false;
 
+        if (swingTargetIndicator.activeSelf) swingTargetIndicator.SetActive(false);
+
+        if (!lineRenderer.enabled) lineRenderer.enabled = true;
+
         // Joint Setup
         swingPoint = predictionPoint;
         joint = gameObject.AddComponent<SpringJoint>();
@@ -129,21 +134,26 @@ public class PlayerController : MonoBehaviour
         joint.connectedAnchor = swingPoint;
 
         float distance = Vector3.Distance(swingStartPoint.transform.position, swingPoint);
-        joint.maxDistance = 0.9f * distance;
-        joint.minDistance = 0.5f * distance;
-        joint.spring = 5f;
+        joint.maxDistance = 0.6f * distance;
+        joint.minDistance = 0.3f * distance;
+        joint.spring = 8f;
         joint.damper = 7f;
         joint.massScale = 3f;
+
+        lineRenderer.positionCount = 2;
     }
 
     private void SwingingStop()
     {
         isSwinging = false;
+        lineRenderer.enabled = false;
         Destroy(joint);
     }
 
     private void Swinging(float horizontalInput)
     {
         playerRb.AddForce(horizontalInput * horizontalForce * Vector3.right, ForceMode.Force);
+        lineRenderer.SetPosition(0, swingStartPoint.transform.position);
+        lineRenderer.SetPosition(1, swingPoint);
     }
 }
