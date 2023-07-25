@@ -640,6 +640,12 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1871838407}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &999276545 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5942886883293784923, guid: 6d2a4b515e1c0d04f9538be33c57ef38,
+    type: 3}
+  m_PrefabInstance: {fileID: 1567608646264745063}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1165966345 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2661944453117597553, guid: 6d2a4b515e1c0d04f9538be33c57ef38,
@@ -1038,6 +1044,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1461243836}
     m_Modifications:
+    - target: {fileID: -6305716156943036963, guid: 6d2a4b515e1c0d04f9538be33c57ef38,
+        type: 3}
+      propertyPath: swingTargetIndicator
+      value: 
+      objectReference: {fileID: 999276545}
     - target: {fileID: 2661944453117597553, guid: 6d2a4b515e1c0d04f9538be33c57ef38,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1087,6 +1098,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5942886883293784923, guid: 6d2a4b515e1c0d04f9538be33c57ef38,
+        type: 3}
+      propertyPath: m_Name
+      value: Swinging Target Indicator
+      objectReference: {fileID: 0}
+    - target: {fileID: 6816418978822515735, guid: 6d2a4b515e1c0d04f9538be33c57ef38,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 8954265804321209859, guid: 6d2a4b515e1c0d04f9538be33c57ef38,
         type: 3}
