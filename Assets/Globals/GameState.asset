@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 849dfd5e122287a4dbb6ed9b27dee0a4, type: 3}
   m_Name: GameState
   m_EditorClassIdentifier: 
-  debugSettings: {fileID: 11400000, guid: e8f08bc741ddf2349929b39513a503d7, type: 2}
+  _debugSettings: {fileID: 11400000, guid: e8f08bc741ddf2349929b39513a503d7, type: 2}
   _state: 0
