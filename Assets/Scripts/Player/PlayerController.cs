@@ -70,7 +70,9 @@ public class PlayerController : MonoBehaviour
     private bool GroundCheck()
     {
         LayerMask layer = LayerMask.GetMask("Platform");
-        return Physics.Raycast(GetComponent<BoxCollider>().bounds.center, Vector3.down, out _, GetComponent<BoxCollider>().bounds.extents.y + 0.1f, layer);
+        Vector3 squareExtents = new(GetComponent<BoxCollider>().bounds.extents.x, 0, GetComponent<BoxCollider>().bounds.extents.z);
+        return Physics.BoxCast(GetComponent<BoxCollider>().bounds.center, squareExtents, 
+                                Vector3.down, out _, Quaternion.identity, GetComponent<BoxCollider>().bounds.extents.y + 0.1f, layer);
     }
 
     private void SidewayMoving(float horizontalInput)
