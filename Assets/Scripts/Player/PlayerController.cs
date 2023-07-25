@@ -61,6 +61,8 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Now it releases, and isSwinging set back to: " + isSwinging);
         }
 
+        if (isSwinging) Swinging(horizontalInput);
+
         #endregion
     }
 
@@ -138,5 +140,10 @@ public class PlayerController : MonoBehaviour
     {
         isSwinging = false;
         Destroy(joint);
+    }
+
+    private void Swinging(float horizontalInput)
+    {
+        playerRb.AddForce(horizontalInput * horizontalForce * Vector3.right, ForceMode.Force);
     }
 }
