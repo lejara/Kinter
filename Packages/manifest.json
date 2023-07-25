@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.domybest.mybox": "https://github.com/Deadcows/MyBox.git",
     "com.unity.collab-proxy": "2.0.5",
     "com.unity.feature.characters-animation": "1.0.0",
     "com.unity.feature.worldbuilding": "1.0.1",
