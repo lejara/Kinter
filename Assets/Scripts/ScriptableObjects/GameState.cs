@@ -43,6 +43,8 @@ public class GameState : ScriptableObject
         {
             _state = States.Playing;
         }
+
+        onStateChange?.Invoke(_state);
     }
 
 }
