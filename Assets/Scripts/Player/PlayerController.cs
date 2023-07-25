@@ -6,18 +6,20 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [Header("Player Attributes")]
-    public float sidewayMoveSpeed;                      // Basic movement speed 
-    public bool isLanded;                               // Booleans for preventing player swinging multiple time
-    public bool isSwinging;                             // Same as above
-    [SerializeField] private float horizontalForce;     // Horizontal force to put player swing
-    [SerializeField] private float maxSwingDistance;    // How long you can latch
-    private Rigidbody playerRb;                         // Player rigidbody, used for movement and momentum
+    public float sidewayMoveSpeed;                            // Basic movement speed 
+    public bool isLanded;                                     // Booleans for preventing player swinging multiple time
+    public bool isSwinging;                                   // Same as above
+    [SerializeField] private float horizontalForce;           // Horizontal force to put player swing
+    [SerializeField] private float maxSwingDistance;          // How long you can latch
+    private Rigidbody playerRb;                               // Player rigidbody, used for movement and momentum
 
     [Header("References")]
     public float gravity;
-    [SerializeField] private GameObject swingStartPoint;  // A starting point from the player, slightly above the character
-    [SerializeField] private GameObject swingTargetPoint; // Serialized for testing
-    private SpringJoint joint;
+    [SerializeField] private GameObject swingStartPoint;      // A starting point from the player, slightly above the character
+    [SerializeField] private GameObject swingTargetIndicator; // Serialized for testing
+    private Vector3 predictionPoint;                          // A Vector to store location for potantial swinging point
+    private Vector3 swingPoint;                               // A Vector to store location of the Target
+    private SpringJoint joint;                                // Joint
     
     
     // Start is called before the first frame update
@@ -33,6 +35,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         float horizontalInput = Input.GetAxis("Horizontal");
+        isLanded = GroundCheck();
         
         #region Moving
 
@@ -51,21 +54,22 @@ public class PlayerController : MonoBehaviour
         #endregion
     }
 
+    private bool GroundCheck()
+    {
+        LayerMask layer = LayerMask.GetMask("Platform");
+        return Physics.Raycast(GetComponent<BoxCollider>().bounds.center, Vector3.down, out _, GetComponent<BoxCollider>().bounds.extents.y + 0.1f, layer);
+    }
+
     private void SidewayMoving(float horizontalInput)
     {
         playerRb.velocity = new Vector3(horizontalInput * sidewayMoveSpeed, playerRb.velocity.y, 0);
         /* Can have character flip here based on the direction of velocity. */
     }
 
-    private void Swinging(float horizontalInput)
-    {
-
-    }
-
     // A method to check for valid grapple points, player can only shoot grapple upwards
     private void CheckForSwingingPoint()
     {
-        if (joint) return;
+        if (joint || isSwinging) return;
 
         LayerMask layer = LayerMask.GetMask("Platform");
         Vector3 hitPoint;
@@ -82,18 +86,20 @@ public class PlayerController : MonoBehaviour
         // A valid hit point found
         if (hitPoint != Vector3.zero)
         {
-            swingTargetPoint.transform.position = hitPoint;
-            if(!swingTargetPoint.activeSelf)
+            swingTargetIndicator.transform.position = hitPoint;
+            predictionPoint = hitPoint;
+            if(!swingTargetIndicator.activeSelf)
             {
-                swingTargetPoint.SetActive(true);
+                swingTargetIndicator.SetActive(true);
             }
             Debug.Log("Hit with" + directHit.point);
         }
         else
         {
-            if(swingTargetPoint.activeSelf)
+            predictionPoint = Vector3.zero;
+            if (swingTargetIndicator.activeSelf)
             {
-                swingTargetPoint.SetActive(false);
+                swingTargetIndicator.SetActive(false);
             }
             Debug.Log("Missed!");
         }
