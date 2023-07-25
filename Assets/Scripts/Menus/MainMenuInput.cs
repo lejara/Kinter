@@ -12,6 +12,18 @@ public class MainMenuInput : MonoBehaviour
     [SerializeField]
     GameState _gameState;
 
+    public void ShowMenu()
+    {
+        _gameState.state = States.InMenus;
+        OnEnterMenus.Invoke();
+    }
+
+    public void HideMenu()
+    {
+        _gameState.state = States.Playing;
+        OnExitMenus.Invoke();
+    }
+
     void Update()
     {
         CheckToggleMenus();
@@ -23,13 +35,12 @@ public class MainMenuInput : MonoBehaviour
         {
             if (_gameState.state == States.InMenus)
             {
-                _gameState.state = States.Playing;
-                OnExitMenus.Invoke();
+                HideMenu();
             }
             else if (_gameState.state == States.Playing)
             {
-                _gameState.state = States.InMenus;
-                OnEnterMenus.Invoke();
+
+                ShowMenu();
             }
         }
     }
