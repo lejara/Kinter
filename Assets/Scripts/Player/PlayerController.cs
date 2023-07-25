@@ -20,8 +20,8 @@ public class PlayerController : MonoBehaviour
     private Vector3 predictionPoint;                          // A Vector to store location for potantial swinging point
     private Vector3 swingPoint;                               // A Vector to store location of the Target
     private SpringJoint joint;                                // Joint
-    
-    
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -35,12 +35,12 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         float horizontalInput = Input.GetAxis("Horizontal");
-        isLanded = GroundCheck();
-        
+        isLanded = GroundCheck() && !isSwinging;
+
         #region Moving
 
         // Movement for sideway only (A/D), this is our basic movement
-        if (isLanded && !isSwinging)
+        if (isLanded)
         {
             SidewayMoving(horizontalInput);
         }
@@ -48,8 +48,18 @@ public class PlayerController : MonoBehaviour
         #endregion
 
         #region Swinging
-        
+
         CheckForSwingingPoint();
+        if (Input.GetKey(KeyCode.Mouse0) && !isSwinging)
+        {
+            SwingingStart();
+            Debug.Log("Hit with" + swingPoint + "and isSwinging is set to: " + isSwinging);
+        }
+        else if (Input.GetKey(KeyCode.Mouse0) && isSwinging)
+        {
+            SwingingStop();
+            Debug.Log("Now it releases, and isSwinging set back to: " + isSwinging);
+        }
 
         #endregion
     }
@@ -88,11 +98,10 @@ public class PlayerController : MonoBehaviour
         {
             swingTargetIndicator.transform.position = hitPoint;
             predictionPoint = hitPoint;
-            if(!swingTargetIndicator.activeSelf)
+            if (!swingTargetIndicator.activeSelf)
             {
                 swingTargetIndicator.SetActive(true);
             }
-            Debug.Log("Hit with" + directHit.point);
         }
         else
         {
@@ -101,8 +110,33 @@ public class PlayerController : MonoBehaviour
             {
                 swingTargetIndicator.SetActive(false);
             }
-            Debug.Log("Missed!");
         }
+    }
 
+    private void SwingingStart()
+    {
+        if (joint || isSwinging || predictionPoint == Vector3.zero) return;
+
+        isSwinging = true;
+        isLanded = false;
+
+        // Joint Setup
+        swingPoint = predictionPoint;
+        joint = gameObject.AddComponent<SpringJoint>();
+        joint.autoConfigureConnectedAnchor = false;
+        joint.connectedAnchor = swingPoint;
+
+        float distance = Vector3.Distance(swingStartPoint.transform.position, swingPoint);
+        joint.maxDistance = 0.9f * distance;
+        joint.minDistance = 0.5f * distance;
+        joint.spring = 5f;
+        joint.damper = 7f;
+        joint.massScale = 3f;
+    }
+
+    private void SwingingStop()
+    {
+        isSwinging = false;
+        Destroy(joint);
     }
 }
