@@ -6,6 +6,11 @@ using MyBox;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Player Attributes")]
+    [ReadOnly]
+    public bool isLanded;
+    public float gravity;
+    public float sidewayMoveSpeed;
 
     [Header("Grapple Attributes")]
 
@@ -15,20 +20,17 @@ public class PlayerController : MonoBehaviour
     public bool isSwinging;
     public float grappleTravelTime;
     public float grappleDistance;
+    public LayerMask platfromLayer;
     public AnimationCurve grappleTravelCurve;
 
-    [Header("Player Attributes")]
-    [ReadOnly]
-    public bool isLanded;
-    public float gravity;
-    public float sidewayMoveSpeed;
+
+    [Header("Swing Attributes")]
     public float horizontalForce;
 
 
     [Header("References")]
     [SerializeField] Transform grappleStartPoint;
     [SerializeField] Transform grappleEndPoint;
-    [SerializeField] GameObject swingTargetIndicator;
 
     float horizontalInput;
     Vector3 predictionPoint;
@@ -56,7 +58,6 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         horizontalInput = Input.GetAxis("Horizontal");
-        isLanded = GroundCheck() && !isSwinging;
         lineRenderer.SetPosition(0, grappleStartPoint.position);
 
         #region Grapple
@@ -77,6 +78,8 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        isLanded = GroundCheck() && !isSwinging;
+
         // Movement for sideway only (A/D), this is our basic movement
         if (isLanded)
         {
@@ -89,14 +92,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
-
     private bool GroundCheck()
     {
-        LayerMask layer = LayerMask.GetMask("Platform");   //TODO: prevent repeats
         Vector3 squareExtents = new(GetComponent<BoxCollider>().bounds.extents.x, 0, GetComponent<BoxCollider>().bounds.extents.z);
         return Physics.BoxCast(GetComponent<BoxCollider>().bounds.center, squareExtents,
-                                Vector3.down, out _, Quaternion.identity, GetComponent<BoxCollider>().bounds.extents.y + 0.1f, layer);
+                                Vector3.down, out _, Quaternion.identity, GetComponent<BoxCollider>().bounds.extents.y + 0.1f, platfromLayer);
     }
 
     private void SidewayMoving(float horizontalInput)
@@ -112,17 +112,17 @@ public class PlayerController : MonoBehaviour
         lineRenderer.enabled = true;
 
         float normTime = 0;
-        LayerMask layer = LayerMask.GetMask("Platform"); //TODO: prevent repeats
-        Vector3 target = grappleStartPoint.position + new Vector3(0, grappleDistance, 0);
         while (normTime < 1.0f)
         {
             //Move Grapple
+            //Note: we want a constant max grapple distance even when player position changes. 
+            //Its assumed the grappleStartPoint is a transfrom child of this object
+            Vector3 target = grappleStartPoint.position + new Vector3(0, grappleDistance, 0);
             grappleEndPoint.position = Vector3.Lerp(grappleStartPoint.position, target, grappleTravelCurve.Evaluate(normTime));
             lineRenderer.SetPosition(1, grappleEndPoint.position);
 
-            //Check valid
-            //TODO: Add  interrupes when on a wrong platfrom
-            if (Physics.Raycast(grappleEndPoint.position, Vector3.up, out RaycastHit hit, 0.1f, layer))
+            //TODO: Add interrupes when on a wrong platfrom
+            if (Physics.Raycast(grappleEndPoint.position, Vector3.up, out RaycastHit hit, 0.1f, platfromLayer))
             {
                 LatchGrapple(hit.point);
                 yield break;
