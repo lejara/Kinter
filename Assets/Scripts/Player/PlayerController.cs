@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     [ReadOnly]
     public bool isSwinging;
     public float grappleTravelTime;
-    public float maxSwingDistance;
+    public float grappleDistance;
     public AnimationCurve grappleTravelCurve;
 
     [Header("Player Attributes")]
@@ -26,25 +26,30 @@ public class PlayerController : MonoBehaviour
 
 
     [Header("References")]
-    [SerializeField] LineRenderer lineRenderer;     // A LineRenderer to draw swinging rope
-    [SerializeField] GameObject swingStartPoint;
+    [SerializeField] Transform grappleStartPoint;
+    [SerializeField] Transform grappleEndPoint;
     [SerializeField] GameObject swingTargetIndicator;
 
     float horizontalInput;
     Vector3 predictionPoint;
-    Vector3 swingPoint;
     SpringJoint joint;
     Rigidbody playerRb;
-    Coroutine grappleCoroutine;
+    LineRenderer lineRenderer;
 
 
-    // Start is called before the first frame update
+    void Awake()
+    {
+        playerRb = GetComponent<Rigidbody>();
+        lineRenderer = GetComponent<LineRenderer>();
+    }
     void Start()
     {
         isLanded = true;
         isSwinging = false;
         Physics.gravity = new(Physics.gravity.x, gravity, Physics.gravity.z);
-        playerRb = GetComponent<Rigidbody>();
+
+        lineRenderer.enabled = false;
+        lineRenderer.positionCount = 2;
     }
 
     // Update is called once per frame
@@ -52,23 +57,19 @@ public class PlayerController : MonoBehaviour
     {
         horizontalInput = Input.GetAxis("Horizontal");
         isLanded = GroundCheck() && !isSwinging;
+        lineRenderer.SetPosition(0, grappleStartPoint.position);
+
+        #region Grapple
 
 
-        #region Swinging
-
-        //REDO
-        CheckForSwingingPoint();
-        if (Input.GetKeyDown(KeyCode.Mouse0) && !isSwinging)
+        if (Input.GetKeyDown(KeyCode.Mouse0) && !isGrappling && !isSwinging)
         {
-            SwingingStart();
-            Debug.Log("Hit with" + swingPoint + "and isSwinging is set to: " + isSwinging);
+            StartCoroutine(ShootGrapple());
         }
         else if (Input.GetKeyDown(KeyCode.Mouse0) && isSwinging)
         {
-            SwingingStop();
-            Debug.Log("Now it releases, and isSwinging set back to: " + isSwinging);
+            DetachGrapple();
         }
-        // /REDO
 
 
         #endregion
@@ -84,13 +85,15 @@ public class PlayerController : MonoBehaviour
 
         if (isSwinging)
         {
-            Swinging(horizontalInput);
+            Swing(horizontalInput);
         }
     }
 
+
+
     private bool GroundCheck()
     {
-        LayerMask layer = LayerMask.GetMask("Platform");
+        LayerMask layer = LayerMask.GetMask("Platform");   //TODO: prevent repeats
         Vector3 squareExtents = new(GetComponent<BoxCollider>().bounds.extents.x, 0, GetComponent<BoxCollider>().bounds.extents.z);
         return Physics.BoxCast(GetComponent<BoxCollider>().bounds.center, squareExtents,
                                 Vector3.down, out _, Quaternion.identity, GetComponent<BoxCollider>().bounds.extents.y + 0.1f, layer);
@@ -102,81 +105,69 @@ public class PlayerController : MonoBehaviour
         /* Can have character flip here based on the direction of velocity. */
     }
 
-    // A method to check for valid grapple points, player can only shoot grapple upwards
-    private void CheckForSwingingPoint()
+    private IEnumerator ShootGrapple()
     {
-        if (joint || isSwinging) return;
 
-        LayerMask layer = LayerMask.GetMask("Platform");
-        Vector3 hitPoint;
+        isGrappling = true;
+        lineRenderer.enabled = true;
 
-        if (Physics.Raycast(swingStartPoint.transform.position, Vector3.up, out RaycastHit directHit, maxSwingDistance, layer))
+        float normTime = 0;
+        LayerMask layer = LayerMask.GetMask("Platform"); //TODO: prevent repeats
+        Vector3 target = grappleStartPoint.position + new Vector3(0, grappleDistance, 0);
+        while (normTime < 1.0f)
         {
-            hitPoint = directHit.point;
-        }
-        else
-        {
-            hitPoint = Vector3.zero;
-        }
+            //Move Grapple
+            grappleEndPoint.position = Vector3.Lerp(grappleStartPoint.position, target, grappleTravelCurve.Evaluate(normTime));
+            lineRenderer.SetPosition(1, grappleEndPoint.position);
 
-        // A valid hit point found
-        if (hitPoint != Vector3.zero)
-        {
-            swingTargetIndicator.transform.position = hitPoint;
-            predictionPoint = hitPoint;
-            if (!swingTargetIndicator.activeSelf)
+            //Check valid
+            //TODO: Add  interrupes when on a wrong platfrom
+            if (Physics.Raycast(grappleEndPoint.position, Vector3.up, out RaycastHit hit, 0.1f, layer))
             {
-                swingTargetIndicator.SetActive(true);
+                LatchGrapple(hit.point);
+                yield break;
             }
+
+
+            normTime += Time.deltaTime / grappleTravelTime;
+            yield return null; //Allow for an Update
         }
-        else
-        {
-            predictionPoint = Vector3.zero;
-            if (swingTargetIndicator.activeSelf)
-            {
-                swingTargetIndicator.SetActive(false);
-            }
-        }
+
+        DetachGrapple();
+
     }
 
-    private void SwingingStart()
+    private void LatchGrapple(Vector3 point)
     {
-        if (joint || isSwinging || predictionPoint == Vector3.zero) return;
-
         isSwinging = true;
         isLanded = false;
 
-        if (swingTargetIndicator.activeSelf) swingTargetIndicator.SetActive(false);
-
-        if (!lineRenderer.enabled) lineRenderer.enabled = true;
-
         // Joint Setup
-        swingPoint = predictionPoint;
         joint = gameObject.AddComponent<SpringJoint>();
         joint.autoConfigureConnectedAnchor = false;
-        joint.connectedAnchor = swingPoint;
+        joint.connectedAnchor = point;
 
-        float distance = Vector3.Distance(swingStartPoint.transform.position, swingPoint);
+        float distance = Vector3.Distance(grappleStartPoint.position, point);
         joint.maxDistance = 0.6f * distance;
         joint.minDistance = 0.3f * distance;
         joint.spring = 8f;
         joint.damper = 7f;
         joint.massScale = 3f;
-
-        lineRenderer.positionCount = 2;
     }
 
-    private void SwingingStop()
+    private void DetachGrapple()
     {
         isSwinging = false;
+        isGrappling = false;
         lineRenderer.enabled = false;
+        grappleEndPoint.position = grappleStartPoint.position;
+        lineRenderer.SetPosition(1, grappleEndPoint.position);
+
         Destroy(joint);
     }
 
-    private void Swinging(float horizontalInput)
+    private void Swing(float horizontalInput)
     {
         playerRb.AddForce(horizontalInput * horizontalForce * Vector3.right, ForceMode.Force);
-        lineRenderer.SetPosition(0, swingStartPoint.transform.position);
-        lineRenderer.SetPosition(1, swingPoint);
     }
 }
