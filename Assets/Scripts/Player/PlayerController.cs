@@ -9,18 +9,20 @@ public class PlayerController : MonoBehaviour
     public float sidewayMoveSpeed;                            // Basic movement speed 
     public bool isLanded;                                     // Booleans for preventing player swinging multiple time
     public bool isSwinging;                                   // Same as above
-    [SerializeField] private float horizontalForce;           // Horizontal force to put player swing
-    [SerializeField] private float maxSwingDistance;          // How long you can latch
-    private Rigidbody playerRb;                               // Player rigidbody, used for movement and momentum
+    [SerializeField] float horizontalForce;           // Horizontal force to put player swing
+    [SerializeField] float maxSwingDistance;          // How long you can latch
+    Rigidbody playerRb;                               // Player rigidbody, used for movement and momentum
 
     [Header("References")]
     public float gravity;
-    public LineRenderer lineRenderer;                         // A LineRenderer to draw swinging rope
-    [SerializeField] private GameObject swingStartPoint;      // A starting point from the player, slightly above the character
-    [SerializeField] private GameObject swingTargetIndicator; // Serialized for testing
-    private Vector3 predictionPoint;                          // A Vector to store location for potantial swinging point
-    private Vector3 swingPoint;                               // A Vector to store location of the Target
-    private SpringJoint joint;                                // Joint
+    public LineRenderer lineRenderer;
+    // A LineRenderer to draw swinging rope
+    [SerializeField] GameObject swingStartPoint;      // A starting point from the player, slightly above the character
+    [SerializeField] GameObject swingTargetIndicator; // Serialized for testing
+    float horizontalInput;
+    Vector3 predictionPoint;                          // A Vector to store location for potantial swinging point
+    Vector3 swingPoint;                               // A Vector to store location of the Target
+    SpringJoint joint;                                // Joint
 
 
     // Start is called before the first frame update
@@ -35,21 +37,13 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float horizontalInput = Input.GetAxis("Horizontal");
+        horizontalInput = Input.GetAxis("Horizontal");
         isLanded = GroundCheck() && !isSwinging;
 
-        #region Moving
-
-        // Movement for sideway only (A/D), this is our basic movement
-        if (isLanded)
-        {
-            SidewayMoving(horizontalInput);
-        }
-
-        #endregion
 
         #region Swinging
 
+        //REDO
         CheckForSwingingPoint();
         if (Input.GetKeyDown(KeyCode.Mouse0) && !isSwinging)
         {
@@ -61,17 +55,31 @@ public class PlayerController : MonoBehaviour
             SwingingStop();
             Debug.Log("Now it releases, and isSwinging set back to: " + isSwinging);
         }
+        // /REDO
 
-        if (isSwinging) Swinging(horizontalInput);
 
         #endregion
+    }
+
+    void FixedUpdate()
+    {
+        // Movement for sideway only (A/D), this is our basic movement
+        if (isLanded)
+        {
+            SidewayMoving(horizontalInput);
+        }
+
+        if (isSwinging)
+        {
+            Swinging(horizontalInput);
+        }
     }
 
     private bool GroundCheck()
     {
         LayerMask layer = LayerMask.GetMask("Platform");
         Vector3 squareExtents = new(GetComponent<BoxCollider>().bounds.extents.x, 0, GetComponent<BoxCollider>().bounds.extents.z);
-        return Physics.BoxCast(GetComponent<BoxCollider>().bounds.center, squareExtents, 
+        return Physics.BoxCast(GetComponent<BoxCollider>().bounds.center, squareExtents,
                                 Vector3.down, out _, Quaternion.identity, GetComponent<BoxCollider>().bounds.extents.y + 0.1f, layer);
     }
 
