@@ -2,27 +2,40 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MyBox;
 
 public class PlayerController : MonoBehaviour
 {
+
+    [Header("Grapple Attributes")]
+
+    [ReadOnly]
+    public bool isGrappling;
+    [ReadOnly]
+    public bool isSwinging;
+    public float grappleTravelTime;
+    public float maxSwingDistance;
+    public AnimationCurve grappleTravelCurve;
+
     [Header("Player Attributes")]
-    public float sidewayMoveSpeed;                            // Basic movement speed 
-    public bool isLanded;                                     // Booleans for preventing player swinging multiple time
-    public bool isSwinging;                                   // Same as above
-    [SerializeField] float horizontalForce;           // Horizontal force to put player swing
-    [SerializeField] float maxSwingDistance;          // How long you can latch
-    Rigidbody playerRb;                               // Player rigidbody, used for movement and momentum
+    [ReadOnly]
+    public bool isLanded;
+    public float gravity;
+    public float sidewayMoveSpeed;
+    public float horizontalForce;
+
 
     [Header("References")]
-    public float gravity;
-    public LineRenderer lineRenderer;
-    // A LineRenderer to draw swinging rope
-    [SerializeField] GameObject swingStartPoint;      // A starting point from the player, slightly above the character
-    [SerializeField] GameObject swingTargetIndicator; // Serialized for testing
+    [SerializeField] LineRenderer lineRenderer;     // A LineRenderer to draw swinging rope
+    [SerializeField] GameObject swingStartPoint;
+    [SerializeField] GameObject swingTargetIndicator;
+
     float horizontalInput;
-    Vector3 predictionPoint;                          // A Vector to store location for potantial swinging point
-    Vector3 swingPoint;                               // A Vector to store location of the Target
-    SpringJoint joint;                                // Joint
+    Vector3 predictionPoint;
+    Vector3 swingPoint;
+    SpringJoint joint;
+    Rigidbody playerRb;
+    Coroutine grappleCoroutine;
 
 
     // Start is called before the first frame update
