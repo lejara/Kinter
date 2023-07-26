@@ -102,7 +102,7 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 squareExtents = new(GetComponent<BoxCollider>().bounds.extents.x, 0, GetComponent<BoxCollider>().bounds.extents.z);
         return Physics.BoxCast(GetComponent<BoxCollider>().bounds.center, squareExtents,
-                                Vector3.down, out _, Quaternion.identity, GetComponent<BoxCollider>().bounds.extents.y + 0.1f, platfromLayer);
+                                Vector3.down, out _, Quaternion.identity, GetComponent<BoxCollider>().bounds.extents.y + 0.1f);
     }
 
     private void SidewayMoving(float horizontalInput)
@@ -118,25 +118,35 @@ public class PlayerController : MonoBehaviour
         lineRenderer.enabled = true;
 
         float normTime = 0;
-        while (normTime < 1.0f)
+        Vector3 target = grappleStartPoint.position + new Vector3(0, grappleDistance, 0);
+        while (normTime < 1.0f &&
+                Vector3.Distance(grappleStartPoint.position, grappleEndPoint.position) < grappleDistance)
         {
             //Move Grapple
-            //Note: we want a constant max grapple distance even when player position changes. 
-            //Its assumed the grappleStartPoint is a transfrom child of this object
-            Vector3 target = grappleStartPoint.position + new Vector3(0, grappleDistance, 0);
             grappleEndPoint.position = Vector3.Lerp(grappleStartPoint.position, target, grappleTravelCurve.Evaluate(normTime));
             lineRenderer.SetPosition(1, grappleEndPoint.position);
 
-            //TODO: Add interrupes when on a wrong platfrom
             if (Physics.Raycast(grappleEndPoint.position, Vector3.up, out RaycastHit hit, 0.1f, platfromLayer))
             {
                 LatchGrapple(hit.point);
                 yield break;
             }
 
+            // Edge case, let detach if the grapple will phase through a collider. 
+            // This can happend when the player is shooting to a non-valid platfrom
+            if (Physics.Raycast(grappleStartPoint.position,
+                Vector3.up,
+                out RaycastHit _,
+                Vector3.Distance(grappleStartPoint.position, grappleEndPoint.position)))
+            {
+                //MAYBE: could do some fancy animation based on the raycast hit
+                DetachGrapple();
+                yield break;
+            }
+
 
             normTime += Time.deltaTime / grappleTravelTime;
-            yield return null; //Allow for an Update
+            yield return null; //allow for an Update
         }
 
         DetachGrapple();
