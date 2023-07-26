@@ -31,6 +31,7 @@ public class PlayerController : MonoBehaviour
     [Header("References")]
     [SerializeField] Transform grappleStartPoint;
     [SerializeField] Transform grappleEndPoint;
+    [SerializeField] GameState gameState;
 
     float horizontalInput;
     Vector3 predictionPoint;
@@ -57,6 +58,11 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (gameState.state != States.Playing)
+        {
+            return;
+        }
+
         horizontalInput = Input.GetAxis("Horizontal");
         lineRenderer.SetPosition(0, grappleStartPoint.position);
 

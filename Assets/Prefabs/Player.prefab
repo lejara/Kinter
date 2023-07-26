@@ -271,9 +271,10 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  horizontalForce: 8
+  horizontalForce: 6
   grappleStartPoint: {fileID: 6673982428508880067}
   grappleEndPoint: {fileID: 1600136089298316250}
+  gameState: {fileID: 11400000, guid: dc955f25bd32cb148a1dd9c920bbe054, type: 2}
 --- !u!120 &359641039724614530
 LineRenderer:
   serializedVersion: 2
