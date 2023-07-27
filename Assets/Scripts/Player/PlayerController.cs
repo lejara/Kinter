@@ -24,10 +24,10 @@ public class PlayerController : MonoBehaviour
     public float grappleRetractTime;
     public float maxGrappleDistance;
     public LayerMask platfromLayer;
-    public AnimationCurve grappleTravelCurve;
-    public AnimationCurve grappleRetractCurve;
-    [Tooltip("Growth scale for how much time to take off based on grapple length")]
-    public AnimationCurve grappleTimeRetractCurve;
+    public AnimationCurve grappleTravelMotion;
+    public AnimationCurve grappleRetractMotion;
+    [Tooltip("Decay scale for how much time to take off based on grapple length")]
+    public AnimationCurve grappleRetractTimeDecay;
 
 
     [Header("Swing Attributes")]
@@ -148,7 +148,7 @@ public class PlayerController : MonoBehaviour
         while (normTime < 1.0f && GetGrappleDistance() < maxGrappleDistance)
         {
             //Move Grapple
-            SetGrapplePosition(Vector3.Lerp(grappleStartPoint.position, target, grappleTravelCurve.Evaluate(normTime)));
+            SetGrapplePosition(Vector3.Lerp(grappleStartPoint.position, target, grappleTravelMotion.Evaluate(normTime)));
             Vector3 shootingDir = (grappleEndPoint.position - grappleStartPoint.position).normalized;
 
             if (Physics.Raycast(grappleEndPoint.position, shootingDir, out RaycastHit hit, 0.1f, platfromLayer))
@@ -215,14 +215,14 @@ public class PlayerController : MonoBehaviour
         isRetracting = true;
 
         float normTime = 0;
-        //Lets scale down the time based on the length of the grapple
-        float totalTime = grappleTimeRetractCurve.Evaluate(GetGrappleDistance() / maxGrappleDistance) * grappleRetractTime;
+        //Scale down the time based on the length of the grapple
+        float totalTime = grappleRetractTimeDecay.Evaluate(GetGrappleDistance() / maxGrappleDistance) * grappleRetractTime;
         Vector3 startingPosition = grappleEndPoint.position;
 
         while (normTime < 1.0f)
         {
             //Move Grapple
-            SetGrapplePosition(Vector3.Lerp(startingPosition, grappleStartPoint.position, grappleRetractCurve.Evaluate(normTime)));
+            SetGrapplePosition(Vector3.Lerp(startingPosition, grappleStartPoint.position, grappleRetractMotion.Evaluate(normTime)));
 
             normTime += Time.deltaTime / totalTime;
             yield return null;

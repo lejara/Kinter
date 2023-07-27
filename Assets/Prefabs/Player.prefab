@@ -232,31 +232,31 @@ MonoBehaviour:
   platfromLayer:
     serializedVersion: 2
     m_Bits: 64
-  grappleTravelCurve:
+  grappleTravelMotion:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 2.4850748
-      outSlope: 2.4850748
+      inSlope: 2
+      outSlope: 2
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.057294715
+      outWeight: 0
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 0.2159493
-      outSlope: 0.2159493
+      inSlope: 0
+      outSlope: 0
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.12702966
+      inWeight: 0
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  grappleRetractCurve:
+  grappleRetractMotion:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -280,7 +280,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  grappleTimeRetractCurve:
+  grappleRetractTimeDecay:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -305,6 +305,11 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   horizontalForce: 8
+  jointMaxDistance: 0.6
+  jontMinDistance: 0.3
+  spring: 8
+  damper: 7
+  massScale: 3
   grappleStartPoint: {fileID: 6673982428508880067}
   grappleEndPoint: {fileID: 1600136089298316250}
   gameState: {fileID: 11400000, guid: dc955f25bd32cb148a1dd9c920bbe054, type: 2}
