@@ -224,7 +224,14 @@ public class PlayerController : MonoBehaviour
 
             if (Physics.Raycast(grappleEndPoint.position, shootingDir, out RaycastHit hit, 0.1f, platfromLayer))
             {
-                LatchGrapple(hit.point);
+                if (hit.transform.gameObject.GetComponent<PlatformsBehavior>().type == PlatformsBehavior.PlatformType.Notgrappable)
+                {
+                    DetachGrapple();
+                }
+                else
+                {
+                    LatchGrapple(hit.point);
+                }
                 yield break;
             }
 
