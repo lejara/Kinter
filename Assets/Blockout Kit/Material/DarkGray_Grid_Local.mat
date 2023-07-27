@@ -39,11 +39,11 @@ Material:
     m_Ints: []
     m_Floats:
     - Boolean_a1588f281f4343ff8b59f75c07bd6dc0: 1
-    - Checker_Contrast: 1.09
+    - Checker_Contrast: 1.15
     - Checker_Size: 200
     - Metallic: 0.193
     - Primary_Grid_Line_Width: 0.045
-    - Primary_Grid_Size: 100
+    - Primary_Grid_Size: 0
     - Projection_Transition_Contrast: 1.67
     - Secondary_Grid_Fade_Length: 0
     - Secondary_Grid_Fade_Offset: 0

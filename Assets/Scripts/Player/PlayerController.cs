@@ -2,43 +2,118 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MyBox;
 
 public class PlayerController : MonoBehaviour
 {
     [Header("Player Attributes")]
-    public float sidewayMoveSpeed;                            // Basic movement speed 
-    public bool isLanded;                                     // Booleans for preventing player swinging multiple time
-    public bool isSwinging;                                   // Same as above
-    [SerializeField] private float horizontalForce;           // Horizontal force to put player swing
-    [SerializeField] private float maxSwingDistance;          // How long you can latch
-    private Rigidbody playerRb;                               // Player rigidbody, used for movement and momentum
+
+    [ReadOnly] public bool isLanded;
+    public float gravity;
+    public float sidewayMoveSpeed;
+
+    [Header("Grapple Attributes")]
+
+    [ReadOnly] public bool isGrappling;
+    [ReadOnly] public bool isSwinging;
+    [ReadOnly] public bool isRetracting;
+    public float grappleTravelTime;
+    public float grappleRetractTime;
+    public float maxGrappleDistance;
+    public LayerMask platfromLayer;
+    public AnimationCurve grappleTravelMotion;
+    public AnimationCurve grappleRetractMotion;
+    [Tooltip("Decay scale for how much time to take off based on grapple length")]
+    public AnimationCurve grappleRetractTimeDecay;
+
+
+    [Header("Swing Attributes")]
+
+    public float horizontalForce;
+    [Tooltip("When latching, how much of its existing velocity it should lose")]
+    [Range(0f, 1f)] public float latchVelocityFalloff;
+
+    [Header("Spring Joint Settings")]
+
+    public float jointMaxDistance;
+    public float jontMinDistance;
+    public float spring;
+    public float damper;
+    public float massScale;
+
 
     [Header("References")]
-    public float gravity;
-    public LineRenderer lineRenderer;                         // A LineRenderer to draw swinging rope
-    [SerializeField] private GameObject swingStartPoint;      // A starting point from the player, slightly above the character
-    [SerializeField] private GameObject swingTargetIndicator; // Serialized for testing
-    private Vector3 predictionPoint;                          // A Vector to store location for potantial swinging point
-    private Vector3 swingPoint;                               // A Vector to store location of the Target
-    private SpringJoint joint;                                // Joint
+
+    [SerializeField] Transform grappleStartPoint;
+    [SerializeField] Transform grappleEndPoint;
+    [SerializeField] GameState gameState;
+
+    float horizontalInput;
+    SpringJoint joint;
+    Rigidbody playerRb;
+    LineRenderer lineRenderer;
 
 
-    // Start is called before the first frame update
+    void Awake()
+    {
+        playerRb = GetComponent<Rigidbody>();
+        lineRenderer = GetComponent<LineRenderer>();
+    }
     void Start()
     {
-        isLanded = true;
-        isSwinging = false;
         Physics.gravity = new(Physics.gravity.x, gravity, Physics.gravity.z);
-        playerRb = GetComponent<Rigidbody>();
+
+        lineRenderer.enabled = false;
+        lineRenderer.positionCount = 2;
+
+        //Tests. Make sure we have the correct hierarchy.
+        Debug.Assert(transform.GetChildsWhere((childT) => (childT == grappleStartPoint)).Count == 1,
+        "grappleStartPoint must be a transfom child of this object");
+
+        Debug.Assert(transform.GetChildsWhere((childT) => (childT == grappleEndPoint)).Count == 0,
+        "grappleEndPoint must not be a transfrom child of this object");
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        float horizontalInput = Input.GetAxis("Horizontal");
-        isLanded = GroundCheck() && !isSwinging;
+        //Make sure we keep the lineRenderer start point up to date
+        lineRenderer.SetPosition(0, grappleStartPoint.position);
 
-        #region Moving
+        //It is assumed grappleEndPoint is not a transfrom child of this object.
+        //We need to keep it synced when its not in use
+        if (!isSwinging && !isGrappling && !isRetracting)
+        {
+            SetGrapplePosition(grappleStartPoint.position);
+        }
+
+        #region Input
+
+        //Only allow input if we are playing
+        if (gameState.state != States.Playing)
+        {
+            return;
+        }
+
+
+        horizontalInput = Input.GetAxis("Horizontal");
+
+        if (Input.GetKeyDown(KeyCode.Mouse0) && !isGrappling && !isSwinging && !isRetracting)
+        {
+            StartCoroutine(ShootGrapple());
+        }
+        else if (Input.GetKeyDown(KeyCode.Mouse0) && isSwinging)
+        {
+            DetachGrapple();
+        }
+
+        #endregion
+    }
+
+    void FixedUpdate()
+    {
+        isLanded = GroundCheck() && !isSwinging;
 
         // Movement for sideway only (A/D), this is our basic movement
         if (isLanded)
@@ -46,33 +121,17 @@ public class PlayerController : MonoBehaviour
             SidewayMoving(horizontalInput);
         }
 
-        #endregion
-
-        #region Swinging
-
-        CheckForSwingingPoint();
-        if (Input.GetKeyDown(KeyCode.Mouse0) && !isSwinging)
+        if (isSwinging)
         {
-            SwingingStart();
-            Debug.Log("Hit with" + swingPoint + "and isSwinging is set to: " + isSwinging);
+            Swing(horizontalInput);
         }
-        else if (Input.GetKeyDown(KeyCode.Mouse0) && isSwinging)
-        {
-            SwingingStop();
-            Debug.Log("Now it releases, and isSwinging set back to: " + isSwinging);
-        }
-
-        if (isSwinging) Swinging(horizontalInput);
-
-        #endregion
     }
 
     private bool GroundCheck()
     {
-        LayerMask layer = LayerMask.GetMask("Platform");
         Vector3 squareExtents = new(GetComponent<BoxCollider>().bounds.extents.x, 0, GetComponent<BoxCollider>().bounds.extents.z);
-        return Physics.BoxCast(GetComponent<BoxCollider>().bounds.center, squareExtents, 
-                                Vector3.down, out _, Quaternion.identity, GetComponent<BoxCollider>().bounds.extents.y + 0.1f, layer);
+        return Physics.BoxCast(GetComponent<BoxCollider>().bounds.center, squareExtents,
+                                Vector3.down, out _, Quaternion.identity, GetComponent<BoxCollider>().bounds.extents.y + 0.1f);
     }
 
     private void SidewayMoving(float horizontalInput)
@@ -81,81 +140,125 @@ public class PlayerController : MonoBehaviour
         /* Can have character flip here based on the direction of velocity. */
     }
 
-    // A method to check for valid grapple points, player can only shoot grapple upwards
-    private void CheckForSwingingPoint()
+    #region Grapple Methods
+
+    private IEnumerator ShootGrapple()
     {
-        if (joint || isSwinging) return;
 
-        LayerMask layer = LayerMask.GetMask("Platform");
-        Vector3 hitPoint;
+        isGrappling = true;
+        lineRenderer.enabled = true;
 
-        if (Physics.Raycast(swingStartPoint.transform.position, Vector3.up, out RaycastHit directHit, maxSwingDistance, layer))
+        float normTime = 0;
+        Vector3 target = grappleStartPoint.position + (Vector3.up * maxGrappleDistance);
+        while (normTime < 1.0f && GetGrappleDistance() < maxGrappleDistance)
         {
-            hitPoint = directHit.point;
-        }
-        else
-        {
-            hitPoint = Vector3.zero;
-        }
+            //Move Grapple
+            SetGrapplePosition(Vector3.Lerp(grappleStartPoint.position, target, grappleTravelMotion.Evaluate(normTime)));
+            Vector3 shootingDir = (grappleEndPoint.position - grappleStartPoint.position).normalized;
 
-        // A valid hit point found
-        if (hitPoint != Vector3.zero)
-        {
-            swingTargetIndicator.transform.position = hitPoint;
-            predictionPoint = hitPoint;
-            if (!swingTargetIndicator.activeSelf)
+            if (Physics.Raycast(grappleEndPoint.position, shootingDir, out RaycastHit hit, 0.1f, platfromLayer))
             {
-                swingTargetIndicator.SetActive(true);
+                LatchGrapple(hit.point);
+                yield break;
             }
-        }
-        else
-        {
-            predictionPoint = Vector3.zero;
-            if (swingTargetIndicator.activeSelf)
+
+            // Edge case, detach if the grapple will phase through a collider. 
+            // This can happend when the player is shooting to a non-valid platform
+            if (Physics.Raycast(grappleStartPoint.position,
+                shootingDir,
+                out RaycastHit _,
+                GetGrappleDistance()))
             {
-                swingTargetIndicator.SetActive(false);
+                //MAYBE: could do some fancy animation based on the raycast hit
+                DetachGrapple();
+                yield break;
             }
+
+
+            normTime += Time.deltaTime / grappleTravelTime;
+            yield return null;
         }
+
+        DetachGrapple();
+
     }
 
-    private void SwingingStart()
+    private void LatchGrapple(Vector3 point)
     {
-        if (joint || isSwinging || predictionPoint == Vector3.zero) return;
-
         isSwinging = true;
         isLanded = false;
 
-        if (swingTargetIndicator.activeSelf) swingTargetIndicator.SetActive(false);
+        playerRb.velocity = playerRb.velocity * (1 - latchVelocityFalloff);
 
-        if (!lineRenderer.enabled) lineRenderer.enabled = true;
+        SetGrapplePosition(point);
 
         // Joint Setup
-        swingPoint = predictionPoint;
         joint = gameObject.AddComponent<SpringJoint>();
         joint.autoConfigureConnectedAnchor = false;
-        joint.connectedAnchor = swingPoint;
+        joint.connectedAnchor = point;
 
-        float distance = Vector3.Distance(swingStartPoint.transform.position, swingPoint);
-        joint.maxDistance = 0.6f * distance;
-        joint.minDistance = 0.3f * distance;
-        joint.spring = 8f;
-        joint.damper = 7f;
-        joint.massScale = 3f;
+        float distance = GetGrappleDistance();
 
-        lineRenderer.positionCount = 2;
+        joint.maxDistance = jointMaxDistance * distance;
+        joint.minDistance = jontMinDistance * distance;
+        joint.spring = spring;
+        joint.damper = damper;
+        joint.massScale = massScale;
     }
 
-    private void SwingingStop()
+
+    private void DetachGrapple()
     {
         isSwinging = false;
-        lineRenderer.enabled = false;
+        isGrappling = false;
         Destroy(joint);
+
+        StartCoroutine(RetractGrapple());
     }
 
-    private void Swinging(float horizontalInput)
+
+    private IEnumerator RetractGrapple()
+    {
+        isRetracting = true;
+
+        float normTime = 0;
+        //Scale down the time based on the length of the grapple
+        float totalTime = grappleRetractTimeDecay.Evaluate(GetGrappleDistance() / maxGrappleDistance) * grappleRetractTime;
+        Vector3 startingPosition = grappleEndPoint.position;
+
+        while (normTime < 1.0f)
+        {
+            //Move Grapple
+            SetGrapplePosition(Vector3.Lerp(startingPosition, grappleStartPoint.position, grappleRetractMotion.Evaluate(normTime)));
+
+            normTime += Time.deltaTime / totalTime;
+            yield return null;
+        }
+
+        lineRenderer.enabled = false;
+        isRetracting = false;
+
+    }
+
+    private void Swing(float horizontalInput)
     {
         playerRb.AddForce(horizontalInput * horizontalForce * Vector3.right, ForceMode.Force);
-        lineRenderer.SetPosition(0, swingStartPoint.transform.position);
-        lineRenderer.SetPosition(1, swingPoint);
     }
+
+
+    #endregion
+
+    #region Utils
+
+    private float GetGrappleDistance()
+    {
+        return Vector3.Distance(grappleStartPoint.position, grappleEndPoint.position);
+    }
+
+    private void SetGrapplePosition(Vector3 pos)
+    {
+        grappleEndPoint.position = pos;
+        lineRenderer.SetPosition(1, grappleEndPoint.position);
+    }
+    #endregion
 }
