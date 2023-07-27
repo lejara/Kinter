@@ -169,7 +169,7 @@ public class PlayerController : MonoBehaviour
     {
 
         //We only apply a stun if the player is moving a significant ammount
-        if (playerRb.velocity.magnitude < minVelocityStunThreshold)
+        if (lastVelocity.magnitude < minVelocityStunThreshold)
         {
             return;
         }
