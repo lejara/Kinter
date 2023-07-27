@@ -53,8 +53,6 @@ public class PlayerController : MonoBehaviour
     }
     void Start()
     {
-        isLanded = true;
-        isSwinging = false;
         Physics.gravity = new(Physics.gravity.x, gravity, Physics.gravity.z);
 
         lineRenderer.enabled = false;
@@ -94,7 +92,7 @@ public class PlayerController : MonoBehaviour
 
         //It is assumed grappleEndPoint is not a transfrom child of this object.
         //We need to keep it synced when its not in use
-        if (isLanded && !isGrappling && !isRetracting)
+        if (!isSwinging && !isGrappling && !isRetracting)
         {
             SetGrapplePosition(grappleStartPoint.position);
         }
@@ -140,13 +138,14 @@ public class PlayerController : MonoBehaviour
         lineRenderer.enabled = true;
 
         float normTime = 0;
-        Vector3 target = grappleStartPoint.position + new Vector3(0, maxGrappleDistance, 0);
+        Vector3 target = grappleStartPoint.position + (Vector3.up * maxGrappleDistance);
         while (normTime < 1.0f && GetGrappleDistance() < maxGrappleDistance)
         {
             //Move Grapple
             SetGrapplePosition(Vector3.Lerp(grappleStartPoint.position, target, grappleTravelCurve.Evaluate(normTime)));
+            Vector3 shootingDir = (grappleEndPoint.position - grappleStartPoint.position).normalized;
 
-            if (Physics.Raycast(grappleEndPoint.position, Vector3.up, out RaycastHit hit, 0.1f, platfromLayer))
+            if (Physics.Raycast(grappleEndPoint.position, shootingDir, out RaycastHit hit, 0.1f, platfromLayer))
             {
                 LatchGrapple(hit.point);
                 yield break;
@@ -155,7 +154,7 @@ public class PlayerController : MonoBehaviour
             // Edge case, lets detach if the grapple will phase through a collider. 
             // This can happend when the player is shooting to a non-valid platform
             if (Physics.Raycast(grappleStartPoint.position,
-                Vector3.up,
+                shootingDir,
                 out RaycastHit _,
                 GetGrappleDistance()))
             {
@@ -186,6 +185,7 @@ public class PlayerController : MonoBehaviour
         joint.connectedAnchor = point;
 
         float distance = GetGrappleDistance();
+        //TODO: make these fields 
         joint.maxDistance = 0.6f * distance;
         joint.minDistance = 0.3f * distance;
         joint.spring = 8f;
