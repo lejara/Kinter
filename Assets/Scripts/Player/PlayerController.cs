@@ -59,6 +59,7 @@ public class PlayerController : MonoBehaviour
         playerRb = GetComponent<Rigidbody>();
         lineRenderer = GetComponent<LineRenderer>();
     }
+    
     void Start()
     {
         Physics.gravity = new(Physics.gravity.x, gravity, Physics.gravity.z);
@@ -188,7 +189,7 @@ public class PlayerController : MonoBehaviour
         isSwinging = true;
         isLanded = false;
 
-        playerRb.velocity = playerRb.velocity * (1 - latchVelocityFalloff);
+        playerRb.velocity *= (1 - latchVelocityFalloff);
 
         SetGrapplePosition(point);
 
