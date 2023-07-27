@@ -33,6 +33,13 @@ public class PlayerController : MonoBehaviour
     [Header("Swing Attributes")]
     public float horizontalForce;
 
+    [Header("Spring Joint Settings")]
+    public float jointMaxDistance;
+    public float jontMinDistance;
+    public float spring;
+    public float damper;
+    public float massScale;
+
 
     [Header("References")]
     [SerializeField] Transform grappleStartPoint;
@@ -40,7 +47,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameState gameState;
 
     float horizontalInput;
-    Vector3 predictionPoint;
     SpringJoint joint;
     Rigidbody playerRb;
     LineRenderer lineRenderer;
@@ -185,12 +191,12 @@ public class PlayerController : MonoBehaviour
         joint.connectedAnchor = point;
 
         float distance = GetGrappleDistance();
-        //TODO: make these fields 
-        joint.maxDistance = 0.6f * distance;
-        joint.minDistance = 0.3f * distance;
-        joint.spring = 8f;
-        joint.damper = 7f;
-        joint.massScale = 3f;
+
+        joint.maxDistance = jointMaxDistance * distance;
+        joint.minDistance = jontMinDistance * distance;
+        joint.spring = spring;
+        joint.damper = damper;
+        joint.massScale = massScale;
     }
 
 
