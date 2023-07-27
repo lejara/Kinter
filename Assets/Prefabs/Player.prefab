@@ -222,7 +222,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isLanded: 1
   gravity: -8
-  sidewayMoveSpeed: 5
+  sidewayMoveSpeed: 4
   isGrappling: 0
   isSwinging: 0
   isRetracting: 0
@@ -305,6 +305,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   horizontalForce: 8
+  latchVelocityFalloff: 0.45
   jointMaxDistance: 0.6
   jontMinDistance: 0.3
   spring: 8

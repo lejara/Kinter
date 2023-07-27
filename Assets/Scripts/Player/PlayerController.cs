@@ -7,19 +7,16 @@ using MyBox;
 public class PlayerController : MonoBehaviour
 {
     [Header("Player Attributes")]
-    [ReadOnly]
-    public bool isLanded;
+
+    [ReadOnly] public bool isLanded;
     public float gravity;
     public float sidewayMoveSpeed;
 
     [Header("Grapple Attributes")]
 
-    [ReadOnly]
-    public bool isGrappling;
-    [ReadOnly]
-    public bool isSwinging;
-    [ReadOnly]
-    public bool isRetracting;
+    [ReadOnly] public bool isGrappling;
+    [ReadOnly] public bool isSwinging;
+    [ReadOnly] public bool isRetracting;
     public float grappleTravelTime;
     public float grappleRetractTime;
     public float maxGrappleDistance;
@@ -31,9 +28,13 @@ public class PlayerController : MonoBehaviour
 
 
     [Header("Swing Attributes")]
+
     public float horizontalForce;
+    [Tooltip("When latching, how much of its existing velocity it should lose")]
+    [Range(0f, 1f)] public float latchVelocityFalloff;
 
     [Header("Spring Joint Settings")]
+
     public float jointMaxDistance;
     public float jontMinDistance;
     public float spring;
@@ -42,6 +43,7 @@ public class PlayerController : MonoBehaviour
 
 
     [Header("References")]
+
     [SerializeField] Transform grappleStartPoint;
     [SerializeField] Transform grappleEndPoint;
     [SerializeField] GameState gameState;
@@ -76,16 +78,26 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Make sure we keep the lineRenderer start point up to date
         lineRenderer.SetPosition(0, grappleStartPoint.position);
 
+        //It is assumed grappleEndPoint is not a transfrom child of this object.
+        //We need to keep it synced when its not in use
+        if (!isSwinging && !isGrappling && !isRetracting)
+        {
+            SetGrapplePosition(grappleStartPoint.position);
+        }
+
+        #region Input
+
+        //Only allow input if we are playing
         if (gameState.state != States.Playing)
         {
             return;
         }
 
-        horizontalInput = Input.GetAxis("Horizontal");
 
-        #region Grapple
+        horizontalInput = Input.GetAxis("Horizontal");
 
         if (Input.GetKeyDown(KeyCode.Mouse0) && !isGrappling && !isSwinging && !isRetracting)
         {
@@ -94,13 +106,6 @@ public class PlayerController : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.Mouse0) && isSwinging)
         {
             DetachGrapple();
-        }
-
-        //It is assumed grappleEndPoint is not a transfrom child of this object.
-        //We need to keep it synced when its not in use
-        if (!isSwinging && !isGrappling && !isRetracting)
-        {
-            SetGrapplePosition(grappleStartPoint.position);
         }
 
         #endregion
@@ -157,7 +162,7 @@ public class PlayerController : MonoBehaviour
                 yield break;
             }
 
-            // Edge case, lets detach if the grapple will phase through a collider. 
+            // Edge case, detach if the grapple will phase through a collider. 
             // This can happend when the player is shooting to a non-valid platform
             if (Physics.Raycast(grappleStartPoint.position,
                 shootingDir,
@@ -182,6 +187,8 @@ public class PlayerController : MonoBehaviour
     {
         isSwinging = true;
         isLanded = false;
+
+        playerRb.velocity = playerRb.velocity * (1 - latchVelocityFalloff);
 
         SetGrapplePosition(point);
 
