@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Platforms : MonoBehaviour
+public class PlatformsBehavior : MonoBehaviour
 {
     public enum PlatformType
     {
