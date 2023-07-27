@@ -9,8 +9,18 @@ public class PlayerController : MonoBehaviour
     [Header("Player Attributes")]
 
     [ReadOnly] public bool isLanded;
+    [ReadOnly] public bool isStunned;
     public float gravity;
     public float sidewayMoveSpeed;
+
+    [Tooltip("How big the angle should be on its sides to count as a stun")]
+    [Range(0f, 180f)] public float maxStunAngle;
+
+    [Tooltip("Minimum velocity magnitude needed to apply a stun")]
+    public float minVelocityStunThreshold;
+
+    [Tooltip("WIll multiply on top of existing velocity when the player makes a stun contact")]
+    public float stunBounceMultiplier;
 
     [Header("Grapple Attributes")]
 
@@ -33,6 +43,7 @@ public class PlayerController : MonoBehaviour
     [Tooltip("When latching, how much of its existing velocity it should lose")]
     [Range(0f, 1f)] public float latchVelocityFalloff;
 
+
     [Header("Spring Joint Settings")]
 
     public float jointMaxDistance;
@@ -49,6 +60,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameState gameState;
 
     float horizontalInput;
+    Vector3 lastVelocity;
     SpringJoint joint;
     Rigidbody playerRb;
     LineRenderer lineRenderer;
@@ -100,7 +112,7 @@ public class PlayerController : MonoBehaviour
 
         horizontalInput = Input.GetAxis("Horizontal");
 
-        if (Input.GetKeyDown(KeyCode.Mouse0) && !isGrappling && !isSwinging && !isRetracting)
+        if (Input.GetKeyDown(KeyCode.Mouse0) && !isGrappling && !isSwinging && !isRetracting && !isStunned)
         {
             StartCoroutine(ShootGrapple());
         }
@@ -114,17 +126,28 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        lastVelocity = playerRb.velocity;
+
         isLanded = GroundCheck() && !isSwinging;
 
         // Movement for sideway only (A/D), this is our basic movement
         if (isLanded)
         {
+            isStunned = false;
             SidewayMoving(horizontalInput);
         }
 
         if (isSwinging)
         {
             Swing(horizontalInput);
+        }
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (!isLanded)
+        {
+            Stun(collision);
         }
     }
 
@@ -141,6 +164,41 @@ public class PlayerController : MonoBehaviour
         /* Can have character flip here based on the direction of velocity. */
     }
 
+    #region Stun Method
+
+    void Stun(Collision collision)
+    {
+
+        //We only apply a stun if the player is moving a significant ammount
+        if (lastVelocity.magnitude < minVelocityStunThreshold)
+        {
+            return;
+        }
+
+        //Check angle, we only want to stun when it makes contact on its sides.
+        //Note: sides are in world space
+        float desiredSideDotProduct = Mathf.Cos(maxStunAngle * Mathf.Deg2Rad);
+        int index = collision.contacts.FirstIndex((point) =>
+            (Vector3.Dot(Vector3.right, point.normal) <= desiredSideDotProduct ||
+            Vector3.Dot(Vector3.left, point.normal) <= desiredSideDotProduct));
+
+        if (index == -1)
+        {
+            return;
+        }
+
+        //Make the player bounce off on what they made contact with
+        playerRb.velocity = collision.GetContact(index).normal * lastVelocity.magnitude * stunBounceMultiplier;
+
+        if (isSwinging || isGrappling)
+        {
+            DetachGrapple();
+        }
+        isStunned = true;
+    }
+
+    #endregion
+
     #region Grapple Methods
 
     private IEnumerator ShootGrapple()
@@ -153,6 +211,13 @@ public class PlayerController : MonoBehaviour
         Vector3 target = grappleStartPoint.position + (Vector3.up * maxGrappleDistance);
         while (normTime < 1.0f && GetGrappleDistance() < maxGrappleDistance)
         {
+            // Edge case, stop shooting the grapple if we got stunned
+            if (isStunned)
+            {
+                //We wont detach here. we let the stun method handle it
+                yield break;
+            }
+
             //Move Grapple
             SetGrapplePosition(Vector3.Lerp(grappleStartPoint.position, target, grappleTravelMotion.Evaluate(normTime)));
             Vector3 shootingDir = (grappleEndPoint.position - grappleStartPoint.position).normalized;
@@ -174,7 +239,6 @@ public class PlayerController : MonoBehaviour
                 DetachGrapple();
                 yield break;
             }
-
 
             normTime += Time.deltaTime / grappleTravelTime;
             yield return null;

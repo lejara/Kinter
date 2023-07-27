@@ -221,8 +221,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isLanded: 1
+  isStunned: 0
   gravity: -8
   sidewayMoveSpeed: 4
+  maxStunAngle: 180
+  minVelocityStunThreshold: 1.5
+  stunBounceMultiplier: 0.8
   isGrappling: 0
   isSwinging: 0
   isRetracting: 0
