@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1285924621112998598
+--- !u!1 &8288036904370043315
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,48 +8,48 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1914967783635820668}
-  - component: {fileID: 3259637017652309977}
-  - component: {fileID: 781508474171415315}
-  - component: {fileID: 1357161496972752556}
-  - component: {fileID: 873961262211307155}
+  - component: {fileID: 8669100578254463753}
+  - component: {fileID: 5755897873995836588}
+  - component: {fileID: 7495671857260157030}
+  - component: {fileID: 8072732254208947673}
+  - component: {fileID: 7071527122706806433}
   m_Layer: 6
-  m_Name: Platform Uneven
+  m_Name: Platform Normal Obj
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
   m_IsActive: 1
---- !u!4 &1914967783635820668
+--- !u!4 &8669100578254463753
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1285924621112998598}
+  m_GameObject: {fileID: 8288036904370043315}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 11.47, y: 19.9, z: 2.08}
-  m_LocalScale: {x: 10.858087, y: 0.6564773, z: 3}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 5.62, y: 9.5, z: 2.08}
+  m_LocalScale: {x: 10.858087, y: 1.5816442, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &3259637017652309977
+--- !u!33 &5755897873995836588
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1285924621112998598}
+  m_GameObject: {fileID: 8288036904370043315}
   m_Mesh: {fileID: -7992094173775149150, guid: 26f4f45bb096ed240acaeb62a3ac0fef, type: 3}
---- !u!23 &781508474171415315
+--- !u!23 &7495671857260157030
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1285924621112998598}
+  m_GameObject: {fileID: 8288036904370043315}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -85,13 +85,13 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &1357161496972752556
+--- !u!65 &8072732254208947673
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1285924621112998598}
+  m_GameObject: {fileID: 8288036904370043315}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -106,18 +106,30 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.0000002, y: 1.0000004, z: 1.0000004}
   m_Center: {x: 0.5, y: 0.5000002, z: -0.49999955}
---- !u!114 &873961262211307155
-MonoBehaviour:
+--- !u!54 &7071527122706806433
+Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1285924621112998598}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c26b1c18c7e8a33408cc5ad410f29515, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  type: 3
-  shouldActive: 0
-  isLatched: 0
+  m_GameObject: {fileID: 8288036904370043315}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
