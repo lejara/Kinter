@@ -116,3 +116,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
+  shouldActive: 0
+  isLatched: 0
+  isValid: 1

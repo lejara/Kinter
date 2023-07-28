@@ -679,12 +679,22 @@ PrefabInstance:
     - target: {fileID: 2089695947462200163, guid: 260e655c85549454284e4070effcecb5,
         type: 3}
       propertyPath: breakingTime
-      value: 10
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3106109023141709257, guid: 260e655c85549454284e4070effcecb5,
         type: 3}
       propertyPath: m_Name
       value: Section_Testing_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3570283884139048521, guid: 260e655c85549454284e4070effcecb5,
+        type: 3}
+      propertyPath: type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5919697615742257178, guid: 260e655c85549454284e4070effcecb5,
+        type: 3}
+      propertyPath: type
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 834715365304712836, guid: 260e655c85549454284e4070effcecb5, type: 3}

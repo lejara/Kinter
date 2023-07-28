@@ -48,7 +48,7 @@ MonoBehaviour:
   type: 0
   shouldActive: 0
   isLatched: 0
-  platformObj: {fileID: 7735225640066910724}
+  isValid: 1
 --- !u!1001 &1755294565686014903
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -120,12 +120,6 @@ PrefabInstance:
 --- !u!4 &6922835339729883326 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8669100578254463753, guid: 97375f49f3257b94cbf6262eacc0cbf2,
-    type: 3}
-  m_PrefabInstance: {fileID: 1755294565686014903}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &7735225640066910724 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8288036904370043315, guid: 97375f49f3257b94cbf6262eacc0cbf2,
     type: 3}
   m_PrefabInstance: {fileID: 1755294565686014903}
   m_PrefabAsset: {fileID: 0}

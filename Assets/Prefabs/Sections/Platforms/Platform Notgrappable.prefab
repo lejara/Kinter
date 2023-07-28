@@ -45,10 +45,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c26b1c18c7e8a33408cc5ad410f29515, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 1
+  type: 0
   shouldActive: 0
   isLatched: 0
-  platformObj: {fileID: 1943364582355166937}
+  isValid: 0
 --- !u!1001 &676648051776040376
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -120,12 +120,6 @@ PrefabInstance:
 --- !u!4 &1275617544931818595 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1787938635865690587, guid: 24070e3c40361e14c93b33a63c83d675,
-    type: 3}
-  m_PrefabInstance: {fileID: 676648051776040376}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1943364582355166937 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1412960522819128161, guid: 24070e3c40361e14c93b33a63c83d675,
     type: 3}
   m_PrefabInstance: {fileID: 676648051776040376}
   m_PrefabAsset: {fileID: 0}

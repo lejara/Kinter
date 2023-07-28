@@ -23,10 +23,7 @@ public class BreakingBehavior : MonoBehaviour
         {
             StartCoroutine(Breaking());
         }
-        //else
-        //{
-        //    Recover();
-        //}
+        
     }
 
     public void SetBreakingStart(bool breakOrNot)
@@ -46,20 +43,14 @@ public class BreakingBehavior : MonoBehaviour
             currTime += Time.deltaTime;
             yield return null;
         }
-        
+
+        GetComponent<PlatformsBehavior>().SetValid(false);
         breakingObject.SetActive(false);
+        
         yield return new WaitForSeconds(recoverTime);
+        
         startBreaking = false;
+        GetComponent<PlatformsBehavior>().SetValid(true);
         breakingObject.SetActive(true);
-
     }
-
-    //private void Recover()
-    //{
-    //    startBreaking = false;
-    //    if (!gameObject.activeSelf) 
-    //    {
-            
-    //    }
-    //}
 }

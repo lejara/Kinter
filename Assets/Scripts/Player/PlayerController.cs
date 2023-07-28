@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using MyBox;
+using Unity.VisualScripting;
 
 public class PlayerController : MonoBehaviour
 {
@@ -57,7 +58,9 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] Transform grappleStartPoint;
     [SerializeField] Transform grappleEndPoint;
+    [SerializeField] GameObject grappleTarget;
     [SerializeField] GameState gameState;
+
 
     float horizontalInput;
     Vector3 lastVelocity;
@@ -116,7 +119,9 @@ public class PlayerController : MonoBehaviour
         {
             StartCoroutine(ShootGrapple());
         }
-        else if (!Input.GetKey(KeyCode.Mouse0) && isSwinging)
+        else if ((!Input.GetKey(KeyCode.Mouse0) || 
+                (grappleTarget && !grappleTarget.GetComponent<PlatformsBehavior>().isValid)) 
+                && isSwinging)
         {
             DetachGrapple();
         }
@@ -226,8 +231,7 @@ public class PlayerController : MonoBehaviour
 
             if (Physics.Raycast(grappleEndPoint.position, shootingDir, out RaycastHit hit, 0.1f, platfromLayer))
             {
-                if (hit.transform.gameObject.GetComponentInParent<PlatformsBehavior>().type 
-                    == PlatformsBehavior.PlatformType.Notgrappable)
+                if (!hit.transform.gameObject.GetComponentInParent<PlatformsBehavior>().isValid)
                 {
                     DetachGrapple();
                 }
@@ -272,7 +276,10 @@ public class PlayerController : MonoBehaviour
         joint.autoConfigureConnectedAnchor = false;
         joint.connectedBody = hit.rigidbody;
         joint.connectedAnchor = hit.transform.InverseTransformPoint(hit.point);
-        joint.connectedBody.GetComponentInParent<PlatformsBehavior>().isLatched = true;
+
+        // Grappled Object Setup
+        grappleTarget = joint.connectedBody.transform.parent.gameObject;
+        grappleTarget.GetComponent<PlatformsBehavior>().isLatched = true;
 
         float distance = GetGrappleDistance();
 

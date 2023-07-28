@@ -6,7 +6,6 @@ public class PlatformsBehavior : MonoBehaviour
     public enum PlatformType
     {
         Normal,
-        Notgrappable,
         Breakable,
         Uneven,
         Moving,
@@ -17,10 +16,16 @@ public class PlatformsBehavior : MonoBehaviour
     [Tooltip("Indicate whether this platform should activate its own script at the start or after being latched")]
     public bool shouldActive;
     public bool isLatched;
+    public bool isValid;
 
     void Update()
     {
         if (!shouldActive) TypeHandler();
+    }
+
+    public void SetValid(bool valid)
+    {
+        isValid = valid;
     }
 
     private void TypeHandler() 
