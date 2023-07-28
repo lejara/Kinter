@@ -151,6 +151,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    #region Move Methods
     private bool GroundCheck()
     {
         Vector3 squareExtents = new(GetComponent<BoxCollider>().bounds.extents.x, 0, GetComponent<BoxCollider>().bounds.extents.z);
@@ -163,6 +164,7 @@ public class PlayerController : MonoBehaviour
         playerRb.velocity = new Vector3(horizontalInput * sidewayMoveSpeed, playerRb.velocity.y, 0);
         /* Can have character flip here based on the direction of velocity. */
     }
+    #endregion
 
     #region Stun Method
 
@@ -224,13 +226,14 @@ public class PlayerController : MonoBehaviour
 
             if (Physics.Raycast(grappleEndPoint.position, shootingDir, out RaycastHit hit, 0.1f, platfromLayer))
             {
-                if (hit.transform.gameObject.GetComponent<PlatformsBehavior>().type == PlatformsBehavior.PlatformType.Notgrappable)
+                if (hit.transform.gameObject.GetComponentInParent<PlatformsBehavior>().type 
+                    == PlatformsBehavior.PlatformType.Notgrappable)
                 {
                     DetachGrapple();
                 }
                 else
                 {
-                    LatchGrapple(hit.point);
+                    LatchGrapple(hit);
                 }
                 yield break;
             }
@@ -255,19 +258,21 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    private void LatchGrapple(Vector3 point)
+    private void LatchGrapple(RaycastHit hit)
     {
         isSwinging = true;
         isLanded = false;
 
         playerRb.velocity *= (1 - latchVelocityFalloff);
 
-        SetGrapplePosition(point);
+        SetGrapplePosition(hit.point);
 
         // Joint Setup
         joint = gameObject.AddComponent<SpringJoint>();
         joint.autoConfigureConnectedAnchor = false;
-        joint.connectedAnchor = point;
+        joint.connectedBody = hit.rigidbody;
+        joint.connectedAnchor = hit.transform.InverseTransformPoint(hit.point);
+        joint.connectedBody.GetComponentInParent<PlatformsBehavior>().isLatched = true;
 
         float distance = GetGrappleDistance();
 
@@ -283,8 +288,11 @@ public class PlayerController : MonoBehaviour
     {
         isSwinging = false;
         isGrappling = false;
-        Destroy(joint);
-
+        if (joint)
+        {
+            joint.connectedBody.GetComponentInParent<PlatformsBehavior>().isLatched = false;
+            Destroy(joint);
+        }
         StartCoroutine(RetractGrapple());
     }
 

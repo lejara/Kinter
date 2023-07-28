@@ -12,15 +12,15 @@ public class PlatformsBehavior : MonoBehaviour
         Moving,
         Rotating
     }
-    public PlatformType type;
 
+    public PlatformType type;
     [Tooltip("Indicate whether this platform should activate its own script at the start or after being latched")]
     public bool shouldActive;
     public bool isLatched;
 
     void Update()
     {
-        if (!shouldActive && isLatched) TypeHandler();
+        if (!shouldActive) TypeHandler();
     }
 
     private void TypeHandler() 
@@ -28,6 +28,7 @@ public class PlatformsBehavior : MonoBehaviour
         switch(type)
         {
             case PlatformType.Breakable:
+                GetComponent<BreakingBehavior>().SetBreakingStart(isLatched);
                 break;
             case PlatformType.Moving:
                 break;
