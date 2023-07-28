@@ -157,6 +157,7 @@ public class PlayerController : MonoBehaviour
     }
 
     #region Move Methods
+
     private bool GroundCheck()
     {
         Vector3 squareExtents = new(GetComponent<BoxCollider>().bounds.extents.x, 0, GetComponent<BoxCollider>().bounds.extents.z);
@@ -169,6 +170,7 @@ public class PlayerController : MonoBehaviour
         playerRb.velocity = new Vector3(horizontalInput * sidewayMoveSpeed, playerRb.velocity.y, 0);
         /* Can have character flip here based on the direction of velocity. */
     }
+    
     #endregion
 
     #region Stun Method
@@ -290,7 +292,6 @@ public class PlayerController : MonoBehaviour
         joint.massScale = massScale;
     }
 
-
     private void DetachGrapple()
     {
         isSwinging = false;
@@ -302,7 +303,6 @@ public class PlayerController : MonoBehaviour
         }
         StartCoroutine(RetractGrapple());
     }
-
 
     private IEnumerator RetractGrapple()
     {
@@ -332,7 +332,6 @@ public class PlayerController : MonoBehaviour
         playerRb.AddForce(horizontalInput * horizontalForce * Vector3.right, ForceMode.Force);
     }
 
-
     #endregion
 
     #region Utils
@@ -347,5 +346,6 @@ public class PlayerController : MonoBehaviour
         grappleEndPoint.position = pos;
         lineRenderer.SetPosition(1, grappleEndPoint.position);
     }
+
     #endregion
 }
