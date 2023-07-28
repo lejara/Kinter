@@ -116,7 +116,7 @@ public class PlayerController : MonoBehaviour
         {
             StartCoroutine(ShootGrapple());
         }
-        else if (!Input.GetKey(KeyCode.Mouse0) && isSwinging)
+        else if ((!Input.GetKey(KeyCode.Mouse0) || isStunned) && isSwinging)
         {
             DetachGrapple();
         }
@@ -188,13 +188,9 @@ public class PlayerController : MonoBehaviour
         }
 
         //Make the player bounce off on what they made contact with
-        playerRb.velocity = collision.GetContact(index).normal * lastVelocity.magnitude * stunBounceMultiplier;
-
-        if (isSwinging || isGrappling)
-        {
-            DetachGrapple();
-        }
+        playerRb.velocity = lastVelocity.magnitude * stunBounceMultiplier * collision.GetContact(index).normal;
         isStunned = true;
+        Debug.Log("isSwing?: " + isSwinging + " or isGrappling?: " + isGrappling);
     }
 
     #endregion
@@ -214,6 +210,7 @@ public class PlayerController : MonoBehaviour
             // Edge case, stop shooting the grapple if we got stunned
             if (isStunned)
             {
+                DetachGrapple();
                 //We wont detach here. we let the stun method handle it
                 yield break;
             }
