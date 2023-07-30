@@ -15,31 +15,23 @@ public class UIFade : MonoBehaviour
     public UnityEvent onFadeOutComplete;
 
     CanvasGroup _canvasGroup;
-    Coroutine _coroutineFadeIn;
-    Coroutine _coroutineFadeOut;
 
     [ContextMenu("FadeIn")]
     public void StartFadeIn()
     {
         _canvasGroup.alpha = 0;
-        if (_coroutineFadeIn != null)
-        {
-            StopCoroutine(_coroutineFadeIn);
-        }
+        StopAllCoroutines();
 
-        _coroutineFadeIn = StartCoroutine(FadeIn());
+        StartCoroutine(FadeIn());
     }
 
     [ContextMenu("FadeOut")]
     public void StartFadeOut()
     {
         _canvasGroup.alpha = 1;
-        if (_coroutineFadeOut != null)
-        {
-            StopCoroutine(_coroutineFadeOut);
-        }
+        StopAllCoroutines();
 
-        _coroutineFadeOut = StartCoroutine(FadeOut());
+        StartCoroutine(FadeOut());
     }
 
     void Awake()
