@@ -10,6 +10,7 @@ using UnityEngine.Events;
 public class GameStateListener : MonoBehaviour
 {
 
+    [Tooltip("On what state should the events trigger")]
     public States inState;
     public UnityEvent onInState;
     public UnityEvent onOutState;
