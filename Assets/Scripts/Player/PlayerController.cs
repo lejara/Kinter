@@ -71,7 +71,7 @@ public class PlayerController : MonoBehaviour
         playerRb = GetComponent<Rigidbody>();
         lineRenderer = GetComponent<LineRenderer>();
     }
-    
+
     void Start()
     {
         Physics.gravity = new(Physics.gravity.x, gravity, Physics.gravity.z);
@@ -106,6 +106,7 @@ public class PlayerController : MonoBehaviour
         //Only allow input if we are playing
         if (gameState.state != States.Playing)
         {
+            horizontalInput = 0;
             return;
         }
 
