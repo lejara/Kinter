@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class MainMenuInput : MonoBehaviour
+public class MenuInput : MonoBehaviour
 {
 
     public UnityEvent OnExitMenus;
