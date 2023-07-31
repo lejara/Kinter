@@ -31,11 +31,16 @@ public class SaveOrchestrator : ScriptableObject
 
 
     string _path;
+    SaveData defualtSaveData;
     [SerializeField] DebugSettings debugSettings;
 
+    void Awake()
+    {
+        defualtSaveData = saveData;
+    }
     void OnEnable()
     {
-        saveData = new SaveData();
+        saveData = defualtSaveData;
         _path = Path.Combine(Application.persistentDataPath, fileName);
         Load();
     }
@@ -93,7 +98,7 @@ public class SaveOrchestrator : ScriptableObject
     public void Clear()
     {
         Log("Clear");
-        saveData = new SaveData();
+        saveData = defualtSaveData;
         Reset();
         File.Delete(_path);
     }
