@@ -1,16 +1,17 @@
 using System.Collections;
 using UnityEngine;
 
+public enum PlatformType
+{
+    Normal,
+    Breakable,
+    Uneven,
+    Moving,
+    Rotating
+}
+
 public class PlatformsBehavior : MonoBehaviour
 {
-    public enum PlatformType
-    {
-        Normal,
-        Breakable,
-        Uneven,
-        Moving,
-        Rotating
-    }
 
     public PlatformType type;
     [Tooltip("Indicate whether this platform should activate its own script at the start or after being latched")]

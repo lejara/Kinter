@@ -276,12 +276,19 @@ public class PlayerController : MonoBehaviour
         // Joint Setup
         joint = gameObject.AddComponent<SpringJoint>();
         joint.autoConfigureConnectedAnchor = false;
-        joint.connectedBody = hit.rigidbody;
-        joint.connectedAnchor = hit.transform.InverseTransformPoint(hit.point);
+        if (hit.transform.gameObject.GetComponentInParent<PlatformsBehavior>().type == PlatformType.Normal)
+        {
+            joint.connectedAnchor = hit.point;
+        }
+        else
+        {
+            joint.connectedBody = hit.rigidbody;
+            joint.connectedAnchor = hit.transform.InverseTransformPoint(hit.point);
 
-        // Grappled Object Setup
-        grappleTarget = joint.connectedBody.transform.parent.gameObject;
-        grappleTarget.GetComponent<PlatformsBehavior>().isLatched = true;
+            // Grappled Object Setup
+            grappleTarget = joint.connectedBody.transform.parent.gameObject;
+            grappleTarget.GetComponent<PlatformsBehavior>().isLatched = true;
+        }
 
         float distance = GetGrappleDistance();
 
@@ -298,7 +305,13 @@ public class PlayerController : MonoBehaviour
         isGrappling = false;
         if (joint)
         {
-            joint.connectedBody.GetComponentInParent<PlatformsBehavior>().isLatched = false;
+            if (grappleTarget)
+            {
+                // We use grappleTarget here as destroyed platform would be deactivated and can't use 
+                // joint.connectBody which is the rigidbody of the platform.
+                grappleTarget.GetComponent<PlatformsBehavior>().isLatched = false; 
+                grappleTarget = null;
+            }
             Destroy(joint);
         }
         StartCoroutine(RetractGrapple());
