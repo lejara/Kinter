@@ -10,13 +10,25 @@ public class DebugSettings : ScriptableObject
     [Tooltip("The game will not save")]
     public bool stopSaving;
 
+    void Awake()
+    {
+#if !UNITY_EDITOR
+    SetProduction();
+#endif
+    }
+
     void OnEnable()
     {
 #if !UNITY_EDITOR
+    SetProduction();
+#endif
+    }
+
+    void SetProduction()
+    {
         //PRODUCTION SETTINGS
         skipMainMenu = false;
-        stopAutoSaving = false;
-#endif
+        stopSaving = false;
     }
 
 }
