@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class PlayerSave : MonoBehaviourSave
 {
-
-    [SerializeField] SaveOrchestrator saveState;
     Vector3 _startingPosition;
     void Awake()
     {
@@ -23,9 +21,10 @@ public class PlayerSave : MonoBehaviourSave
         base.OnLoad(data);
         transform.position = data.playerData.position;
     }
-    protected override void OnReset()
+    protected override void OnReset(ref SaveData data)
     {
-        base.OnReset();
+        base.OnReset(ref data);
+        data.playerData.position = _startingPosition;
         transform.position = _startingPosition;
     }
 

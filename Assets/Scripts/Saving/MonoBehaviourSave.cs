@@ -5,23 +5,26 @@ using UnityEngine;
 
 public class MonoBehaviourSave : MonoBehaviour
 {
-    [SerializeField] SaveOrchestrator saveState;
+    [SerializeField] SaveOrchestrator saveOrchestrator;
 
     protected virtual void OnEnable()
     {
-        saveState.onSave += OnSave;
-        saveState.onLoad += OnLoad;
-        saveState.onReset += OnReset;
+        saveOrchestrator.onSave += OnSave;
+        saveOrchestrator.onLoad += OnLoad;
+        saveOrchestrator.onReset += OnReset;
+
+        //Make sure we are loaded
+        OnLoad(saveOrchestrator.saveData);
     }
 
     protected virtual void OnDisable()
     {
-        saveState.onSave -= OnSave;
-        saveState.onLoad -= OnLoad;
-        saveState.onReset -= OnReset;
+        saveOrchestrator.onSave -= OnSave;
+        saveOrchestrator.onLoad -= OnLoad;
+        saveOrchestrator.onReset -= OnReset;
     }
 
     protected virtual void OnSave(ref SaveData data) { }
     protected virtual void OnLoad(SaveData data) { }
-    protected virtual void OnReset() { }
+    protected virtual void OnReset(ref SaveData data) { }
 }
