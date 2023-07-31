@@ -9,6 +9,12 @@ public class SaveData
     public DateTime date;
     public PlayerSaveData playerData;
     public SettingsSaveData settingsData;
+
+    public SaveData()
+    {
+        playerData = new PlayerSaveData();
+        settingsData = new SettingsSaveData();
+    }
 }
 
 [System.Serializable]
