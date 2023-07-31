@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: DebugSettings
   m_EditorClassIdentifier: 
   skipMainMenu: 1
-  stopSaving: 0
-  stopSaveLoading: 0
+  stopSaving: 1
+  stopSaveLoading: 1
