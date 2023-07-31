@@ -5,7 +5,8 @@ using UnityEngine;
 using MyBox;
 
 /// <summary>
-/// MonoBehaviourSave is responsible to subscribe to SaveOrchestrator events and provide it with its data to be saved. As well load and reset when needed
+/// MonoBehaviourSave is responsible to subscribe to SaveOrchestrator's events. It should provide its data to be saved. And load and reset when needed.
+// It can also invoke save events
 /// </summary>
 public class MonoBehaviourSave : MonoBehaviour
 {
