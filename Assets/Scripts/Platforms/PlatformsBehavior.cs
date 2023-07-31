@@ -37,6 +37,7 @@ public class PlatformsBehavior : MonoBehaviour
                 GetComponent<BreakingBehavior>().SetBreakingStart(isLatched);
                 break;
             case PlatformType.Moving:
+                GetComponent<MovingBehavior>().SetMovingStart(isLatched);
                 break;
             case PlatformType.Rotating: 
                 break;
