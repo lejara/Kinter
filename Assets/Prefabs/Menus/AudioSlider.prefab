@@ -369,6 +369,7 @@ GameObject:
   - component: {fileID: 3289034366554401190}
   - component: {fileID: 2146632800913431116}
   - component: {fileID: 6474133017009523815}
+  - component: {fileID: 7394615178185684256}
   m_Layer: 5
   m_Name: AudioSlider
   m_TagString: Untagged
@@ -449,7 +450,19 @@ MonoBehaviour:
   m_Value: 0.5
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7394615178185684256}
+        m_TargetAssemblyTypeName: MonoBehaviourSave, Assembly-CSharp
+        m_MethodName: Save
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &6474133017009523815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -464,6 +477,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mixerGroup: {fileID: 0}
   mixer: {fileID: 24100000, guid: be2fa636a030b564a93e86d5eb5782a1, type: 2}
+--- !u!114 &7394615178185684256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8491233200374162579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc9f1d42fa888bc4b81da1e678e86c69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  saveOrchestrator: {fileID: 11400000, guid: 48d896517df5eef4298986f337228327, type: 2}
+  audioSliderType: 2
 --- !u!1 &8656372035497353366
 GameObject:
   m_ObjectHideFlags: 0
