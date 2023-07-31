@@ -24,7 +24,7 @@ public class SaveOrchestrator : ScriptableObject
     /// Holds the latest save data. 
     /// Should only be used for reading and only allow mutation in MonoBehaviourSave for self resets.
     /// </summary>
-    [HideInInspector] public SaveData saveData;
+    [HideInInspector][NonSerialized] public SaveData saveData;
     public SaveDataEventWrite onSave;
     public SaveDataEventRead onLoad;
     public SaveDataEventWrite onReset;

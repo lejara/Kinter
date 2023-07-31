@@ -12,12 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e290b199183539d4cb21812f12165f61, type: 3}
   m_Name: SaveOrchestrator
   m_EditorClassIdentifier: 
-  verbose: 1
+  verbose: 0
   fileName: Kinter
-  saveData:
-    playerData:
-      position: {x: 0, y: 0, z: 0}
-    settingsData:
-      musicSlider: 0
-      sfxSlider: 0
   debugSettings: {fileID: 11400000, guid: e8f08bc741ddf2349929b39513a503d7, type: 2}
