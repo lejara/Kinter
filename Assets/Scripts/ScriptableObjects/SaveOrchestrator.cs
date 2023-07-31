@@ -14,14 +14,16 @@ public class SaveOrchestrator : ScriptableObject
     public bool verbose;
     public bool saveExist { get { return File.Exists(this._path); } }
     public string fileName;
-    public SaveData saveData { get { return this._saveData; } }
+
+    //Note: Should not be setting this
+    [ReadOnly] public SaveData saveData; //TODO: don't serialize  
     public SaveDataEventWrite onSave;
     public SaveDataEventRead onLoad;
     public SaveDataEventWrite onReset;
 
 
     string _path;
-    [ReadOnly][SerializeField] SaveData _saveData; //TODO: remove [ReadOnly][SerializeField] 
+
 
 
     void OnEnable()
@@ -35,16 +37,22 @@ public class SaveOrchestrator : ScriptableObject
     public void Save()
     {
         Log("Save");
-        onSave?.Invoke(ref _saveData);
-        WriteToFile(_saveData);
+        onSave?.Invoke(ref saveData);
+        WriteToFile(saveData);
     }
 
     [ButtonMethod]
     public void Load()
     {
+        if (!saveExist)
+        {
+            Save();
+            return;
+        }
+
         Log("Load");
-        _saveData = LoadFromFile(_saveData);
-        onLoad?.Invoke(_saveData);
+        saveData = LoadFromFile(saveData);
+        onLoad?.Invoke(saveData);
     }
 
     //A reset 
@@ -52,14 +60,15 @@ public class SaveOrchestrator : ScriptableObject
     public void Reset()
     {
         Log("Reset");
-        onReset?.Invoke(ref _saveData);
-        WriteToFile(_saveData);
+        onReset?.Invoke(ref saveData);
+        WriteToFile(saveData);
     }
 
     //Will delete
     [ButtonMethod]
     public void Clear()
     {
+        Log("Clear");
         Reset();
         File.Delete(_path);
     }
@@ -67,6 +76,7 @@ public class SaveOrchestrator : ScriptableObject
 
     void WriteToFile(SaveData data)
     {
+        //TODO (remove): C:\Users\Lejara\AppData\LocalLow\DefaultCompany\Kinter
         try
         {
             File.WriteAllText(_path, JsonUtility.ToJson(data));
@@ -79,11 +89,6 @@ public class SaveOrchestrator : ScriptableObject
 
     SaveData LoadFromFile(SaveData saveData)
     {
-        if (!saveExist)
-        {
-            return saveData;
-        }
-
         try
         {
             JsonUtility.FromJsonOverwrite(File.ReadAllText(_path), saveData);
