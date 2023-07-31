@@ -5,7 +5,7 @@ using UnityEngine;
 using MyBox;
 
 /// <summary>
-/// MonoBehaviourSave is responsible to subscribe to saveOrchestrator events and provide it with its data to be saved. As well load and reset when needed
+/// MonoBehaviourSave is responsible to subscribe to SaveOrchestrator events and provide it with its data to be saved. As well load and reset when needed
 /// </summary>
 public class MonoBehaviourSave : MonoBehaviour
 {
@@ -30,6 +30,11 @@ public class MonoBehaviourSave : MonoBehaviour
         {
             saveOrchestrator.Save();
         }
+    }
+
+    public void Save()
+    {
+        saveOrchestrator.Save();
     }
 
     protected virtual void OnEnable()
@@ -72,3 +77,12 @@ public class MonoBehaviourSave : MonoBehaviour
     /// </summary>
     protected virtual void OnSelfReset(ref SaveData data) { }
 }
+
+
+// protected override void OnSave(ref SaveData data) { base.OnSave(ref data);  }
+
+// protected override void OnLoad(SaveData data) { base.OnLoad(data); }
+
+// protected override void OnReset(ref SaveData data) { base.OnReset(ref data); }
+
+// protected override void OnSelfReset(ref SaveData data) { base.OnSelfReset(ref data); }
