@@ -21,10 +21,10 @@ public class SaveOrchestrator : ScriptableObject
 
 
     /// <summary>
-    /// Holds the lastest save data. 
+    /// Holds the latest save data. 
     /// Should only be used for reading and only allow mutation in MonoBehaviourSave for self resets.
     /// </summary>
-    [ReadOnly] public SaveData saveData; //TODO: don't serialize  
+    [HideInInspector] public SaveData saveData;
     public SaveDataEventWrite onSave;
     public SaveDataEventRead onLoad;
     public SaveDataEventWrite onReset;
@@ -40,7 +40,9 @@ public class SaveOrchestrator : ScriptableObject
         Load();
     }
 
-
+    /// <summary>
+    /// Calls all subs to write their new values to saveData and then write a save
+    /// </summary>
     [ButtonMethod]
     public void Save()
     {
@@ -54,7 +56,10 @@ public class SaveOrchestrator : ScriptableObject
         onSave?.Invoke(ref saveData);
         WriteToFile(saveData);
     }
-
+    #region Invokers
+    /// <summary>
+    /// Loads save and calls all subs to load the values of saveData
+    /// </summary>
     [ButtonMethod]
     public void Load()
     {
@@ -70,7 +75,9 @@ public class SaveOrchestrator : ScriptableObject
         onLoad?.Invoke(saveData);
     }
 
-    //A reset 
+    /// <summary>
+    /// Calls all subs to reset to defualt values and then save
+    /// </summary>
     [ButtonMethod]
     public void Reset()
     {
@@ -79,19 +86,23 @@ public class SaveOrchestrator : ScriptableObject
         WriteToFile(saveData);
     }
 
-    //Will delete
+    /// <summary>
+    /// Calls all subs to reset to defualt values and then delete save
+    /// </summary>
     [ButtonMethod]
     public void Clear()
     {
         Log("Clear");
+        saveData = new SaveData();
         Reset();
         File.Delete(_path);
     }
+    #endregion
 
 
+    #region FileIO
     void WriteToFile(SaveData data)
     {
-        //TODO (remove): C:\Users\Lejara\AppData\LocalLow\DefaultCompany\Kinter
         try
         {
             File.WriteAllText(_path, JsonUtility.ToJson(data));
@@ -118,7 +129,11 @@ public class SaveOrchestrator : ScriptableObject
         }
         return saveData;
     }
+    #endregion
 
+
+
+    #region Debug
     void Log(string msg)
     {
         if (verbose)
@@ -126,4 +141,12 @@ public class SaveOrchestrator : ScriptableObject
             Debug.Log(msg);
         }
     }
+
+    [ButtonMethod]
+    void PrintSaveData()
+    {
+        Debug.Log(JsonUtility.ToJson(saveData));
+    }
+    #endregion
+
 }
