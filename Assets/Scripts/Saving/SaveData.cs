@@ -14,7 +14,9 @@ public class SaveData
 [System.Serializable]
 public class PlayerSaveData
 {
+    public bool isStunned;
     public Vector3 position = Vector3.zero;
+    public Vector3 velocity = Vector3.zero;
 }
 
 [System.Serializable]
