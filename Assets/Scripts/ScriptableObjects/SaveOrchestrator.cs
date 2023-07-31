@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using System.IO;
 using UnityEngine;
 using MyBox;
@@ -15,7 +16,7 @@ public class SaveOrchestrator : ScriptableObject
     public delegate void SaveDataEventRead(SaveData saveData);
 
     public bool verbose;
-    public bool saveExist { get { return File.Exists(this._path); } }
+    public bool saveExist { get { return File.Exists(this._path) && !this.debugSettings.stopSaveLoading; } }
     public string fileName;
 
 
@@ -34,6 +35,7 @@ public class SaveOrchestrator : ScriptableObject
 
     void OnEnable()
     {
+        saveData = new SaveData();
         _path = Path.Combine(Application.persistentDataPath, fileName);
         Load();
     }
@@ -104,7 +106,9 @@ public class SaveOrchestrator : ScriptableObject
     {
         try
         {
-            JsonUtility.FromJsonOverwrite(File.ReadAllText(_path), saveData);
+            object boxedStruct = saveData;
+            EditorJsonUtility.FromJsonOverwrite(File.ReadAllText(_path), boxedStruct);
+            saveData = (SaveData)boxedStruct;
         }
         catch (Exception e)
         {

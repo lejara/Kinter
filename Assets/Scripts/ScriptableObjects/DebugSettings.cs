@@ -10,6 +10,9 @@ public class DebugSettings : ScriptableObject
     [Tooltip("The game will not save")]
     public bool stopSaving;
 
+    [Tooltip("The game will not load a save")]
+    public bool stopSaveLoading;
+
     void Awake()
     {
 #if !UNITY_EDITOR
@@ -29,6 +32,7 @@ public class DebugSettings : ScriptableObject
         //PRODUCTION SETTINGS
         skipMainMenu = false;
         stopSaving = false;
+        stopSaveLoading = false;
     }
 
 }
