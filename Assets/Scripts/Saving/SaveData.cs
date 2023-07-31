@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public struct SaveData
+public class SaveData
 {
     public DateTime date;
     public PlayerSaveData playerData;
@@ -12,14 +12,14 @@ public struct SaveData
 }
 
 [System.Serializable]
-public struct PlayerSaveData
+public class PlayerSaveData
 {
-    public Vector3 position;
+    public Vector3 position = Vector3.zero;
 }
 
 [System.Serializable]
-public struct SettingsSaveData
+public class SettingsSaveData
 {
-    public float musicSlider;
-    public float sfxSlider;
+    public float musicSlider = -1;
+    public float sfxSlider = -1;
 }
