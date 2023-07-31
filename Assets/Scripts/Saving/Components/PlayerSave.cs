@@ -6,7 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 /// <summary>
 /// Passes player data to orchestrator for saving and loading
-/// Also invokes saves calls, depending on ammount of distance walked, if falling, stunned and when landed
+/// Also invokes saves calls, depending on ammount of distance walked, if falling, stunned and when it first landed
 /// </summary>
 public class PlayerSave : MonoBehaviourSave
 {
