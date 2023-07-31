@@ -5,6 +5,9 @@ using System.IO;
 using UnityEngine;
 using MyBox;
 
+/// <summary>
+/// SaveOrchestrator is responsible to emit all save events and collect save data for it to be written or loaded 
+/// </summary>
 [CreateAssetMenu(fileName = "SaveOrchestrator")]
 public class SaveOrchestrator : ScriptableObject
 {
@@ -15,7 +18,11 @@ public class SaveOrchestrator : ScriptableObject
     public bool saveExist { get { return File.Exists(this._path); } }
     public string fileName;
 
-    //Note: Should not be setting this
+
+    /// <summary>
+    /// Holds the lastest save data. 
+    /// Should only be used for reading and only allow mutation in MonoBehaviourSave for self resets.
+    /// </summary>
     [ReadOnly] public SaveData saveData; //TODO: don't serialize  
     public SaveDataEventWrite onSave;
     public SaveDataEventRead onLoad;
@@ -35,6 +42,7 @@ public class SaveOrchestrator : ScriptableObject
     [ButtonMethod]
     public void Save()
     {
+
         if (debugSettings.stopSaving)
         {
             return;
@@ -48,6 +56,8 @@ public class SaveOrchestrator : ScriptableObject
     [ButtonMethod]
     public void Load()
     {
+        //NOTE: on fresh boot the saveData will be empty until the first save is called.
+        //For all subscribers we don't make them load saveData
         if (!saveExist)
         {
             return;

@@ -4,16 +4,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using MyBox;
 
+/// <summary>
+/// MonoBehaviourSave is responsible to subscribe to saveOrchestrator events and provide it with its data to be saved. As well load and reset when needed
+/// </summary>
 public class MonoBehaviourSave : MonoBehaviour
 {
     [SerializeField] SaveOrchestrator saveOrchestrator;
 
+    /// <summary>
+    /// A self reset can happen on the use case where you would like to reset this gameobject without making all other subscribers reset as well.
+    /// </summary>
     [ButtonMethod]
     public void ResetSelf()
     {
         ResetSelf(true);
     }
 
+    /// <summary>
+    /// A self reset can happen on the use case where you would like to reset this gameobject without making all other subscribers reset as well.
+    /// </summary>
     public void ResetSelf(bool save)
     {
         OnSelfReset(ref saveOrchestrator.saveData);
@@ -29,6 +38,8 @@ public class MonoBehaviourSave : MonoBehaviour
         saveOrchestrator.onLoad += OnLoad;
         saveOrchestrator.onReset += OnReset;
 
+        //NOTE: on fresh boot, the saveData will be empty until the first save is called.
+        //For all subscribers we don't make them load saveData
         if (saveOrchestrator.saveExist)
         {
             //Make sure we are loaded
@@ -43,9 +54,21 @@ public class MonoBehaviourSave : MonoBehaviour
         saveOrchestrator.onReset -= OnReset;
     }
 
-    //TOOD: comment these
+    /// <summary>
+    /// Event, must mutate the param SaveData for it to be saved.
+    /// </summary>
     protected virtual void OnSave(ref SaveData data) { }
+    /// <summary>
+    /// Event, must overrite its data to whats on SaveData
+    /// </summary>
     protected virtual void OnLoad(SaveData data) { }
+    /// <summary>
+    /// Event if need be, must reset to a defualt state and provide its new data to SaveData. OnReset is called when all subscribers should reset
+    /// </summary>
     protected virtual void OnReset(ref SaveData data) { }
+    /// <summary>
+    /// Event if need be, a self reset can happen on the use case where you would like to reset this gameobject only.
+    /// Just like OnReset, you must mutate the param SaveData with the new data
+    /// </summary>
     protected virtual void OnSelfReset(ref SaveData data) { }
 }
