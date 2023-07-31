@@ -29,9 +29,11 @@ public class MonoBehaviourSave : MonoBehaviour
         saveOrchestrator.onLoad += OnLoad;
         saveOrchestrator.onReset += OnReset;
 
-        //Make sure we are loaded
-        OnLoad(saveOrchestrator.saveData);
-
+        if (saveOrchestrator.saveExist)
+        {
+            //Make sure we are loaded
+            OnLoad(saveOrchestrator.saveData);
+        }
     }
 
     protected virtual void OnDisable()

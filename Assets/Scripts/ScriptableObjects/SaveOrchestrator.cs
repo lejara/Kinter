@@ -23,8 +23,7 @@ public class SaveOrchestrator : ScriptableObject
 
 
     string _path;
-
-
+    [SerializeField] DebugSettings debugSettings;
 
     void OnEnable()
     {
@@ -36,6 +35,11 @@ public class SaveOrchestrator : ScriptableObject
     [ButtonMethod]
     public void Save()
     {
+        if (debugSettings.stopSaving)
+        {
+            return;
+        }
+
         Log("Save");
         onSave?.Invoke(ref saveData);
         WriteToFile(saveData);
@@ -46,7 +50,6 @@ public class SaveOrchestrator : ScriptableObject
     {
         if (!saveExist)
         {
-            Save();
             return;
         }
 
