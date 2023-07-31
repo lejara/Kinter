@@ -10,7 +10,7 @@ public class DebugSettings : ScriptableObject
     [Tooltip("The game will not save")]
     public bool stopSaving;
 
-    [Tooltip("The game will not load a save")]
+    [Tooltip("The game will not load a save and will not place player to spawn")]
     public bool stopSaveLoading;
 
     void Awake()

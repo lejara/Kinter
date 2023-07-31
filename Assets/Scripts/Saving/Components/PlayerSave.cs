@@ -4,12 +4,17 @@ using UnityEngine;
 
 public class PlayerSave : MonoBehaviourSave
 {
-    Vector3 _startingPosition;
-    void Awake()
-    {
-        _startingPosition = transform.position;
-    }
 
+    [SerializeField] Transform playerSpawn;
+    [SerializeField] DebugSettings debugSettings;
+
+    void Start()
+    {
+        if (!debugSettings.stopSaveLoading)
+        {
+            transform.position = playerSpawn.position;
+        }
+    }
 
     protected override void OnSave(ref SaveData data)
     {
@@ -30,8 +35,8 @@ public class PlayerSave : MonoBehaviourSave
     protected override void OnReset(ref SaveData data)
     {
         base.OnReset(ref data);
-        data.playerData.position = _startingPosition;
-        transform.position = _startingPosition;
+        data.playerData.position = playerSpawn.position;
+        transform.position = playerSpawn.position;
     }
 
 

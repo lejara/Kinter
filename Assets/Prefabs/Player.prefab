@@ -481,6 +481,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   saveOrchestrator: {fileID: 11400000, guid: 48d896517df5eef4298986f337228327, type: 2}
+  startingPosition: {x: 0, y: 0, z: 0}
+  debugSettings: {fileID: 11400000, guid: e8f08bc741ddf2349929b39513a503d7, type: 2}
 --- !u!1 &5502996379127754532
 GameObject:
   m_ObjectHideFlags: 0
