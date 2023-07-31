@@ -106,9 +106,11 @@ public class SaveOrchestrator : ScriptableObject
     {
         try
         {
+
             object boxedStruct = saveData;
             EditorJsonUtility.FromJsonOverwrite(File.ReadAllText(_path), boxedStruct);
             saveData = (SaveData)boxedStruct;
+            Log(File.ReadAllText(_path));
         }
         catch (Exception e)
         {
