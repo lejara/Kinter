@@ -5,8 +5,11 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "DebugSettings")]
 public class DebugSettings : ScriptableObject
 {
+    [Header("Menus")]
     [Tooltip("Go Straight to playing the character")]
     public bool skipMainMenu;
+
+    [Header("Save System")]
     [Tooltip("The game will not save")]
     public bool stopSaving;
 
