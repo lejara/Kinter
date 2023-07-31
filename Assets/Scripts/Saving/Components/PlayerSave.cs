@@ -18,9 +18,9 @@ public class PlayerSave : MonoBehaviourSave
         base.OnSave(ref data);
         data.playerData.position = transform.position;
     }
-    protected override void OnLoad(ref SaveData data)
+    protected override void OnLoad(SaveData data)
     {
-        base.OnLoad(ref data);
+        base.OnLoad(data);
         transform.position = data.playerData.position;
     }
     protected override void OnReset()

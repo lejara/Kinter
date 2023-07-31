@@ -22,6 +22,6 @@ public class MonoBehaviourSave : MonoBehaviour
     }
 
     protected virtual void OnSave(ref SaveData data) { }
-    protected virtual void OnLoad(ref SaveData data) { }
+    protected virtual void OnLoad(SaveData data) { }
     protected virtual void OnReset() { }
 }

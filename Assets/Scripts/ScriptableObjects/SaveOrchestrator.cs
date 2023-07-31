@@ -10,10 +10,11 @@ using MyBox;
 [CreateAssetMenu(fileName = "SaveOrchestrator")]
 public class SaveOrchestrator : ScriptableObject
 {
-    public delegate void SaveDataEvent(ref SaveData saveData);
+    public delegate void SaveDataEventWrite(ref SaveData saveData);
+    public delegate void SaveDataEventRead(SaveData saveData);
     public SaveData saveData { get { return this._saveData; } }
-    public SaveDataEvent onSave;
-    public SaveDataEvent onLoad;
+    public SaveDataEventWrite onSave;
+    public SaveDataEventRead onLoad;
     public Action onReset;
 
     [ReadOnly][SerializeField] SaveData _saveData;
@@ -39,7 +40,7 @@ public class SaveOrchestrator : ScriptableObject
         Debug.Log("Load");
         //TODO: load file
         //set loadedData
-        onLoad?.Invoke(ref _saveData);
+        onLoad?.Invoke(_saveData);
     }
 
     [ButtonMethod]
