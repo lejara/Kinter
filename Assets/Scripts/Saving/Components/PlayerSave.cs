@@ -19,6 +19,12 @@ public class PlayerSave : MonoBehaviourSave
     protected override void OnLoad(SaveData data)
     {
         base.OnLoad(data);
+
+        //Don't load empty values
+        if (data.playerData.position == Vector3.zero)
+        {
+            return;
+        }
         transform.position = data.playerData.position;
     }
     protected override void OnReset(ref SaveData data)
