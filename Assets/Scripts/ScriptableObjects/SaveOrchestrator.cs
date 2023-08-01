@@ -120,7 +120,7 @@ public class SaveOrchestrator : ScriptableObject
         {
 
             object boxedStruct = saveData;
-            EditorJsonUtility.FromJsonOverwrite(File.ReadAllText(_path), boxedStruct);
+            JsonUtility.FromJsonOverwrite(File.ReadAllText(_path), boxedStruct);
             saveData = (SaveData)boxedStruct;
             Log(File.ReadAllText(_path));
         }

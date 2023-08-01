@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.PlasticSCM.Editor.WebApi;
 using UnityEngine;
 
 public class BreakingBehavior : MonoBehaviour
@@ -23,7 +22,7 @@ public class BreakingBehavior : MonoBehaviour
         {
             StartCoroutine(Breaking());
         }
-        
+
     }
 
     public void SetBreakingStart(bool start)
@@ -46,9 +45,9 @@ public class BreakingBehavior : MonoBehaviour
 
         GetComponent<PlatformsBehavior>().SetValid(false);
         breakingObject.SetActive(false);
-        
+
         yield return new WaitForSeconds(recoverTime);
-        
+
         startBreaking = false;
         GetComponent<PlatformsBehavior>().SetValid(true);
         breakingObject.SetActive(true);
