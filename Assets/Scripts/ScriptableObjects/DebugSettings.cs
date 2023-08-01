@@ -17,12 +17,19 @@ public class DebugSettings : ScriptableObject
     [Tooltip("The game will not load a save and will not place player to spawn")]
     public bool stopSaveLoading;
 
+    [Header("Player Debug Options")]
+    [Header("Checkpoint Options")]
+    public bool checkpoint;
 
-    [Header("Player Debug Tools")]
+    [Header("God Mode Options")]
     //TODO: comment these
     //TODO: add keybind to active them while only in editor
     public bool godMode;
-    public bool checkpoint;
+    public KeyCode godModeActivateKey = KeyCode.Alpha1;
+    public KeyCode godModeBoostKey = KeyCode.Space;
+    //TODO: note that its WASD to move
+    public float godModeSpeed;
+    public float godModeBoostSpeed;
     public bool isPlayerInDebug { get { return this.godMode || this.checkpoint; } }
 
     void Awake()
