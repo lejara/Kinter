@@ -18,8 +18,16 @@ public class DebugSettings : ScriptableObject
     [Tooltip("The game will not load a save and will not place player to spawn")]
     public bool stopSaveLoading;
 
-    [Header("Player Debug Options")]
+    [Header("Player Debug Tools")]
+
     [Header("Checkpoint Options")]
+
+#if UNITY_EDITOR
+    [Multiline]
+    public string checkpointDescirption = "";
+#endif
+
+    [Tooltip("Checkpoint state, toggle to change or use key")]
     public bool checkpoint;
     public KeyCode checkpointActivateKey = KeyCode.Alpha2;
     public KeyCode addPointKey = KeyCode.R;
@@ -27,11 +35,16 @@ public class DebugSettings : ScriptableObject
     [HideInInspector][NonSerialized] public Vector3 lastCheckpoint;
 
     [Header("God Mode Options")]
-    //TODO: comment these
+
+#if UNITY_EDITOR
+    [Multiline]
+    public string godModeDescirption = "";
+#endif
+
+    [Tooltip("God mode state, toggle to change or use key")]
     public bool godMode;
     public KeyCode godModeActivateKey = KeyCode.Alpha1;
     public KeyCode godModeBoostKey = KeyCode.Space;
-    //TODO: note that its WASD to move
     public float godModeSpeed;
     public float godModeBoostSpeed;
     public bool isPlayerInDebug { get { return this.godMode || this.checkpoint; } }
