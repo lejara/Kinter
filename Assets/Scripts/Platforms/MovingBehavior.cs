@@ -14,6 +14,7 @@ public class MovingBehavior : MonoBehaviour
     float time;
 
     [Header("Reference")]
+
     [Tooltip("Object reference that we are going to move")]
     public GameObject movingObject;
     [SerializeField] Transform destinationLocation;
@@ -47,6 +48,7 @@ public class MovingBehavior : MonoBehaviour
         }
     }
 
+    #region Moving Methods
     private void Move()
     {
         if (time != timeToWait) time = timeToWait;
@@ -71,8 +73,14 @@ public class MovingBehavior : MonoBehaviour
         movingObject.transform.position = Vector3.MoveTowards(movingObject.transform.position, startingLocation.position, actualSpeed);
     }
 
+    #endregion
+
+    #region Utils
+
     public void SetMovingStart(bool start)
     {
         shouldMove = start;
     }
+
+    #endregion
 }
