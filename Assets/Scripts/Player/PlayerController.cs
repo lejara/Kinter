@@ -68,13 +68,22 @@ public class PlayerController : MonoBehaviour
     Rigidbody playerRb;
     LineRenderer lineRenderer;
 
+    public void Reset()
+    {
+        isStunned = false;
+        playerRb.velocity = Vector3.zero;
+        if (isSwinging || isGrappling)
+        {
+            DetachGrapple();
+        }
+    }
 
     void Awake()
     {
         playerRb = GetComponent<Rigidbody>();
         lineRenderer = GetComponent<LineRenderer>();
     }
-    
+
     void Start()
     {
         Physics.gravity = new(Physics.gravity.x, gravity, Physics.gravity.z);
@@ -109,6 +118,7 @@ public class PlayerController : MonoBehaviour
         //Only allow input if we are playing
         if (gameState.state != States.Playing)
         {
+            horizontalInput = 0;
             return;
         }
 

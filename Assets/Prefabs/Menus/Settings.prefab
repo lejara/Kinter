@@ -15,7 +15,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &7598216716463377897
 RectTransform:
   m_ObjectHideFlags: 0
@@ -63,7 +63,7 @@ RectTransform:
   m_GameObject: {fileID: 5403179442231585258}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3.82, y: 3.82, z: 3.82}
+  m_LocalScale: {x: 7.235805, y: 7.235805, z: 7.235805}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6739384504447758683}
@@ -125,12 +125,12 @@ PrefabInstance:
     - target: {fileID: 2999209660645588199, guid: 67c6f1796a1095646bd4268aeba7a770,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3151288881336428871, guid: 67c6f1796a1095646bd4268aeba7a770,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3289034366554401190, guid: 67c6f1796a1095646bd4268aeba7a770,
         type: 3}
@@ -245,6 +245,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -5891069864550183574, guid: be2fa636a030b564a93e86d5eb5782a1,
         type: 2}
+    - target: {fileID: 7394615178185684256, guid: 67c6f1796a1095646bd4268aeba7a770,
+        type: 3}
+      propertyPath: audioSliderType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8491233200374162579, guid: 67c6f1796a1095646bd4268aeba7a770,
         type: 3}
       propertyPath: m_Name
@@ -486,12 +491,12 @@ PrefabInstance:
     - target: {fileID: 2999209660645588199, guid: 67c6f1796a1095646bd4268aeba7a770,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3151288881336428871, guid: 67c6f1796a1095646bd4268aeba7a770,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3289034366554401190, guid: 67c6f1796a1095646bd4268aeba7a770,
         type: 3}
@@ -606,6 +611,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4158513092475166035, guid: be2fa636a030b564a93e86d5eb5782a1,
         type: 2}
+    - target: {fileID: 7394615178185684256, guid: 67c6f1796a1095646bd4268aeba7a770,
+        type: 3}
+      propertyPath: audioSliderType
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8491233200374162579, guid: 67c6f1796a1095646bd4268aeba7a770,
         type: 3}
       propertyPath: m_Name

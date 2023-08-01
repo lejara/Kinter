@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using MyBox;
 
-[Flags]
+
 public enum States
 {
     InMenus,
@@ -43,6 +43,8 @@ public class GameState : ScriptableObject
         {
             _state = States.Playing;
         }
+
+        onStateChange?.Invoke(_state);
     }
 
 }
