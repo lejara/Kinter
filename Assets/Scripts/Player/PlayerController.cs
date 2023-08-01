@@ -60,6 +60,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Transform grappleEndPoint;
     [SerializeField] GameObject grappleTarget;
     [SerializeField] GameState gameState;
+    [SerializeField] DebugSettings debugSettings;
 
 
     float horizontalInput;
@@ -115,8 +116,8 @@ public class PlayerController : MonoBehaviour
 
         #region Input
 
-        //Only allow input if we are playing
-        if (gameState.state != States.Playing)
+        //Only allow input if we are playing and not in debug
+        if (gameState.state != States.Playing || debugSettings.godMode)
         {
             horizontalInput = 0;
             return;
