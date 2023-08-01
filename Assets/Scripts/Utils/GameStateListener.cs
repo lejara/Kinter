@@ -18,11 +18,23 @@ public class GameStateListener : MonoBehaviour
     [SerializeField]
     GameState _gameState;
 
+    void Start()
+    {
+        if (Time.frameCount == 1)
+        {
+            StateChanged(_gameState.state);
+        }
+    }
     void OnEnable()
     {
         _gameState.onStateChange += StateChanged;
-        //Call the State Change anyways to check the active state
-        StateChanged(_gameState.state);
+        //Note: Prevent race cons. Awake and OnEnable are not in sync across scripts
+        if (Time.frameCount > 1)
+        {
+            //Call the State Change anyways to check the active state
+            StateChanged(_gameState.state);
+        }
+
     }
 
     void OnDisable()
