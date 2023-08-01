@@ -358,9 +358,9 @@ MonoBehaviour:
   horizontalForce: 8
   latchVelocityFalloff: 0.3
   jointMaxDistance: 0.75
-  jontMinDistance: 0.5
+  jontMinDistance: 0.6
   spring: 10
-  damper: 1
+  damper: 8
   massScale: 3
   grappleStartPoint: {fileID: 6673982428508880067}
   grappleEndPoint: {fileID: 1600136089298316250}
