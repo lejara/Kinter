@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MyBox;
 
 [CreateAssetMenu(fileName = "DebugSettings")]
 public class DebugSettings : ScriptableObject
@@ -16,6 +17,14 @@ public class DebugSettings : ScriptableObject
     [Tooltip("The game will not load a save and will not place player to spawn")]
     public bool stopSaveLoading;
 
+
+    [Header("Player Debug Tools")]
+    //TODO: comment these
+    //TODO: add keybind to active them while only in editor
+    public bool godMode;
+    public bool checkpoint;
+    public bool isPlayerInDebug { get { return this.godMode || this.checkpoint; } }
+
     void Awake()
     {
 #if !UNITY_EDITOR
@@ -30,12 +39,15 @@ public class DebugSettings : ScriptableObject
 #endif
     }
 
+    [ButtonMethod]
     void SetProduction()
     {
         //PRODUCTION SETTINGS
         skipMainMenu = false;
         stopSaving = false;
         stopSaveLoading = false;
+        godMode = false;
+        checkpoint = false;
     }
 
 }

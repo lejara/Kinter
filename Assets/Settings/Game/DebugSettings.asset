@@ -15,3 +15,5 @@ MonoBehaviour:
   skipMainMenu: 1
   stopSaving: 1
   stopSaveLoading: 1
+  godMode: 0
+  checkpoint: 0

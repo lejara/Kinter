@@ -58,6 +58,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Transform grappleStartPoint;
     [SerializeField] Transform grappleEndPoint;
     [SerializeField] GameState gameState;
+    [SerializeField] DebugSettings debugSettings;
 
     float horizontalInput;
     Vector3 lastVelocity;
@@ -112,8 +113,8 @@ public class PlayerController : MonoBehaviour
 
         #region Input
 
-        //Only allow input if we are playing
-        if (gameState.state != States.Playing)
+        //Only allow input if we are playing and not in debug
+        if (gameState.state != States.Playing || debugSettings.godMode)
         {
             horizontalInput = 0;
             return;
