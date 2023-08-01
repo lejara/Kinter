@@ -6,8 +6,10 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerController))]
 public class PlayerDebug : MonoBehaviour
 {
-
     [SerializeField] DebugSettings _debugSettings;
+    [SerializeField] GameObject _checkPointMarkerPrefab;
+
+    GameObject _marker;
     PlayerController playerController;
 
     void Awake()
@@ -16,6 +18,19 @@ public class PlayerDebug : MonoBehaviour
 #if !UNITY_EDITOR
     this.enabled = false;
 #endif
+    }
+
+    void Start()
+    {
+        if (_debugSettings.godMode)
+        {
+            OnGodModeActive();
+        }
+        if (_debugSettings.checkpoint)
+        {
+            OnCheckpointActive();
+        }
+
     }
 
 
@@ -33,13 +48,20 @@ public class PlayerDebug : MonoBehaviour
             {
                 OnGodModeDeactive();
             }
-            //TODO: make sure you reset the player controller
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha2))
+        if (Input.GetKeyDown(_debugSettings.checkpointActivateKey))
         {
             _debugSettings.checkpoint = !_debugSettings.checkpoint;
-            //TODO: checkpoints save should persist across play
+
+            if (_debugSettings.checkpoint)
+            {
+                OnCheckpointActive();
+            }
+            else
+            {
+                OnCheckpointDeactive();
+            }
         }
 
     }
@@ -81,6 +103,7 @@ public class PlayerDebug : MonoBehaviour
 
     void OnCheckpointActive()
     {
+        _marker = Instantiate(_checkPointMarkerPrefab, _debugSettings.lastCheckpoint, Quaternion.identity);
         StartCoroutine(WhileCheckpoint());
     }
 
@@ -88,12 +111,23 @@ public class PlayerDebug : MonoBehaviour
     {
         while (_debugSettings.checkpoint)
         {
+            if (Input.GetKeyDown(_debugSettings.teleportToPointKey) && _debugSettings.lastCheckpoint != Vector3.zero)
+            {
+                playerController.Reset();
+                transform.position = _debugSettings.lastCheckpoint;
+            }
+
+            if (Input.GetKeyDown(_debugSettings.addPointKey))
+            {
+                _debugSettings.lastCheckpoint = transform.position;
+                _marker.transform.position = _debugSettings.lastCheckpoint;
+            }
             yield return null;
         }
 
     }
     void OnCheckpointDeactive()
     {
-
+        GameObject.Destroy(_marker);
     }
 }

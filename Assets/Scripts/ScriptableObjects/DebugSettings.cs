@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,10 +21,13 @@ public class DebugSettings : ScriptableObject
     [Header("Player Debug Options")]
     [Header("Checkpoint Options")]
     public bool checkpoint;
+    public KeyCode checkpointActivateKey = KeyCode.Alpha2;
+    public KeyCode addPointKey = KeyCode.R;
+    public KeyCode teleportToPointKey = KeyCode.T;
+    [HideInInspector][NonSerialized] public Vector3 lastCheckpoint;
 
     [Header("God Mode Options")]
     //TODO: comment these
-    //TODO: add keybind to active them while only in editor
     public bool godMode;
     public KeyCode godModeActivateKey = KeyCode.Alpha1;
     public KeyCode godModeBoostKey = KeyCode.Space;

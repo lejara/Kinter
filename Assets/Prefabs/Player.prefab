@@ -502,6 +502,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _debugSettings: {fileID: 11400000, guid: e8f08bc741ddf2349929b39513a503d7, type: 2}
+  _checkPointMarkerPrefab: {fileID: 5357380144957863256, guid: 59a4c303937c8df4889af57cfdd27dce,
+    type: 3}
 --- !u!1 &5502996379127754532
 GameObject:
   m_ObjectHideFlags: 0
