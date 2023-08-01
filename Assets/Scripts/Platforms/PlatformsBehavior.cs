@@ -12,7 +12,6 @@ public enum PlatformType
 
 public class PlatformsBehavior : MonoBehaviour
 {
-
     public PlatformType type;
     [Tooltip("Indicate whether this platform should activate its own script at the start or after being latched")]
     public bool shouldActive;
@@ -21,7 +20,8 @@ public class PlatformsBehavior : MonoBehaviour
 
     void Update()
     {
-        if (!shouldActive) TypeHandler();
+        if (shouldActive) TypeHandler(true);
+        else TypeHandler(isLatched);
     }
 
     public void SetValid(bool valid)
@@ -29,15 +29,15 @@ public class PlatformsBehavior : MonoBehaviour
         isValid = valid;
     }
 
-    private void TypeHandler() 
+    private void TypeHandler(bool start) 
     { 
         switch(type)
         {
             case PlatformType.Breakable:
-                GetComponent<BreakingBehavior>().SetBreakingStart(isLatched);
+                GetComponent<BreakingBehavior>().SetBreakingStart(start);
                 break;
             case PlatformType.Moving:
-                GetComponent<MovingBehavior>().SetMovingStart(isLatched);
+                GetComponent<MovingBehavior>().SetMovingStart(start);
                 break;
             case PlatformType.Rotating: 
                 break;

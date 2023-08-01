@@ -9,6 +9,9 @@ public class MovingBehavior : MonoBehaviour
     public float speed;
     public bool shouldMove;
     [SerializeField] bool shouldGoBack;
+    [Tooltip("A time we wait before starting to go back to staring point")]
+    [SerializeField] float timeToWait;
+    float time;
 
     [Header("Reference")]
     [Tooltip("Object reference that we are going to move")]
@@ -19,36 +22,53 @@ public class MovingBehavior : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        time = timeToWait;
         shouldGoBack = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(shouldMove) Move();
+        if (shouldMove) 
+        {
+            Move();
+        }
+        else if (!shouldMove && Vector3.Distance(movingObject.transform.position, startingLocation.position) > 0)
+        {
+            // Cool down
+            if (time > 0)
+            {
+                time -= Time.deltaTime;
+            }
+            else
+            {
+                ResetPosition();
+            }
+        }
     }
 
     private void Move()
     {
+        if (time != timeToWait) time = timeToWait;
         // Move position
         Transform realDes = shouldGoBack ? startingLocation : destinationLocation;
         var actualSpeed = speed * Time.deltaTime;
         movingObject.transform.position = Vector3.MoveTowards(movingObject.transform.position, realDes.position, actualSpeed);
 
-        if (Vector3.Distance(movingObject.transform.position, destinationLocation.position) < 0.001f)
+        if (Vector3.Distance(movingObject.transform.position, destinationLocation.position) < 0.001f && !shouldGoBack)
         { 
             shouldGoBack = true; 
         }
-        else if (Vector3.Distance(movingObject.transform.position, startingLocation.position) < 0.001f)
+        else if (Vector3.Distance(movingObject.transform.position, startingLocation.position) < 0.001f && shouldGoBack)
         {
             shouldGoBack = false;
         }
-
     }
 
-    private IEnumerator ResetPosition()
+    private void ResetPosition()
     {
-        yield return null;
+        var actualSpeed = speed * Time.deltaTime;
+        movingObject.transform.position = Vector3.MoveTowards(movingObject.transform.position, startingLocation.position, actualSpeed);
     }
 
     public void SetMovingStart(bool start)
