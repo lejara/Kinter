@@ -26,9 +26,9 @@ public class BreakingBehavior : MonoBehaviour
         
     }
 
-    public void SetBreakingStart(bool breakOrNot)
+    public void SetBreakingStart(bool start)
     {
-        startBreaking = breakOrNot;
+        startBreaking = start;
     }
 
     private IEnumerator Breaking()

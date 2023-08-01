@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1235570457826547521}
   - component: {fileID: 7376393065109089444}
+  - component: {fileID: 3533911809007619530}
   m_Layer: 0
   m_Name: Platform Rotating
   m_TagString: Untagged
@@ -49,6 +50,25 @@ MonoBehaviour:
   shouldActive: 0
   isLatched: 0
   isValid: 1
+--- !u!114 &3533911809007619530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5158733174741864791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67230da9d63309d43b8bb109fb043160, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  angleSpeed: 10
+  shouldRotate: 0
+  shouldTurnBack: 0
+  timeToWait: 0
+  rotatingObject: {fileID: 8919222164791854295}
+  desiredAngle: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
+  startingAngle: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &8919222164791854295
 GameObject:
   m_ObjectHideFlags: 0
@@ -79,7 +99,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3.1449363, y: 1.5816442, z: 3}
+  m_LocalScale: {x: 4, y: 1, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1235570457826547521}

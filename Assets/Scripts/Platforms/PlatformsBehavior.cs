@@ -40,6 +40,7 @@ public class PlatformsBehavior : MonoBehaviour
                 GetComponent<MovingBehavior>().SetMovingStart(start);
                 break;
             case PlatformType.Rotating: 
+                GetComponent<RotatingBehavior>().SetRotatingStart(start);
                 break;
             default:
                 break;
