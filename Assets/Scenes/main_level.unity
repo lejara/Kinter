@@ -723,12 +723,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 02d02effc5ea20d48a6113b35481a64d, type: 3}
---- !u!224 &5187584493332569150 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 9203200068403555147, guid: 02d02effc5ea20d48a6113b35481a64d,
-    type: 3}
-  m_PrefabInstance: {fileID: 5187584493332569149}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5508327620571856230
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -812,14 +806,6 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2864649462267379166, guid: 6d2a4b515e1c0d04f9538be33c57ef38,
         type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 203799710603782171, guid: 6d2a4b515e1c0d04f9538be33c57ef38,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.3999996
-      objectReference: {fileID: 0}
       propertyPath: playerSpawn
       value: 
       objectReference: {fileID: 1061436769}
@@ -827,11 +813,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 7219295628920996092, guid: 6d2a4b515e1c0d04f9538be33c57ef38,
-        type: 3}
-      propertyPath: damper
-      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8133215067523065228, guid: 6d2a4b515e1c0d04f9538be33c57ef38,
         type: 3}
@@ -1020,3 +1001,4 @@ SceneRoots:
   - {fileID: 410087041}
   - {fileID: 1461243836}
   - {fileID: 4736883129469213309}
+  - {fileID: 5187584493332569149}
