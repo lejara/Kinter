@@ -65,6 +65,15 @@ public class PlayerController : MonoBehaviour
     Rigidbody playerRb;
     LineRenderer lineRenderer;
 
+    public void Reset()
+    {
+        isStunned = false;
+        playerRb.velocity = Vector3.zero;
+        if (isSwinging || isGrappling)
+        {
+            DetachGrapple();
+        }
+    }
 
     void Awake()
     {

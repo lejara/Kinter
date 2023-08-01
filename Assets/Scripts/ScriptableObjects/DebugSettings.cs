@@ -5,15 +5,37 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "DebugSettings")]
 public class DebugSettings : ScriptableObject
 {
+    [Header("Menus")]
     [Tooltip("Go Straight to playing the character")]
-    public bool skipMainMenu = true;
+    public bool skipMainMenu;
+
+    [Header("Save System")]
+    [Tooltip("The game will not save")]
+    public bool stopSaving;
+
+    [Tooltip("The game will not load a save and will not place player to spawn")]
+    public bool stopSaveLoading;
+
+    void Awake()
+    {
+#if !UNITY_EDITOR
+    SetProduction();
+#endif
+    }
 
     void OnEnable()
     {
 #if !UNITY_EDITOR
+    SetProduction();
+#endif
+    }
+
+    void SetProduction()
+    {
         //PRODUCTION SETTINGS
         skipMainMenu = false;
-#endif
+        stopSaving = false;
+        stopSaveLoading = false;
     }
 
 }
