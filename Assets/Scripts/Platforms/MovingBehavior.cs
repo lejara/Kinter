@@ -11,7 +11,10 @@ public class MovingBehavior : MonoBehaviour
     [SerializeField] bool shouldGoBack;
     [Tooltip("A time we wait before starting to go back to staring point")]
     [SerializeField] float timeToWait;
-    float time;
+    [Tooltip("A time we wait when it reaches the destination")]
+    [SerializeField] float timeOnDestination;
+    float timeWaitCoolDown;
+    float timeDestCoolDown;
 
     [Header("Reference")]
 
@@ -23,35 +26,46 @@ public class MovingBehavior : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        time = timeToWait;
+        timeWaitCoolDown = timeToWait;
+        timeDestCoolDown = 0;
         shouldGoBack = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (shouldMove) 
+        if (timeDestCoolDown > 0)
         {
+            timeDestCoolDown -= Time.deltaTime;
+        }
+        else if (shouldMove && timeDestCoolDown <= 0) 
+        {
+            timeDestCoolDown = 0;
             Move();
         }
         else if (!shouldMove && Vector3.Distance(movingObject.transform.position, startingLocation.position) > 0)
         {
             // Cool down
-            if (time > 0)
+            if (timeWaitCoolDown > 0)
             {
-                time -= Time.deltaTime;
+                timeWaitCoolDown -= Time.deltaTime;
             }
             else
             {
                 ResetPosition();
             }
         }
+        else
+        {
+            if (timeDestCoolDown != 0) timeDestCoolDown = 0;
+            if (timeWaitCoolDown != timeToWait) timeWaitCoolDown = timeToWait;
+        }
     }
 
     #region Moving Methods
     private void Move()
     {
-        if (time != timeToWait) time = timeToWait;
+        if (timeWaitCoolDown != timeToWait) timeWaitCoolDown = timeToWait;
         // Move position
         Transform realDes = shouldGoBack ? startingLocation : destinationLocation;
         var actualSpeed = speed * Time.deltaTime;
@@ -59,11 +73,13 @@ public class MovingBehavior : MonoBehaviour
 
         if (Vector3.Distance(movingObject.transform.position, destinationLocation.position) < 0.001f && !shouldGoBack)
         { 
-            shouldGoBack = true; 
+            shouldGoBack = true;
+            timeDestCoolDown = timeOnDestination;
         }
         else if (Vector3.Distance(movingObject.transform.position, startingLocation.position) < 0.001f && shouldGoBack)
         {
             shouldGoBack = false;
+            timeDestCoolDown = timeOnDestination;
         }
     }
 

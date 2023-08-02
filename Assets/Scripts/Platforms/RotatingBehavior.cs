@@ -11,7 +11,9 @@ public class RotatingBehavior : MonoBehaviour
     public bool shouldRotate;
     [SerializeField] bool shouldTurnBack;
     [SerializeField] float timeToWait;
-    float time;
+    [SerializeField] float timeOnRotation;
+    float timeWaitCoolDown;
+    float timeRotaCoolDown;
 
     [Header("Reference")]
 
@@ -22,7 +24,8 @@ public class RotatingBehavior : MonoBehaviour
 
     void Start()
     {
-        time = timeToWait;
+        timeWaitCoolDown = timeToWait;
+        timeRotaCoolDown = 0;
         shouldTurnBack = false;
         startingAngle = rotatingObject.transform.rotation;
 
@@ -31,26 +34,36 @@ public class RotatingBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (shouldRotate)
+        if (timeRotaCoolDown > 0)
         {
+            timeRotaCoolDown -= Time.deltaTime;
+        }
+        else if (shouldRotate && timeRotaCoolDown <= 0)
+        {
+            timeRotaCoolDown = 0;
             Rotate();
         }
         else if (!shouldRotate && rotatingObject.transform.rotation != startingAngle)
         {
-            if (time > 0)
+            if (timeWaitCoolDown > 0)
             {
-                time -= Time.deltaTime;
+                timeWaitCoolDown -= Time.deltaTime;
             }
             else
             {
                 ResetRotation();
             }
         }
+        else
+        {
+            if (timeRotaCoolDown != 0) timeRotaCoolDown = 0;
+            if (timeWaitCoolDown != timeToWait) timeWaitCoolDown = timeToWait;
+        }
     }
 
     private void Rotate()
     {
-        if (time != timeToWait) time = timeToWait;
+        if (timeWaitCoolDown != timeToWait) timeWaitCoolDown = timeToWait;
         Quaternion realAngle = shouldTurnBack ? startingAngle : desiredAngle;
         var actualSpeed = angleSpeed * Time.deltaTime;
         rotatingObject.transform.rotation = Quaternion.RotateTowards(rotatingObject.transform.rotation, realAngle, actualSpeed);
@@ -58,10 +71,12 @@ public class RotatingBehavior : MonoBehaviour
         if (rotatingObject.transform.rotation == desiredAngle && !shouldTurnBack)
         {
             shouldTurnBack = true;
+            timeRotaCoolDown = timeOnRotation;
         }
         else if (rotatingObject.transform.rotation == startingAngle && shouldTurnBack)
         {
             shouldTurnBack = false;
+            timeRotaCoolDown = timeOnRotation;
         }
     }
 
