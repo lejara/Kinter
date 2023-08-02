@@ -29,10 +29,11 @@ public class DebugSettings : ScriptableObject
 
     [Tooltip("Checkpoint state, toggle to change or use key")]
     public bool checkpoint;
+    [Tooltip("If checkpoint exist and checkpoint tool is active on start. do a teleport on start?")]
+    public bool teleportOnStart;
     public KeyCode checkpointActivateKey = KeyCode.Alpha2;
     public KeyCode addPointKey = KeyCode.R;
     public KeyCode teleportToPointKey = KeyCode.T;
-    [HideInInspector][NonSerialized] public Vector3 lastCheckpoint;
 
     [Header("God Mode Options")]
 

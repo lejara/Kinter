@@ -2,15 +2,17 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//TODO: test in production
+
 [RequireComponent(typeof(PlayerController))]
-public class PlayerDebug : MonoBehaviour
+public class PlayerDebug : MonoBehaviourSave
 {
+
     [SerializeField] DebugSettings _debugSettings;
     [SerializeField] GameObject _checkPointMarkerPrefab;
 
     GameObject _marker;
     PlayerController playerController;
+    Vector3 _lastCheckpoint;
 
     void Awake()
     {
@@ -29,6 +31,11 @@ public class PlayerDebug : MonoBehaviour
         if (_debugSettings.checkpoint)
         {
             OnCheckpointActive();
+        }
+
+        if (_debugSettings.teleportOnStart && _debugSettings.checkpoint)
+        {
+            TeleportToCheckpoint();
         }
 
     }
@@ -103,7 +110,7 @@ public class PlayerDebug : MonoBehaviour
 
     void OnCheckpointActive()
     {
-        _marker = Instantiate(_checkPointMarkerPrefab, _debugSettings.lastCheckpoint, Quaternion.identity);
+        _marker = Instantiate(_checkPointMarkerPrefab, _lastCheckpoint, Quaternion.identity);
         StartCoroutine(WhileCheckpoint());
     }
 
@@ -111,23 +118,63 @@ public class PlayerDebug : MonoBehaviour
     {
         while (_debugSettings.checkpoint)
         {
-            if (Input.GetKeyDown(_debugSettings.teleportToPointKey) && _debugSettings.lastCheckpoint != Vector3.zero)
+            //Teleport
+            if (Input.GetKeyDown(_debugSettings.teleportToPointKey))
             {
-                playerController.Reset();
-                transform.position = _debugSettings.lastCheckpoint;
+                TeleportToCheckpoint();
             }
 
+            //Add checkpoint
             if (Input.GetKeyDown(_debugSettings.addPointKey))
             {
-                _debugSettings.lastCheckpoint = transform.position;
-                _marker.transform.position = _debugSettings.lastCheckpoint;
+                _lastCheckpoint = transform.position;
+                _marker.transform.position = _lastCheckpoint;
+                this.Save();
             }
             yield return null;
         }
 
     }
+
+    void TeleportToCheckpoint()
+    {
+        if (_lastCheckpoint == Vector3.zero)
+        {
+            return;
+        }
+
+        playerController.Reset();
+        transform.position = _lastCheckpoint;
+    }
     void OnCheckpointDeactive()
     {
         GameObject.Destroy(_marker);
     }
+
+    #region Save And Loading
+
+    protected override void OnSave(ref SaveData data)
+    {
+        base.OnSave(ref data);
+        data.debugSaveData.lastCheckpointPos = _lastCheckpoint;
+    }
+
+    protected override void OnLoad(SaveData data)
+    {
+        base.OnLoad(data);
+        if (data.debugSaveData.lastCheckpointPos == Vector3.zero)
+        {
+            return;
+        }
+        _lastCheckpoint = data.debugSaveData.lastCheckpointPos;
+
+    }
+
+    protected override void OnSelfReset(ref SaveData data)
+    {
+        base.OnSelfReset(ref data);
+        _lastCheckpoint = Vector3.zero;
+    }
+
+    #endregion
 }
