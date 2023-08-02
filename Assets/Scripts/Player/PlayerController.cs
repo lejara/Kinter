@@ -126,7 +126,7 @@ public class PlayerController : MonoBehaviour
 
         horizontalInput = Input.GetAxis("Horizontal");
 
-        if (Input.GetKey(KeyCode.Mouse0) && !isGrappling && !isSwinging && !isRetracting && !isStunned)
+        if (Input.GetKeyDown(KeyCode.Mouse0) && !isGrappling && !isSwinging && !isRetracting && !isStunned)
         {
             StartCoroutine(ShootGrapple());
         }
