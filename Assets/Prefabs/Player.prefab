@@ -270,7 +270,7 @@ MonoBehaviour:
   isLanded: 1
   isStunned: 0
   gravity: -8
-  sidewayMoveSpeed: 4
+  sidewayMoveSpeed: 6
   maxStunAngle: 180
   minVelocityStunThreshold: 1.5
   stunBounceMultiplier: 0.8
@@ -279,7 +279,7 @@ MonoBehaviour:
   isRetracting: 0
   grappleTravelTime: 0.9
   grappleRetractTime: 0.4
-  maxGrappleDistance: 6
+  maxGrappleDistance: 8
   platfromLayer:
     serializedVersion: 2
     m_Bits: 64
