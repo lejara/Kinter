@@ -65,7 +65,7 @@ public class DebugSettings : ScriptableObject
     }
 
     [ButtonMethod]
-    void SetProduction()
+    public void SetProduction()
     {
         //PRODUCTION SETTINGS
         skipMainMenu = false;
