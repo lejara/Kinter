@@ -16,7 +16,8 @@ public class SaveOrchestrator : ScriptableObject
     public delegate void SaveDataEventRead(SaveData saveData);
 
     public bool verbose;
-    public bool saveExist { get { return File.Exists(this._path) && !this.debugSettings.stopSaveLoading; } }
+    public bool ignoreDebugSettings;
+    public bool saveExist { get { return File.Exists(this._path); } }
     public string fileName;
 
 
@@ -48,7 +49,7 @@ public class SaveOrchestrator : ScriptableObject
     public void Save()
     {
 
-        if (debugSettings.stopSaving)
+        if (debugSettings.stopSaving && !ignoreDebugSettings)
         {
             return;
         }
@@ -67,6 +68,11 @@ public class SaveOrchestrator : ScriptableObject
         //NOTE: on fresh boot the saveData will be empty until the first save is called.
         //For all subscribers we don't make them load saveData
         if (!saveExist)
+        {
+            return;
+        }
+
+        if (debugSettings.stopSaveLoading && !ignoreDebugSettings)
         {
             return;
         }
