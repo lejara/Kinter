@@ -36,9 +36,11 @@ public class GameState : ScriptableObject
 
     void OnEnable()
     {
+#if !UNITY_EDITOR
+    _debugSettings.SetProduction();
+#endif
         _state = States.InMenus;
-        //NOTE: It's assumed the excution order of DebugSettings runs first before this script
-        //This is done by changing Unity's "Script Execution Order settings"
+
         if (_debugSettings.skipMainMenu)
         {
             _state = States.Playing;
