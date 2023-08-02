@@ -16,8 +16,10 @@ MonoBehaviour:
   stopSaving: 1
   stopSaveLoading: 1
   checkpointDescirption: "Allows to add a single point in world space \nand teleport
-    to it using the keybinds below.\nUse activation key or mark true."
-  checkpoint: 0
+    to it using the keybinds below.\nUse activation key or mark true.\nCheckpoints
+    are saved between play sessions"
+  checkpoint: 1
+  teleportOnStart: 1
   checkpointActivateKey: 50
   addPointKey: 114
   teleportToPointKey: 116
