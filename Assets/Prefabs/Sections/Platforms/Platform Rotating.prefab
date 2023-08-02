@@ -28,7 +28,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.07, y: 15.97, z: 3}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8110035017256001133}
@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 4
-  shouldActive: 0
+  shouldActive: 1
   isLatched: 0
   isValid: 1
 --- !u!114 &3533911809007619530
@@ -66,9 +66,9 @@ MonoBehaviour:
   shouldRotate: 0
   shouldTurnBack: 0
   timeToWait: 0
-  timeOnRotation: 0
+  timeOnRotation: 2
   rotatingObject: {fileID: 8919222164791854295}
-  desiredAngle: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
+  desiredAngle: {x: 0, y: 0, z: 1, w: -0.00000004371139}
   startingAngle: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &8919222164791854295
 GameObject:
@@ -100,7 +100,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 11, y: 1.5, z: 3}
+  m_LocalScale: {x: 10, y: 1.5, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1235570457826547521}
