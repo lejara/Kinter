@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 678332991210239950}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.3999996, z: -18}
+  m_LocalPosition: {x: 0, y: 1.4000015, z: -18}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 359641039724614530}
   - component: {fileID: 2864649462267379166}
   - component: {fileID: 1996269199918605162}
+  - component: {fileID: 4057199260812311880}
   m_Layer: 0
   m_Name: Mesh
   m_TagString: Player
@@ -505,6 +506,21 @@ MonoBehaviour:
   _debugSettings: {fileID: 11400000, guid: e8f08bc741ddf2349929b39513a503d7, type: 2}
   _checkPointMarkerPrefab: {fileID: 5357380144957863256, guid: 59a4c303937c8df4889af57cfdd27dce,
     type: 3}
+--- !u!114 &4057199260812311880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4326733430063236992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6cdddaa26be5c439a4982240f7a800, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraBoundsOffset: -0.1
+  bounds: {fileID: 0}
+  playerVCam: {fileID: 57109974721946106}
 --- !u!1 &5502996379127754532
 GameObject:
   m_ObjectHideFlags: 0
@@ -767,7 +783,7 @@ Transform:
   m_GameObject: {fileID: 8809758638311401032}
   serializedVersion: 2
   m_LocalRotation: {x: 0.00719032, y: 0.006598057, z: 0.00004860248, w: -0.99995244}
-  m_LocalPosition: {x: -3.3499985, y: 1.3999996, z: -12}
+  m_LocalPosition: {x: -3.3499985, y: 1.4000015, z: -12}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
