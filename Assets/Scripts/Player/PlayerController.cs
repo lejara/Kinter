@@ -62,6 +62,20 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameState gameState;
     [SerializeField] DebugSettings debugSettings;
 
+    //Events
+    public Action OnGrappleShoot;
+    public Action OnGrappleLatch;
+    public Action<float> WhileSwinging;
+    public Action OnGrappleDetach;
+    public Action OnNoGrappleShoot;
+
+    public Action OnLanded;
+    public Action OnAir;
+    public Action<float> WhileInAir;
+    public Action<float> WhileOnLand;
+
+    public Action<Vector3> OnStun;
+
 
     float horizontalInput;
     Vector3 lastVelocity;
@@ -130,11 +144,15 @@ public class PlayerController : MonoBehaviour
         {
             StartCoroutine(ShootGrapple());
         }
-        else if ((!Input.GetKey(KeyCode.Mouse0) || 
-                (grappleTarget && !grappleTarget.GetComponentInParent<PlatformsBehavior>().isValid)) 
+        else if ((!Input.GetKey(KeyCode.Mouse0) ||
+                (grappleTarget && !grappleTarget.GetComponentInParent<PlatformsBehavior>().isValid))
                 && isSwinging)
         {
             DetachGrapple();
+        }
+        else if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            OnNoGrappleShoot?.Invoke();
         }
 
         #endregion
@@ -144,15 +162,38 @@ public class PlayerController : MonoBehaviour
     {
         lastVelocity = playerRb.velocity;
 
-        isLanded = GroundCheck() && !isSwinging;
+        #region On Land or Air Logic
+        bool _lastIsLanded = isLanded;
 
-        // Movement for sideway only (A/D), this is our basic movement
+        isLanded = GroundCheck() && !isSwinging;
+        if (_lastIsLanded != isLanded)
+        {
+            if (isLanded)
+            {
+                OnLanded?.Invoke();
+            }
+            else
+            {
+                OnAir?.Invoke();
+            }
+        }
+
+        #endregion
+
+        #region While On Land Or In Air Logic
         if (isLanded)
         {
             isStunned = false;
             SidewayMoving(horizontalInput);
+            WhileOnLand?.Invoke(horizontalInput);
         }
+        else
+        {
+            WhileInAir?.Invoke(horizontalInput);
+        }
+        #endregion
 
+        #region Swing Logic
         if (isSwinging)
         {
             if (grappleTarget)
@@ -161,6 +202,8 @@ public class PlayerController : MonoBehaviour
             }
             Swing(horizontalInput);
         }
+        #endregion
+
     }
 
     void OnCollisionEnter(Collision collision)
@@ -185,7 +228,7 @@ public class PlayerController : MonoBehaviour
         playerRb.velocity = new Vector3(horizontalInput * sidewayMoveSpeed, playerRb.velocity.y, 0);
         /* Can have character flip here based on the direction of velocity. */
     }
-    
+
     #endregion
 
     #region Stun Method
@@ -218,7 +261,8 @@ public class PlayerController : MonoBehaviour
             DetachGrapple();
         }
         isStunned = true;
-        
+        OnStun?.Invoke(playerRb.velocity);
+
     }
 
     #endregion
@@ -230,6 +274,7 @@ public class PlayerController : MonoBehaviour
 
         isGrappling = true;
         lineRenderer.enabled = true;
+        OnGrappleShoot?.Invoke();
 
         float normTime = 0;
         Vector3 target = grappleStartPoint.position + (Vector3.up * maxGrappleDistance);
@@ -266,7 +311,6 @@ public class PlayerController : MonoBehaviour
                 out RaycastHit _,
                 GetGrappleDistance()))
             {
-                //MAYBE: could do some fancy animation based on the raycast hit
                 DetachGrapple();
                 yield break;
             }
@@ -283,7 +327,6 @@ public class PlayerController : MonoBehaviour
     {
         isSwinging = true;
         isLanded = false;
-
         playerRb.velocity *= (1 - latchVelocityFalloff);
 
         SetGrapplePosition(hit.point);
@@ -313,23 +356,28 @@ public class PlayerController : MonoBehaviour
         joint.spring = spring;
         joint.damper = damper;
         joint.massScale = massScale;
+
+        OnGrappleLatch?.Invoke();
     }
 
     private void DetachGrapple()
     {
         isSwinging = false;
         isGrappling = false;
+
         if (joint)
         {
             if (grappleTarget)
             {
                 // We use grappleTarget here as destroyed platform would be deactivated and can't use 
                 // joint.connectBody which is the rigidbody of the platform.
-                grappleTarget.GetComponentInParent<PlatformsBehavior>().isLatched = false; 
+                grappleTarget.GetComponentInParent<PlatformsBehavior>().isLatched = false;
                 grappleTarget = null;
             }
             Destroy(joint);
         }
+
+        OnGrappleDetach?.Invoke();
         StartCoroutine(RetractGrapple());
     }
 
@@ -359,6 +407,7 @@ public class PlayerController : MonoBehaviour
     private void Swing(float horizontalInput)
     {
         playerRb.AddForce(horizontalInput * horizontalForce * Vector3.right, ForceMode.Force);
+        WhileSwinging?.Invoke(horizontalInput);
     }
 
     #endregion
