@@ -67,7 +67,7 @@ public class PlayerController : MonoBehaviour
     public Action OnGrappleLatch;
     public Action<float> WhileSwinging;
     public Action OnGrappleDetach;
-    public Action OnNoGrappleShoot;
+    public Action OnCannotShootGrapple;
 
     public Action OnLanded;
     public Action OnAir;
@@ -152,7 +152,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            OnNoGrappleShoot?.Invoke();
+            OnCannotShootGrapple?.Invoke();
         }
 
         #endregion
