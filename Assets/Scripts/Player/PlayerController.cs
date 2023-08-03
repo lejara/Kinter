@@ -130,8 +130,8 @@ public class PlayerController : MonoBehaviour
         {
             StartCoroutine(ShootGrapple());
         }
-        else if ((!Input.GetKey(KeyCode.Mouse0) || 
-                (grappleTarget && !grappleTarget.GetComponentInParent<PlatformsBehavior>().isValid)) 
+        else if ((!Input.GetKey(KeyCode.Mouse0) ||
+                (grappleTarget && !grappleTarget.GetComponentInParent<PlatformsBehavior>().isValid))
                 && isSwinging)
         {
             DetachGrapple();
@@ -185,7 +185,7 @@ public class PlayerController : MonoBehaviour
         playerRb.velocity = new Vector3(horizontalInput * sidewayMoveSpeed, playerRb.velocity.y, 0);
         /* Can have character flip here based on the direction of velocity. */
     }
-    
+
     #endregion
 
     #region Stun Method
@@ -218,7 +218,7 @@ public class PlayerController : MonoBehaviour
             DetachGrapple();
         }
         isStunned = true;
-        
+
     }
 
     #endregion
@@ -246,7 +246,7 @@ public class PlayerController : MonoBehaviour
             SetGrapplePosition(Vector3.Lerp(grappleStartPoint.position, target, grappleTravelMotion.Evaluate(normTime)));
             Vector3 shootingDir = (grappleEndPoint.position - grappleStartPoint.position).normalized;
 
-            if (Physics.Raycast(grappleEndPoint.position, shootingDir, out RaycastHit hit, 0.1f, platfromLayer))
+            if (Physics.Raycast(grappleEndPoint.position, shootingDir, out RaycastHit hit, 0.12f, platfromLayer))
             {
                 if (!hit.transform.gameObject.GetComponentInParent<PlatformsBehavior>().isValid)
                 {
@@ -264,9 +264,8 @@ public class PlayerController : MonoBehaviour
             if (Physics.Raycast(grappleStartPoint.position,
                 shootingDir,
                 out RaycastHit _,
-                GetGrappleDistance()))
+                GetGrappleDistance() - 1f))
             {
-                //MAYBE: could do some fancy animation based on the raycast hit
                 DetachGrapple();
                 yield break;
             }
@@ -325,7 +324,7 @@ public class PlayerController : MonoBehaviour
             {
                 // We use grappleTarget here as destroyed platform would be deactivated and can't use 
                 // joint.connectBody which is the rigidbody of the platform.
-                grappleTarget.GetComponentInParent<PlatformsBehavior>().isLatched = false; 
+                grappleTarget.GetComponentInParent<PlatformsBehavior>().isLatched = false;
                 grappleTarget = null;
             }
             Destroy(joint);
