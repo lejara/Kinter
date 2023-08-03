@@ -659,6 +659,16 @@ PrefabInstance:
       propertyPath: m_BoundingVolume
       value: 
       objectReference: {fileID: 1312825712}
+    - target: {fileID: 4057199260812311880, guid: 6d2a4b515e1c0d04f9538be33c57ef38,
+        type: 3}
+      propertyPath: bounds
+      value: 
+      objectReference: {fileID: 1312825712}
+    - target: {fileID: 4057199260812311880, guid: 6d2a4b515e1c0d04f9538be33c57ef38,
+        type: 3}
+      propertyPath: boundaries
+      value: 
+      objectReference: {fileID: 1312825712}
     - target: {fileID: 7206474822716217695, guid: 6d2a4b515e1c0d04f9538be33c57ef38,
         type: 3}
       propertyPath: m_Name
