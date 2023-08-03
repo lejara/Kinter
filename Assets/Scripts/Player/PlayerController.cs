@@ -146,14 +146,16 @@ public class PlayerController : MonoBehaviour
         }
         else if ((!Input.GetKey(KeyCode.Mouse0) ||
                 (grappleTarget && !grappleTarget.GetComponentInParent<PlatformsBehavior>().isValid))
+        else if ((!Input.GetKey(KeyCode.Mouse0) ||
+                (grappleTarget && !grappleTarget.GetComponentInParent<PlatformsBehavior>().isValid))
                 && isSwinging)
-        {
-            DetachGrapple();
-        }
-        else if (Input.GetKeyDown(KeyCode.Mouse0))
-        {
-            OnNoGrappleShoot?.Invoke();
-        }
+                {
+                    DetachGrapple();
+                }
+                else if (Input.GetKeyDown(KeyCode.Mouse0))
+                {
+                    OnNoGrappleShoot?.Invoke();
+                }
 
         #endregion
     }
@@ -291,7 +293,7 @@ public class PlayerController : MonoBehaviour
             SetGrapplePosition(Vector3.Lerp(grappleStartPoint.position, target, grappleTravelMotion.Evaluate(normTime)));
             Vector3 shootingDir = (grappleEndPoint.position - grappleStartPoint.position).normalized;
 
-            if (Physics.Raycast(grappleEndPoint.position, shootingDir, out RaycastHit hit, 0.1f, platfromLayer))
+            if (Physics.Raycast(grappleEndPoint.position, shootingDir, out RaycastHit hit, 0.12f, platfromLayer))
             {
                 if (!hit.transform.gameObject.GetComponentInParent<PlatformsBehavior>().isValid)
                 {
@@ -309,7 +311,7 @@ public class PlayerController : MonoBehaviour
             if (Physics.Raycast(grappleStartPoint.position,
                 shootingDir,
                 out RaycastHit _,
-                GetGrappleDistance()))
+                GetGrappleDistance() - 1f))
             {
                 DetachGrapple();
                 yield break;
