@@ -56,8 +56,10 @@ public class PlayerController : MonoBehaviour
 
     [Header("References")]
 
-    [SerializeField] Transform grappleStartPoint;
-    [SerializeField] Transform grappleEndPoint;
+    public Transform grappleStartPoint;
+    public Transform grappleEndPoint;
+    public Rigidbody playerRb;
+
     [SerializeField] GameObject grappleTarget;
     [SerializeField] GameState gameState;
     [SerializeField] DebugSettings debugSettings;
@@ -80,7 +82,7 @@ public class PlayerController : MonoBehaviour
     float horizontalInput;
     Vector3 lastVelocity;
     SpringJoint joint;
-    Rigidbody playerRb;
+
     LineRenderer lineRenderer;
 
     public void Reset()
