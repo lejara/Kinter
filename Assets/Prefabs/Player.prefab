@@ -236,8 +236,8 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4326733430063236992}
   serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0.1
+  m_Mass: 1.05
+  m_Drag: 0.08
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -269,7 +269,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isLanded: 1
   isStunned: 0
-  gravity: -8
+  gravity: -7
   sidewayMoveSpeed: 4
   maxStunAngle: 180
   minVelocityStunThreshold: 1.5
@@ -355,12 +355,12 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  horizontalForce: 7
+  horizontalForce: 6
   latchVelocityFalloff: 0.45
-  jointMaxDistance: 0.8
-  jontMinDistance: 0.6
+  jointMaxDistance: 0.7
+  jontMinDistance: 0.3
   spring: 8
-  damper: 8
+  damper: 6
   massScale: 3
   grappleStartPoint: {fileID: 6673982428508880067}
   grappleEndPoint: {fileID: 1600136089298316250}
@@ -767,7 +767,7 @@ Transform:
   m_GameObject: {fileID: 8809758638311401032}
   serializedVersion: 2
   m_LocalRotation: {x: 0.00719032, y: 0.006598057, z: 0.00004860248, w: -0.99995244}
-  m_LocalPosition: {x: -3.3500004, y: 1.3999996, z: -12}
+  m_LocalPosition: {x: -3.3499985, y: 1.3999996, z: -12}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
