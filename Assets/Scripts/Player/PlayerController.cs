@@ -146,16 +146,14 @@ public class PlayerController : MonoBehaviour
         }
         else if ((!Input.GetKey(KeyCode.Mouse0) ||
                 (grappleTarget && !grappleTarget.GetComponentInParent<PlatformsBehavior>().isValid))
-        else if ((!Input.GetKey(KeyCode.Mouse0) ||
-                (grappleTarget && !grappleTarget.GetComponentInParent<PlatformsBehavior>().isValid))
                 && isSwinging)
-                {
-                    DetachGrapple();
-                }
-                else if (Input.GetKeyDown(KeyCode.Mouse0))
-                {
-                    OnNoGrappleShoot?.Invoke();
-                }
+        {
+            DetachGrapple();
+        }
+        else if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            OnNoGrappleShoot?.Invoke();
+        }
 
         #endregion
     }
