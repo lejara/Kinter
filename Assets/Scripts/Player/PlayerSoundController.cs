@@ -27,9 +27,12 @@ public class PlayerSoundController : MonoBehaviour
 
     [Header("More Settings")]
 
-    public float swingDelayTime;
-    public float distanceThresholdToPlayShoot;
-    public float playLandMagThreshold;
+    [Tooltip("Delay to apply after each swing sound")]
+    public float swingDelay;
+    [Tooltip("Distance Threshold to when shooting a grapple should play its sound. We don't want to play the sound if the grapple will travel a short distance")]
+    public float distanceThresholdForGrappleShoot;
+    [Tooltip("Landing threshold for player's last velocity mag. Play a the landing sound if over. We don't want to play it on a short landing")]
+    public float LandingThreshold;
 
     [Header("References")]
     [SerializeField] AudioSource _channel_one;
@@ -54,7 +57,7 @@ public class PlayerSoundController : MonoBehaviour
             if (Physics.Raycast(_playerController.grappleStartPoint.position, Vector3.up, out RaycastHit hit, _playerController.maxGrappleDistance))
             {
 
-                if (Vector3.Distance(_playerController.grappleStartPoint.position, hit.point) > distanceThresholdToPlayShoot)
+                if (Vector3.Distance(_playerController.grappleStartPoint.position, hit.point) > distanceThresholdForGrappleShoot)
                 {
                     Play(grappleShooting);
                 }
@@ -75,7 +78,7 @@ public class PlayerSoundController : MonoBehaviour
 
         _playerController.OnLanded = () =>
         {
-            if (_playerController.lastVelocity.magnitude > playLandMagThreshold)
+            if (_playerController.lastVelocity.magnitude > LandingThreshold)
             {
                 Play(landed);
             }
@@ -145,7 +148,7 @@ public class PlayerSoundController : MonoBehaviour
     IEnumerator DelaySwingSound()
     {
         _inSwingSoundDelay = true;
-        yield return new WaitForSeconds(swingDelayTime);
+        yield return new WaitForSeconds(swingDelay);
         _inSwingSoundDelay = false;
     }
 }

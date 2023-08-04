@@ -685,9 +685,9 @@ MonoBehaviour:
   swingForward:
     clip: {fileID: 8300000, guid: 92f226bf16f45d54a94eb7a67b6f00f3, type: 3}
     pitch: 1
-  swingDelayTime: 1
-  distanceThresholdToPlayShoot: 2.8
-  playLandMagThreshold: 3.6
+  swingDelay: 1
+  distanceThresholdForGrappleShoot: 2.8
+  LandingThreshold: 3.8
   _channel_one: {fileID: 5147095382648306419}
   _channel_two: {fileID: 6465626620200191397}
 --- !u!1 &5502996379127754532
