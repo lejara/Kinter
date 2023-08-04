@@ -680,6 +680,7 @@ GameObject:
   - component: {fileID: 1996269199918605162}
   - component: {fileID: 4057199260812311880}
   - component: {fileID: 4714583251854013885}
+  - component: {fileID: 1699700223110870904}
   m_Layer: 0
   m_Name: Mesh
   m_TagString: Player
@@ -1109,6 +1110,27 @@ MonoBehaviour:
   inAirThreshold: 4.5
   _channel_one: {fileID: 5147095382648306419}
   _channel_two: {fileID: 6465626620200191397}
+--- !u!95 &1699700223110870904
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4326733430063236992}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 28795ea79863054429969e845e621b7e, type: 3}
+  m_Controller: {fileID: 9100000, guid: 2ed07fbd0bd3d614ab2e2538650c14e0, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &4334194730741049121
 GameObject:
   m_ObjectHideFlags: 0
@@ -1309,7 +1331,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5939197094559389808}
   m_Layer: 0
-  m_Name: Armature
+  m_Name: Armature.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
