@@ -161,7 +161,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: -5891069864550183574, guid: be2fa636a030b564a93e86d5eb5782a1,
     type: 2}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -684,9 +684,6 @@ MonoBehaviour:
   swingForward:
     clip: {fileID: 8300000, guid: 92f226bf16f45d54a94eb7a67b6f00f3, type: 3}
     pitch: 1
-  cannotShootGrapple:
-    clip: {fileID: 8300000, guid: 4040081e7a936e9459f267712823c8d5, type: 3}
-    pitch: 0.2
   _channel_one: {fileID: 5147095382648306419}
   _channel_two: {fileID: 6465626620200191397}
   swingDelayTime: 0.2
@@ -1086,7 +1083,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: -5891069864550183574, guid: be2fa636a030b564a93e86d5eb5782a1,
     type: 2}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0

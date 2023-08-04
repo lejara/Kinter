@@ -25,8 +25,6 @@ public class PlayerSoundController : MonoBehaviour
 
     public AudioClipData swingForward;
 
-    public AudioClipData cannotShootGrapple;
-
     [SerializeField] AudioSource _channel_one;
     [SerializeField] AudioSource _channel_two;
 
@@ -53,8 +51,10 @@ public class PlayerSoundController : MonoBehaviour
         _playerController.OnGrappleDetach = () => { Play(grappleRetract); };
         // _playerController.OnCannotShootGrapple = () => { if (Time.frameCount % 2 == 0) Play(cannotShootGrapple); };
 
+        // _playerController.OnStun = (vel) => { print("stunned"); };
+
         _playerController.OnLanded = () => { Play(landed); };
-        _playerController.OnAir = () => { print("On Air"); };
+        // _playerController.OnAir = () => { print("On Air"); };
         // _playerController.WhileInAir = (input) => { print(" air"); };
         // _playerController.WhileOnLand = (input) => { print("landed"); };
         _playerController.WhileSwinging = (input) =>
@@ -80,21 +80,15 @@ public class PlayerSoundController : MonoBehaviour
             {
 
                 Play(swingForward);
-                print("play");
             }
             else if (input > 0 && swingDirection.x > 0)
             {
                 Play(swingForward);
-                print("play");
             }
-            print(swingDirection);
             _canPlaySwing = false;
             StartCoroutine(DelaySwingSound());
 
         };
-
-        _playerController.OnStun = (vel) => { print("stunned"); };
-
     }
 
     void Play(AudioClipData clip)
@@ -104,19 +98,18 @@ public class PlayerSoundController : MonoBehaviour
             return;
         }
         AudioSource audioSource;
-        // if (_channel_one.isPlaying)
-        // {
-        //     audioSource = _channel_two;
-        // }
-        // else if (_channel_two.isPlaying)
-        // {
-        //     audioSource = _channel_one;
-        // }
-        // else
-        // {
-        //     audioSource = _channel_one;
-        // }
-        audioSource = _channel_one;
+        if (_channel_one.isPlaying)
+        {
+            audioSource = _channel_two;
+        }
+        else if (_channel_two.isPlaying)
+        {
+            audioSource = _channel_one;
+        }
+        else
+        {
+            audioSource = _channel_one;
+        }
 
         audioSource.pitch = clip.pitch;
         audioSource.clip = clip.clip;
