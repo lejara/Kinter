@@ -107,8 +107,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: IRON JUNGLE
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 134e5304b36c23d4598ebdbabd053996, type: 2}
+  m_sharedMaterial: {fileID: 8815627092362183129, guid: 134e5304b36c23d4598ebdbabd053996,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -132,8 +133,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 71.2
-  m_fontSizeBase: 71.2
+  m_fontSize: 74.9
+  m_fontSizeBase: 74.9
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
