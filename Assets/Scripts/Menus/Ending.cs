@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using MyBox;
 
 public class Ending : MonoBehaviour
 {
@@ -18,7 +15,6 @@ public class Ending : MonoBehaviour
         }
     }
 
-    [ButtonMethod]
     public void ShowEnding()
     {
         _gameState.state = States.Ending;
