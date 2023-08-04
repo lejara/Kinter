@@ -78,9 +78,9 @@ public class PlayerController : MonoBehaviour
 
     public Action<Vector3> OnStun;
 
+    [HideInInspector] public Vector3 lastVelocity;
 
     float horizontalInput;
-    Vector3 lastVelocity;
     SpringJoint joint;
 
     LineRenderer lineRenderer;

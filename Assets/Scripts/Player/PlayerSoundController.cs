@@ -25,12 +25,15 @@ public class PlayerSoundController : MonoBehaviour
 
     public AudioClipData swingForward;
 
-    [SerializeField] AudioSource _channel_one;
-    [SerializeField] AudioSource _channel_two;
-
     [Header("More Settings")]
 
     public float swingDelayTime;
+    public float distanceThresholdToPlayShoot;
+    public float playLandMagThreshold;
+
+    [Header("References")]
+    [SerializeField] AudioSource _channel_one;
+    [SerializeField] AudioSource _channel_two;
 
     PlayerController _playerController;
 
@@ -45,7 +48,24 @@ public class PlayerSoundController : MonoBehaviour
 
     void OnEnable()
     {
-        // _playerController.OnGrappleShoot = () => { Play(grappleShooting); };
+        _playerController.OnGrappleShoot = () =>
+        {
+            //Only play grapple shoot sound if its a long distance the grapple will travel
+            if (Physics.Raycast(_playerController.grappleStartPoint.position, Vector3.up, out RaycastHit hit, _playerController.maxGrappleDistance))
+            {
+
+                if (Vector3.Distance(_playerController.grappleStartPoint.position, hit.point) > distanceThresholdToPlayShoot)
+                {
+                    Play(grappleShooting);
+                }
+
+            }
+            else
+            {
+                Play(grappleShooting);
+            }
+
+        };
         _playerController.OnGrappleLatch = () => { Play(grappleLatched); };
 
         _playerController.OnGrappleDetach = () => { Play(grappleRetract); };
@@ -53,20 +73,26 @@ public class PlayerSoundController : MonoBehaviour
 
         // _playerController.OnStun = (vel) => { print("stunned"); };
 
-        _playerController.OnLanded = () => { Play(landed); };
+        _playerController.OnLanded = () =>
+        {
+            if (_playerController.lastVelocity.magnitude > playLandMagThreshold)
+            {
+                Play(landed);
+            }
+        };
         // _playerController.OnAir = () => { print("On Air"); };
         // _playerController.WhileInAir = (input) => { print(" air"); };
         // _playerController.WhileOnLand = (input) => { print("landed"); };
         _playerController.WhileSwinging = (input) =>
         {
-            if (_inSwingSoundDelay)
-            {
-                return;
-            }
-
             if (input == 0)
             {
                 _canPlaySwing = true;
+                return;
+            }
+
+            if (_inSwingSoundDelay)
+            {
                 return;
             }
 

@@ -501,6 +501,7 @@ MonoBehaviour:
   grappleTarget: {fileID: 0}
   gameState: {fileID: 11400000, guid: dc955f25bd32cb148a1dd9c920bbe054, type: 2}
   debugSettings: {fileID: 11400000, guid: e8f08bc741ddf2349929b39513a503d7, type: 2}
+  lastVelocity: {x: 0, y: 0, z: 0}
 --- !u!120 &359641039724614530
 LineRenderer:
   serializedVersion: 2
@@ -680,13 +681,15 @@ MonoBehaviour:
     pitch: 1
   grappleRetract:
     clip: {fileID: 8300000, guid: 93015156b97cf0e4e93d918fd7281602, type: 3}
-    pitch: 1
+    pitch: 2
   swingForward:
     clip: {fileID: 8300000, guid: 92f226bf16f45d54a94eb7a67b6f00f3, type: 3}
     pitch: 1
+  swingDelayTime: 0.1
+  distanceThresholdToPlayShoot: 2.8
+  playLandMagThreshold: 3.6
   _channel_one: {fileID: 5147095382648306419}
   _channel_two: {fileID: 6465626620200191397}
-  swingDelayTime: 0.2
 --- !u!1 &5502996379127754532
 GameObject:
   m_ObjectHideFlags: 0
@@ -712,7 +715,7 @@ Transform:
   m_GameObject: {fileID: 5502996379127754532}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalPosition: {x: 0, y: 0.505, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -778,7 +781,7 @@ Transform:
   m_GameObject: {fileID: 7225147268206365978}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalPosition: {x: 0, y: 0.652, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
