@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -21,6 +22,7 @@ public class RotatingBehavior : MonoBehaviour
     public GameObject rotatingObject;
     [SerializeField] Quaternion desiredAngle;
     [SerializeField] Quaternion startingAngle;
+    Rigidbody rotatingRb;
 
     void Start()
     {
@@ -28,6 +30,7 @@ public class RotatingBehavior : MonoBehaviour
         timeRotaCoolDown = 0;
         shouldTurnBack = false;
         startingAngle = rotatingObject.transform.rotation;
+        rotatingRb = rotatingObject.GetComponent<Rigidbody>();
 
     }
 
@@ -71,7 +74,7 @@ public class RotatingBehavior : MonoBehaviour
         if (timeWaitCoolDown != timeToWait) timeWaitCoolDown = timeToWait;
         Quaternion realAngle = shouldTurnBack ? startingAngle : desiredAngle;
         var actualSpeed = angleSpeed * Time.deltaTime;
-        rotatingObject.transform.rotation = Quaternion.RotateTowards(rotatingObject.transform.rotation, realAngle, actualSpeed);
+        rotatingRb.MoveRotation(Quaternion.RotateTowards(rotatingObject.transform.rotation, realAngle, actualSpeed));
 
         if (rotatingObject.transform.rotation == desiredAngle && !shouldTurnBack)
         {
@@ -88,7 +91,7 @@ public class RotatingBehavior : MonoBehaviour
     private void ResetRotation()
     {
         var actualSpeed = angleSpeed * Time.deltaTime;
-        rotatingObject.transform.rotation = Quaternion.RotateTowards(rotatingObject.transform.rotation, startingAngle, actualSpeed);
+        rotatingRb.MoveRotation(Quaternion.RotateTowards(rotatingObject.transform.rotation, startingAngle, actualSpeed));
     }
 
     public void SetRotatingStart(bool start)
