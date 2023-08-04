@@ -659,6 +659,11 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 1.4000001
       objectReference: {fileID: 0}
+    - target: {fileID: 2864649462267379166, guid: 6d2a4b515e1c0d04f9538be33c57ef38,
+        type: 3}
+      propertyPath: playerSpawn
+      value: 
+      objectReference: {fileID: 1061436769}
     - target: {fileID: 3991564517853658994, guid: 6d2a4b515e1c0d04f9538be33c57ef38,
         type: 3}
       propertyPath: m_BoundingVolume
