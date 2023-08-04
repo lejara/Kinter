@@ -85,7 +85,7 @@ public class PlayerSoundController : MonoBehaviour
         // _playerController.WhileOnLand = (input) => { print("landed"); };
         _playerController.WhileSwinging = (input) =>
         {
-            if (input == 0)
+            if (input > -0.1f && input < 0.1f)
             {
                 _canPlaySwing = true;
                 return;
