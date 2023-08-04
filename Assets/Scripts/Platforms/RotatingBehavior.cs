@@ -34,17 +34,21 @@ public class RotatingBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (timeRotaCoolDown > 0)
+        if (shouldRotate)
         {
-            timeRotaCoolDown -= Time.deltaTime;
-        }
-        else if (shouldRotate && timeRotaCoolDown <= 0)
-        {
-            timeRotaCoolDown = 0;
-            Rotate();
+            if (timeRotaCoolDown > 0)
+            {
+                timeRotaCoolDown -= Time.deltaTime;
+            }
+            else
+            {
+                timeRotaCoolDown = 0;
+                Rotate();
+            }
         }
         else if (!shouldRotate && rotatingObject.transform.rotation != startingAngle)
         {
+            timeRotaCoolDown = timeRotaCoolDown != 0 ? 0 : timeRotaCoolDown; 
             if (timeWaitCoolDown > 0)
             {
                 timeWaitCoolDown -= Time.deltaTime;
@@ -58,6 +62,7 @@ public class RotatingBehavior : MonoBehaviour
         {
             if (timeRotaCoolDown != 0) timeRotaCoolDown = 0;
             if (timeWaitCoolDown != timeToWait) timeWaitCoolDown = timeToWait;
+            shouldTurnBack = false;
         }
     }
 

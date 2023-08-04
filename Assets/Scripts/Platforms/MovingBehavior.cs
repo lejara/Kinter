@@ -34,18 +34,22 @@ public class MovingBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (timeDestCoolDown > 0)
+        if (shouldMove) 
         {
-            timeDestCoolDown -= Time.deltaTime;
-        }
-        else if (shouldMove && timeDestCoolDown <= 0) 
-        {
-            timeDestCoolDown = 0;
-            Move();
+            if (timeDestCoolDown > 0)
+            {
+                timeDestCoolDown -= Time.deltaTime;
+            }
+            else
+            {
+                timeDestCoolDown = 0;
+                Move();
+            }
         }
         else if (!shouldMove && Vector3.Distance(movingObject.transform.position, startingLocation.position) > 0)
         {
             // Cool down
+            timeDestCoolDown = timeDestCoolDown != 0 ? 0 : timeDestCoolDown;
             if (timeWaitCoolDown > 0)
             {
                 timeWaitCoolDown -= Time.deltaTime;
@@ -59,6 +63,7 @@ public class MovingBehavior : MonoBehaviour
         {
             if (timeDestCoolDown != 0) timeDestCoolDown = 0;
             if (timeWaitCoolDown != timeToWait) timeWaitCoolDown = timeToWait;
+            shouldGoBack = false;
         }
     }
 
@@ -70,7 +75,7 @@ public class MovingBehavior : MonoBehaviour
         Transform realDes = shouldGoBack ? startingLocation : destinationLocation;
         var actualSpeed = speed * Time.deltaTime;
         movingObject.transform.position = Vector3.MoveTowards(movingObject.transform.position, realDes.position, actualSpeed);
-
+ 
         if (Vector3.Distance(movingObject.transform.position, destinationLocation.position) < 0.001f && !shouldGoBack)
         { 
             shouldGoBack = true;
