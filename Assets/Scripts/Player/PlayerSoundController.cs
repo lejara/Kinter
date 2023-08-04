@@ -33,6 +33,10 @@ public class PlayerSoundController : MonoBehaviour
     public float distanceThresholdForGrappleShoot;
     [Tooltip("Landing threshold for player's last velocity mag. Play a the landing sound if over. We don't want to play it on a short landing")]
     public float LandingThreshold;
+    [Tooltip("How far should the ray shoot to check how close a floor is. If hits, the airTime sound will not play")]
+    public float inAirRayDistance;
+    [Tooltip("How fast (velocity mag) the player should be to allow for a ray test for airTime sound")]
+    public float inAirThreshold;
 
     [Header("References")]
     [SerializeField] AudioSource _channel_one;
@@ -42,11 +46,11 @@ public class PlayerSoundController : MonoBehaviour
 
     bool _inSwingSoundDelay = false;
     bool _canPlaySwing = true;
+    bool _playedInAirSound = false;
 
     void Awake()
     {
         _playerController = GetComponent<PlayerController>();
-        // _audioSource = GetComponent<AudioSource>();
     }
 
     void OnEnable()
@@ -72,20 +76,30 @@ public class PlayerSoundController : MonoBehaviour
         _playerController.OnGrappleLatch = () => { Play(grappleLatched); };
 
         _playerController.OnGrappleDetach = () => { Play(grappleRetract); };
-        // _playerController.OnCannotShootGrapple = () => { if (Time.frameCount % 2 == 0) Play(cannotShootGrapple); };
 
-        // _playerController.OnStun = (vel) => { print("stunned"); };
 
         _playerController.OnLanded = () =>
         {
+            _playedInAirSound = false;
             if (_playerController.lastVelocity.magnitude > LandingThreshold)
             {
                 Play(landed);
             }
         };
-        // _playerController.OnAir = () => { print("On Air"); };
-        // _playerController.WhileInAir = (input) => { print(" air"); };
-        // _playerController.WhileOnLand = (input) => { print("landed"); };
+
+        _playerController.WhileInAir = (input) =>
+        {
+            if (!_playedInAirSound &&
+            !_playerController.isSwinging &&
+            _playerController.playerRb.velocity.y < 0 &&
+            _playerController.playerRb.velocity.magnitude > inAirThreshold &&
+            !Physics.Raycast(_playerController.playerRb.position, Vector3.down, out RaycastHit _, inAirRayDistance))
+            {
+                _playedInAirSound = true;
+                Play(airTime);
+            }
+        };
+
         _playerController.WhileSwinging = (input) =>
         {
             if (input > -0.1f && input < 0.1f)
@@ -116,8 +130,12 @@ public class PlayerSoundController : MonoBehaviour
             }
             _canPlaySwing = false;
             StartCoroutine(DelaySwingSound());
-
         };
+
+        // _playerController.OnCannotShootGrapple = () => { if (Time.frameCount % 2 == 0) Play(cannotShootGrapple); };
+        // _playerController.OnStun = (vel) => { print("stunned"); };
+        // _playerController.OnAir = () => { print("On Air"); };
+        // _playerController.WhileOnLand = (input) => { print("landed"); };
     }
 
     void Play(AudioClipData clip)

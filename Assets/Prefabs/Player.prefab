@@ -688,6 +688,8 @@ MonoBehaviour:
   swingDelay: 1
   distanceThresholdForGrappleShoot: 2.8
   LandingThreshold: 3.8
+  inAirRayDistance: 8
+  inAirThreshold: 5
   _channel_one: {fileID: 5147095382648306419}
   _channel_two: {fileID: 6465626620200191397}
 --- !u!1 &5502996379127754532
