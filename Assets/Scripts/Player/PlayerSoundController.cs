@@ -53,9 +53,9 @@ public class PlayerSoundController : MonoBehaviour
         _playerController = GetComponent<PlayerController>();
     }
 
-    void OnEnable()
+    void Start()
     {
-        _playerController.OnGrappleShoot = () =>
+        _playerController.OnGrappleShoot += () =>
         {
             //Only play grapple shoot sound if its a long distance the grapple will travel
             if (Physics.Raycast(_playerController.grappleStartPoint.position, Vector3.up, out RaycastHit hit, _playerController.maxGrappleDistance))
@@ -65,7 +65,6 @@ public class PlayerSoundController : MonoBehaviour
                 {
                     Play(grappleShooting);
                 }
-
             }
             else
             {
@@ -73,12 +72,12 @@ public class PlayerSoundController : MonoBehaviour
             }
 
         };
-        _playerController.OnGrappleLatch = () => { Play(grappleLatched); };
+        _playerController.OnGrappleLatch += () => { Play(grappleLatched); };
 
-        _playerController.OnGrappleDetach = () => { Play(grappleRetract); };
+        _playerController.OnGrappleDetach += () => { Play(grappleRetract); };
 
 
-        _playerController.OnLanded = () =>
+        _playerController.OnLanded += () =>
         {
             _playedInAirSound = false;
             if (_playerController.lastVelocity.magnitude > LandingThreshold)
@@ -87,7 +86,7 @@ public class PlayerSoundController : MonoBehaviour
             }
         };
 
-        _playerController.WhileInAir = (input) =>
+        _playerController.WhileInAir += (input) =>
         {
             if (!_playedInAirSound &&
             !_playerController.isSwinging &&
@@ -100,7 +99,7 @@ public class PlayerSoundController : MonoBehaviour
             }
         };
 
-        _playerController.WhileSwinging = (input) =>
+        _playerController.WhileSwinging += (input) =>
         {
             if (input > -0.1f && input < 0.1f)
             {
@@ -132,10 +131,10 @@ public class PlayerSoundController : MonoBehaviour
             StartCoroutine(DelaySwingSound());
         };
 
-        // _playerController.OnCannotShootGrapple = () => { if (Time.frameCount % 2 == 0) Play(cannotShootGrapple); };
-        // _playerController.OnStun = (vel) => { print("stunned"); };
-        // _playerController.OnAir = () => { print("On Air"); };
-        // _playerController.WhileOnLand = (input) => { print("landed"); };
+        // _playerController.OnCannotShootGrapple += () => { if (Time.frameCount % 2 == 0) Play(cannotShootGrapple); };
+        // _playerController.OnStun += (vel) => { print("stunned"); };
+        // _playerController.OnAir += () => { print("On Air"); };
+        // _playerController.WhileOnLand += (input) => { print("landed"); };
     }
 
     void Play(AudioClipData clip)
