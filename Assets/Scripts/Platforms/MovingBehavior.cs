@@ -5,7 +5,7 @@ using UnityEngine;
 public class MovingBehavior : MonoBehaviour
 {
     [Header("Attribute")]
-    
+
     public float speed;
     public bool shouldMove;
     [SerializeField] bool shouldGoBack;
@@ -36,7 +36,7 @@ public class MovingBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (shouldMove) 
+        if (shouldMove)
         {
             if (timeDestCoolDown > 0)
             {
@@ -77,9 +77,9 @@ public class MovingBehavior : MonoBehaviour
         Transform realDes = shouldGoBack ? startingLocation : destinationLocation;
         var actualSpeed = speed * Time.deltaTime;
         movingRb.MovePosition(Vector3.MoveTowards(movingObject.transform.position, realDes.position, actualSpeed));
- 
+
         if (Vector3.Distance(movingObject.transform.position, destinationLocation.position) < 0.001f && !shouldGoBack)
-        { 
+        {
             shouldGoBack = true;
             timeDestCoolDown = timeOnDestination;
         }
@@ -103,6 +103,13 @@ public class MovingBehavior : MonoBehaviour
     public void SetMovingStart(bool start)
     {
         shouldMove = start;
+    }
+
+    void OnDrawGizmos()
+    {
+        // Draw a yellow sphere at the transform's position
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(startingLocation.position, destinationLocation.position);
     }
 
     #endregion
