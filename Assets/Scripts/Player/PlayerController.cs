@@ -77,6 +77,7 @@ public class PlayerController : MonoBehaviour
     public Action<float> WhileOnLand;
 
     public Action<Vector3> OnStun;
+    public Action OnStunExit;
 
     [HideInInspector] public Vector3 lastVelocity;
 
@@ -87,7 +88,7 @@ public class PlayerController : MonoBehaviour
 
     public void Reset()
     {
-        isStunned = false;
+        StunnedOff();
         playerRb.velocity = Vector3.zero;
         if (isSwinging || isGrappling)
         {
@@ -185,7 +186,7 @@ public class PlayerController : MonoBehaviour
         #region While On Land Or In Air Logic
         if (isLanded)
         {
-            isStunned = false;
+            StunnedOff();
             SidewayMoving(horizontalInput);
             WhileOnLand?.Invoke(horizontalInput);
         }
@@ -265,6 +266,15 @@ public class PlayerController : MonoBehaviour
         isStunned = true;
         OnStun?.Invoke(playerRb.velocity);
 
+    }
+
+    void StunnedOff()
+    {
+        if (isStunned)
+        {
+            isStunned = false;
+            OnStunExit?.Invoke();
+        }
     }
 
     #endregion
