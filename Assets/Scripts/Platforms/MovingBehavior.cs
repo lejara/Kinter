@@ -22,6 +22,7 @@ public class MovingBehavior : MonoBehaviour
     public GameObject movingObject;
     [SerializeField] Transform destinationLocation;
     [SerializeField] Transform startingLocation;
+    Rigidbody movingRb;
 
     // Start is called before the first frame update
     void Start()
@@ -29,6 +30,7 @@ public class MovingBehavior : MonoBehaviour
         timeWaitCoolDown = timeToWait;
         timeDestCoolDown = 0;
         shouldGoBack = false;
+        movingRb = movingObject.GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -74,7 +76,7 @@ public class MovingBehavior : MonoBehaviour
         // Move position
         Transform realDes = shouldGoBack ? startingLocation : destinationLocation;
         var actualSpeed = speed * Time.deltaTime;
-        movingObject.transform.position = Vector3.MoveTowards(movingObject.transform.position, realDes.position, actualSpeed);
+        movingRb.MovePosition(Vector3.MoveTowards(movingObject.transform.position, realDes.position, actualSpeed));
  
         if (Vector3.Distance(movingObject.transform.position, destinationLocation.position) < 0.001f && !shouldGoBack)
         { 
@@ -91,7 +93,7 @@ public class MovingBehavior : MonoBehaviour
     private void ResetPosition()
     {
         var actualSpeed = speed * Time.deltaTime;
-        movingObject.transform.position = Vector3.MoveTowards(movingObject.transform.position, startingLocation.position, actualSpeed);
+        movingRb.MovePosition(Vector3.MoveTowards(movingObject.transform.position, startingLocation.position, actualSpeed));
     }
 
     #endregion
