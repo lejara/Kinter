@@ -96,7 +96,7 @@ public class PlayerDebug : MonoBehaviourSave
         while (_debugSettings.godMode)
         {
 
-            playerController.transform.Translate(new Vector3(getSpeed(Input.GetAxis("Horizontal")), getSpeed(Input.GetAxis("Vertical"))));
+            playerController.transform.Translate(new Vector3(getSpeed(Input.GetAxis("Horizontal")), getSpeed(Input.GetAxis("Vertical"))), Space.World);
             yield return null;
         }
 

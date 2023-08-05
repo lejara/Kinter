@@ -9,6 +9,7 @@ public enum States
 {
     InMenus,
     Playing,
+    Ending
 }
 
 [CreateAssetMenu(fileName = "GameState")]
