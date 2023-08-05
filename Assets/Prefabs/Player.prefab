@@ -964,7 +964,7 @@ MonoBehaviour:
   isRetracting: 0
   grappleTravelTime: 0.9
   grappleRetractTime: 0.4
-  maxGrappleDistance: 6
+  maxGrappleDistance: 5.2
   platfromLayer:
     serializedVersion: 2
     m_Bits: 64
