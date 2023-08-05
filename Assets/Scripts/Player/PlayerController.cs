@@ -85,8 +85,6 @@ public class PlayerController : MonoBehaviour
     float horizontalInput;
     SpringJoint joint;
 
-    LineRenderer lineRenderer;
-
     public void Reset()
     {
         StunnedOff();
@@ -100,15 +98,11 @@ public class PlayerController : MonoBehaviour
     void Awake()
     {
         playerRb = GetComponent<Rigidbody>();
-        lineRenderer = GetComponent<LineRenderer>();
     }
 
     void Start()
     {
         Physics.gravity = new(Physics.gravity.x, gravity, Physics.gravity.z);
-
-        lineRenderer.enabled = false;
-        lineRenderer.positionCount = 2;
 
         //Tests. Make sure we have the correct hierarchy.
         Debug.Assert(transform.GetChildsWhere((childT) => (childT == grappleStartPoint)).Count == 1,
@@ -122,8 +116,6 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Make sure we keep the lineRenderer start point up to date
-        lineRenderer.SetPosition(0, grappleStartPoint.position);
 
         //It is assumed grappleEndPoint is not a transfrom child of this object.
         //We need to keep it synced when its not in use
@@ -286,7 +278,6 @@ public class PlayerController : MonoBehaviour
     {
 
         isGrappling = true;
-        lineRenderer.enabled = true;
         OnGrappleShoot?.Invoke();
 
         float normTime = 0;
@@ -412,7 +403,6 @@ public class PlayerController : MonoBehaviour
             yield return null;
         }
 
-        lineRenderer.enabled = false;
         isRetracting = false;
         OnGrappleDoneRetract?.Invoke();
 
@@ -436,7 +426,6 @@ public class PlayerController : MonoBehaviour
     private void SetGrapplePosition(Vector3 pos)
     {
         grappleEndPoint.position = pos;
-        lineRenderer.SetPosition(1, grappleEndPoint.position);
     }
 
     #endregion
