@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using MyBox;
 
+//TODO: game plan. git stash this branch, find the ridgebody center of mass and tenser in main
+// set to that. try to scale all of the player
 [RequireComponent(typeof(PlayerController))]
 public class PlayerAnimationController : MonoBehaviour
 {
-    public float rotationZOffset;
-    public float swingPushTime;
+    public float rotationLookOffset;
 
     [Header("References")]
     public Transform root;
@@ -29,9 +30,10 @@ public class PlayerAnimationController : MonoBehaviour
     void Start()
     {
         //Cache Rotations
-        _leftLook = root.rotation * Quaternion.Euler(0, 0, rotationZOffset); ;
-        _rightLook = root.rotation * Quaternion.Euler(0, 0, -(180 + rotationZOffset));
+        _leftLook = root.rotation * Quaternion.Euler(0, rotationLookOffset, 0); ;
+        _rightLook = root.rotation * Quaternion.Euler(0, -(180 + rotationLookOffset), 0);
 
+        LookLeft();
 
         //Events
         _playerController.OnStun += (Vector3 vel) =>
