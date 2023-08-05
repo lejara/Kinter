@@ -13,7 +13,7 @@ public class ButtonEvents : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
     [Range(0, 1)] public float hoverEnterAlpha;
     [Range(0, 1)] public float hoverExitAlpha;
-
+    // public Text
     [Header("Events")]
     public UnityEvent onHoverEnter;
     public UnityEvent onHoverExit;

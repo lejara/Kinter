@@ -136,6 +136,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hoverEnterAlpha: 0.7
   hoverExitAlpha: 0.42
+  text: {fileID: 7322791625629025708}
   onHoverEnter:
     m_PersistentCalls:
       m_Calls: []
@@ -218,8 +219,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4282466625
+  m_fontColor: {r: 0.25490198, g: 0.25490198, b: 0.25490198, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

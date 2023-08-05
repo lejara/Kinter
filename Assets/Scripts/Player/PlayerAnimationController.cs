@@ -32,7 +32,7 @@ public class PlayerAnimationController : MonoBehaviour
         _leftLook = root.rotation * Quaternion.Euler(0, rotationLookOffset, 0); ;
         _rightLook = root.rotation * Quaternion.Euler(0, -(180 + rotationLookOffset), 0);
 
-        LookLeft();
+        StartCoroutine(DelayLook());
 
         //Events
         _playerController.OnStun += (Vector3 vel) =>
@@ -131,5 +131,11 @@ public class PlayerAnimationController : MonoBehaviour
     void LookRight()
     {
         root.rotation = _rightLook;
+    }
+
+    IEnumerator DelayLook()
+    {
+        yield return new WaitForSeconds(0.1f);
+        LookRight();
     }
 }
