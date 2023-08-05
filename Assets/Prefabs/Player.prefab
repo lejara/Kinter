@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 203799710603782171}
   - component: {fileID: 57109974721946106}
   - component: {fileID: 333415318468302257}
+  - component: {fileID: 5464986954675885723}
   m_Layer: 7
   m_Name: Player VCam
   m_TagString: Untagged
@@ -27,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 678332991210239950}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.0000001, z: -20}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -117,6 +118,21 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   _gameState: {fileID: 11400000, guid: dc955f25bd32cb148a1dd9c920bbe054, type: 2}
+--- !u!114 &5464986954675885723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 678332991210239950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44d70cc20219cd84593f67d248eafe36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Offset: {x: 0, y: 2.78, z: -27}
+  m_ApplyAfter: 3
+  m_PreserveComposition: 0
 --- !u!1 &687601348274558930
 GameObject:
   m_ObjectHideFlags: 0
@@ -829,7 +845,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4326733430063236992}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.9396927, z: 0, w: 0.34202018}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -841,7 +857,7 @@ Transform:
   - {fileID: 1147402400694666580}
   - {fileID: 6594922537784381631}
   m_Father: {fileID: 8133215067523065228}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 140, z: 0}
 --- !u!33 &2067019698240901025
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1936,7 +1952,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8528380173742029461}
   - component: {fileID: 7215284396598398801}
-  - component: {fileID: 4100959141580042467}
+  - component: {fileID: 6279054159741879322}
   m_Layer: 0
   m_Name: cm
   m_TagString: Untagged
@@ -1971,7 +1987,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4100959141580042467
+--- !u!114 &6279054159741879322
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1980,21 +1996,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 7459598937992603317}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd6043bde05a7fc4cba197d06915c1e3, type: 3}
+  m_Script: {fileID: 11500000, guid: 36d1163fa822e8b418a0a603ec078d5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damping: {x: 1, y: 1, z: 0.3}
-  ShoulderOffset: {x: 0, y: 1, z: 0}
-  VerticalArmLength: 0.4
-  CameraSide: 1
-  CameraDistance: 28
-  CameraCollisionFilter:
-    serializedVersion: 2
-    m_Bits: 0
-  IgnoreTag: 
-  CameraRadius: 0.2
-  DampingIntoCollision: 0
-  DampingFromCollision: 2
+  m_Damping: 1
 --- !u!1 &7549756594267233628
 GameObject:
   m_ObjectHideFlags: 0
