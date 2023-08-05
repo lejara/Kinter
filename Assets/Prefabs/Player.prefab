@@ -124,7 +124,7 @@ Transform:
   m_GameObject: {fileID: 678332991210239950}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.3999939, z: -18}
+  m_LocalPosition: {x: 0, y: 1.3999939, z: -15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -681,6 +681,7 @@ GameObject:
   - component: {fileID: 4057199260812311880}
   - component: {fileID: 4714583251854013885}
   - component: {fileID: 1699700223110870904}
+  - component: {fileID: 2335542474817481405}
   m_Layer: 0
   m_Name: Mesh
   m_TagString: Player
@@ -1131,6 +1132,22 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &2335542474817481405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4326733430063236992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd5f4f4bb34d13c4eb9c2171c2af60ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotationZOffset: 40
+  swingPushTime: 0.5
+  root: {fileID: 5939197094559389808}
+  animator: {fileID: 1699700223110870904}
 --- !u!1 &4334194730741049121
 GameObject:
   m_ObjectHideFlags: 0
@@ -1345,15 +1362,15 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5782156159426494179}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.35355455, y: 0.61237174, z: 0.61237174, w: 0.35355467}
-  m_LocalPosition: {x: 0, y: -0.511, z: 0}
+  m_LocalRotation: {x: -0.5, y: 0.5, z: 0.5, w: 0.5}
+  m_LocalPosition: {x: 0, y: -0.495, z: 0}
   m_LocalScale: {x: 1.9799999, y: 1.9799999, z: 0.91384614}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 7688251765220358618}
   - {fileID: 4554557829791636665}
   m_Father: {fileID: 7183017034284561596}
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 120}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 90}
 --- !u!1 &5805238503752227452
 GameObject:
   m_ObjectHideFlags: 0
@@ -1857,7 +1874,7 @@ MonoBehaviour:
   ShoulderOffset: {x: 0, y: 1, z: 0}
   VerticalArmLength: 0.4
   CameraSide: 1
-  CameraDistance: 18
+  CameraDistance: 15
   CameraCollisionFilter:
     serializedVersion: 2
     m_Bits: 0
