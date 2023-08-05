@@ -69,6 +69,7 @@ public class PlayerController : MonoBehaviour
     public Action OnGrappleLatch;
     public Action<float> WhileSwinging;
     public Action OnGrappleDetach;
+    public Action OnGrappleDoneRetract;
     public Action OnCannotShootGrapple;
 
     public Action OnLanded;
@@ -413,6 +414,7 @@ public class PlayerController : MonoBehaviour
 
         lineRenderer.enabled = false;
         isRetracting = false;
+        OnGrappleDoneRetract?.Invoke();
 
     }
 
