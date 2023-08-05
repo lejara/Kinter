@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 203799710603782171}
   - component: {fileID: 57109974721946106}
   - component: {fileID: 333415318468302257}
-  m_Layer: 0
+  - component: {fileID: 6863531868708453655}
+  m_Layer: 7
   m_Name: Player VCam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 678332991210239950}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.87500006, z: -11.25}
+  m_LocalPosition: {x: 0, y: 1.0000001, z: -12.857143}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -117,6 +118,23 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   _gameState: {fileID: 11400000, guid: dc955f25bd32cb148a1dd9c920bbe054, type: 2}
+--- !u!114 &6863531868708453655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 678332991210239950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 729aad4491e915a41bda2b8325cf757a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FocusTracksTarget: 0
+  m_FocusTracking: 0
+  m_FocusTarget: {fileID: 0}
+  m_FocusOffset: 0
+  m_Profile: {fileID: 11400000, guid: b54abecfd03e67043a1a922c6ab4b2f9, type: 2}
 --- !u!1 &687601348274558930
 GameObject:
   m_ObjectHideFlags: 0
@@ -2384,7 +2402,8 @@ GameObject:
   - component: {fileID: 816557278592573460}
   - component: {fileID: 3427204195560786705}
   - component: {fileID: 2537072661547433864}
-  m_Layer: 0
+  - component: {fileID: 5141018052008569550}
+  m_Layer: 7
   m_Name: Menu VCam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2400,7 +2419,7 @@ Transform:
   m_GameObject: {fileID: 8809758638311401032}
   serializedVersion: 2
   m_LocalRotation: {x: 0.00719032, y: 0.006598057, z: 0.00004860248, w: -0.99995244}
-  m_LocalPosition: {x: -2.093749, y: 0.87500006, z: -7.5}
+  m_LocalPosition: {x: -2.3928561, y: 1.0000001, z: -8.571428}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2490,6 +2509,23 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   _gameState: {fileID: 11400000, guid: dc955f25bd32cb148a1dd9c920bbe054, type: 2}
+--- !u!114 &5141018052008569550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8809758638311401032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 729aad4491e915a41bda2b8325cf757a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FocusTracksTarget: 0
+  m_FocusTracking: 0
+  m_FocusTarget: {fileID: 0}
+  m_FocusOffset: 0
+  m_Profile: {fileID: 11400000, guid: b54abecfd03e67043a1a922c6ab4b2f9, type: 2}
 --- !u!1 &9121862277668560040
 GameObject:
   m_ObjectHideFlags: 0
