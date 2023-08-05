@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using MyBox;
 
-//TODO: game plan. git stash this branch, find the ridgebody center of mass and tenser in main
-// set to that. try to scale all of the player
+//TODO: offset the grapple distance. since start point is higher
 [RequireComponent(typeof(PlayerController))]
 public class PlayerAnimationController : MonoBehaviour
 {
@@ -30,6 +29,7 @@ public class PlayerAnimationController : MonoBehaviour
     void Start()
     {
         //Cache Rotations
+        Debug.Assert(root.rotation == Quaternion.identity, $"{gameObject.name} rotation must be 0 in all axis");
         _leftLook = root.rotation * Quaternion.Euler(0, rotationLookOffset, 0); ;
         _rightLook = root.rotation * Quaternion.Euler(0, -(180 + rotationLookOffset), 0);
 
