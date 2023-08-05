@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcf67ca84a82927469c356d21ae5ff1f, type: 3}
   m_Name: DebugSettings
   m_EditorClassIdentifier: 
-  skipMainMenu: 1
+  skipMainMenu: 0
   stopSaving: 1
   stopSaveLoading: 1
   checkpointDescirption: "Allows to add a single point in world space \nand teleport
