@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using MyBox;
 
-//TODO: offset the grapple distance. since start point is higher
 [RequireComponent(typeof(PlayerController))]
 public class PlayerAnimationController : MonoBehaviour
 {
