@@ -310,14 +310,14 @@ public class PlayerController : MonoBehaviour
 
             // Edge case, detach if the grapple will phase through a collider. 
             // This can happend when the player is shooting to a non-valid platform
-            if (Physics.Raycast(grappleStartPoint.position,
-                shootingDir,
-                out RaycastHit _,
-                GetGrappleDistance() - 1f))
-            {
-                DetachGrapple();
-                yield break;
-            }
+            // if (Physics.Raycast(grappleStartPoint.position,
+            //     shootingDir,
+            //     out RaycastHit _,
+            //     GetGrappleDistance() - 1f))
+            // {
+            //     DetachGrapple();
+            //     yield break;
+            // }
 
             normTime += Time.deltaTime / grappleTravelTime;
             yield return null;
