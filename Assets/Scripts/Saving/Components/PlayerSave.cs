@@ -151,6 +151,7 @@ public class PlayerSave : MonoBehaviourSave
         base.OnReset(ref data);
 
         data.playerData.position = playerSpawn.position;
+        GetComponent<Rigidbody>().MovePosition(playerSpawn.position);
         transform.position = playerSpawn.position;
         playerController.Reset();
         data.playerData.isStunned = playerController.isStunned;
