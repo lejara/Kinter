@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -138,10 +139,23 @@ public class PlayerSave : MonoBehaviourSave
             return;
         }
 
-        transform.position = data.playerData.position;
-        rb.velocity = data.playerData.velocity;
-        playerController.isStunned = data.playerData.isStunned;
+
+        StartCoroutine(Delay(() =>
+        {
+            transform.position = data.playerData.position;
+            rb.velocity = data.playerData.velocity;
+            playerController.isStunned = data.playerData.isStunned;
+        }));
     }
+
+    //TOOD: remove dumb. but i need to get this working :(
+    IEnumerator Delay(Action f)
+    {
+
+        yield return new WaitForSeconds(2f);
+        f?.Invoke();
+    }
+
     protected override void OnReset(ref SaveData data)
     {
         base.OnReset(ref data);
