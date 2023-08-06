@@ -214,7 +214,7 @@ public class PlayerController : MonoBehaviour
 
     private bool GroundCheck()
     {
-        Vector3 squareExtents = new(GetComponent<BoxCollider>().bounds.extents.x, 0, GetComponent<BoxCollider>().bounds.extents.z);
+        Vector3 squareExtents = new(GetComponent<BoxCollider>().bounds.extents.x -0.1f, 0, GetComponent<BoxCollider>().bounds.extents.z);
         return Physics.BoxCast(GetComponent<BoxCollider>().bounds.center, squareExtents,
                                 Vector3.down, out _, Quaternion.identity, GetComponent<BoxCollider>().bounds.extents.y + 0.1f);
     }
@@ -295,7 +295,7 @@ public class PlayerController : MonoBehaviour
             SetGrapplePosition(Vector3.Lerp(grappleStartPoint.position, target, grappleTravelMotion.Evaluate(normTime)));
             Vector3 shootingDir = (grappleEndPoint.position - grappleStartPoint.position).normalized;
 
-            if (Physics.Raycast(grappleEndPoint.position, shootingDir, out RaycastHit hit, 0.12f, platfromLayer))
+            if (Physics.Raycast(grappleEndPoint.position, shootingDir, out RaycastHit hit, 0.4f, platfromLayer))
             {
                 if (!hit.transform.gameObject.GetComponentInParent<PlatformsBehavior>().isValid)
                 {
