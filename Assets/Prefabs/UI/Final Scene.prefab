@@ -1073,6 +1073,11 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 4647898606023296527, guid: fd5a51191cd00374581433f5d0d8d558,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5921161055464128449, guid: fd5a51191cd00374581433f5d0d8d558,
         type: 3}
       propertyPath: m_SizeDelta.x
@@ -1336,6 +1341,7 @@ PrefabInstance:
     m_RemovedGameObjects:
     - {fileID: 1073033561418005411, guid: fd5a51191cd00374581433f5d0d8d558, type: 3}
     - {fileID: 1038378247903381565, guid: fd5a51191cd00374581433f5d0d8d558, type: 3}
+    - {fileID: 8030362312530459267, guid: fd5a51191cd00374581433f5d0d8d558, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fd5a51191cd00374581433f5d0d8d558, type: 3}
