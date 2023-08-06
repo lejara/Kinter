@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcf67ca84a82927469c356d21ae5ff1f, type: 3}
+  m_Name: DebugSettings
+  m_EditorClassIdentifier: 
+  skipMainMenu: 1
+  stopSaving: 1
+  stopSaveLoading: 1
+  checkpointDescirption: "Allows to add a single point in world space \nand teleport
+    to it using the keybinds below.\nUse activation key or mark true.\nCheckpoints
+    are saved between play sessions"
+  checkpoint: 0
+  teleportOnStart: 1
+  checkpointActivateKey: 50
+  addPointKey: 114
+  teleportToPointKey: 116
+  godModeDescirption: 'Fly with no collisions
+
+    Use WASD to move. Can also boost
+
+    Use
+    activation key or mark true.
+
+'
+  godMode: 0
+  godModeActivateKey: 49
+  godModeBoostKey: 32
+  godModeSpeed: 10
+  godModeBoostSpeed: 20

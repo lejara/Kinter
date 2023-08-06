@@ -28,11 +28,11 @@ public class PlayerAnimationController : MonoBehaviour
     void Start()
     {
         //Cache Rotations
-        Debug.Assert(root.rotation == Quaternion.identity, $"{gameObject.name} rotation must be 0 in all axis");
-        _leftLook = root.rotation * Quaternion.Euler(0, rotationLookOffset, 0); ;
-        _rightLook = root.rotation * Quaternion.Euler(0, -(180 + rotationLookOffset), 0);
+        //TODO: BAD BAD SO BAD. If u see this fix this. its trash.
+        // Debug.Assert(root.rotation == Quaternion.identity, $"{gameObject.name} rotation must be 0 in all axis");
+        _rightLook = root.rotation;
+        _leftLook = Quaternion.Euler(root.rotation.eulerAngles.x, 40, root.rotation.eulerAngles.z);
 
-        LookLeft();
 
         //Events
         _playerController.OnStun += (Vector3 vel) =>
