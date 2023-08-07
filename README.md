@@ -1,6 +1,6 @@
 # Iron Jungle
 Video Game. 3D Platformer.
-Swing to reach the other platform. Try and get to the top!
+Swing to reach other platforms. Try and get to the top!
 
 
 Submission for:
