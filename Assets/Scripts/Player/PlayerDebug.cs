@@ -17,9 +17,9 @@ public class PlayerDebug : MonoBehaviourSave
     void Awake()
     {
         playerController = GetComponent<PlayerController>();
-#if !UNITY_EDITOR
-    this.enabled = false;
-#endif
+//#if !UNITY_EDITOR
+//    this.enabled = false;
+//#endif
     }
 
     void Start()
