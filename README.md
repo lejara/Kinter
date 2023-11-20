@@ -22,3 +22,6 @@ Abi
 My First Game Jam: Summer 2023
 
 Download: https://leption.itch.io/iron-jungle
+
+### Credit:
+Grapple and Swinging feature is inspired by: https://youtu.be/HPjuTK91MA8?si=HgwYKmTZxD92LBL6
